@@ -78,6 +78,8 @@
   .tab-manager-actions{display:flex;gap:6px;flex-wrap:wrap}
   .tab-manager-actions button{white-space:nowrap}
   .manage-tabs-btn{font-family:'JetBrains Mono',monospace;font-size:10px;padding:6px 8px}
+  .logout-icon-btn{display:none;width:32px;height:30px;padding:0;place-items:center;font-size:16px;line-height:1;border-color:#60343a;color:var(--red)}
+  .logout-icon-btn:hover{background:rgba(255,107,107,.08);border-color:var(--red)}
   .event-people{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--teal);margin-top:4px;line-height:1.45;word-break:break-word}
   /* EDIT */
   .edit-note{font-size:12px;color:var(--text-dim);line-height:1.6;margin-bottom:14px}
@@ -189,6 +191,7 @@
     <div class="brand">~/dashboard<span class="cursor"></span></div>
     <div class="topbar-right">
       <button class="btn-ghost manage-tabs-btn" onclick="openTabManager()" title="Rename, remove or restore tabs">⚙ tabs</button>
+      <button class="btn-ghost logout-icon-btn" id="top-logout-btn" onclick="logoutCloud()" title="Log out" aria-label="Log out">⎋</button>
       <div class="clock" id="clock"></div>
     </div>
   </div>
@@ -2152,9 +2155,19 @@ function setSyncStatus(text,kind=''){
 function renderSyncPanel(){
   document.getElementById('sb-url').value=cloudConfig.url||'';
   document.getElementById('sb-key').value=cloudConfig.key||'';
-  const userEl=document.getElementById('sync-user'),logout=document.getElementById('logout-btn');
-  if(cloudUser){ userEl.textContent='logged in as '+cloudUser.email; logout.style.display='inline-block'; setSyncStatus(cloudArmed?'Connected · live sync is on.':'Connected · choose upload or download once to arm automatic sync.','ok'); }
-  else { userEl.textContent=''; logout.style.display='none'; if(cloudConfig.url&&cloudConfig.key)setSyncStatus('Supabase configured · log in to sync.','warn'); else setSyncStatus('Cloud sync is not configured yet.',''); }
+  const userEl=document.getElementById('sync-user'),logout=document.getElementById('logout-btn'),topLogout=document.getElementById('top-logout-btn');
+  if(cloudUser){
+    userEl.textContent='logged in as '+cloudUser.email;
+    logout.style.display='inline-block';
+    if(topLogout)topLogout.style.display='grid';
+    setSyncStatus(cloudArmed?'Connected · live sync is on.':'Connected · choose upload or download once to arm automatic sync.','ok');
+  }
+  else {
+    userEl.textContent='';
+    logout.style.display='none';
+    if(topLogout)topLogout.style.display='none';
+    if(cloudConfig.url&&cloudConfig.key)setSyncStatus('Supabase configured · log in to sync.','warn'); else setSyncStatus('Cloud sync is not configured yet.','');
+  }
   updateFooter();
 }
 function saveCloudConnection(){
