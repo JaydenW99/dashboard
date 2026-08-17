@@ -498,12 +498,24 @@ async function clearCloudConnection(){
   localStorage.removeItem(CLOUD_CONFIG_KEY);localStorage.removeItem(CLOUD_ARMED_KEY);cloudConfig={url:'',key:''};cloudUser=null;cloudArmed=false;supabaseClient=null;renderSyncPanel();
 }
 async function initCloud(showMessage=false){
-  if(!cloudConfig.url||!cloudConfig.key||!window.supabase){ renderSyncPanel(); return; }
+  if(!cloudConfig.url||!cloudConfig.key){ renderSyncPanel(); return; }
+  if(!window.supabase){
+    renderSyncPanel();
+    setSyncStatus('Supabase library could not load. Reload the page and check that cdn.jsdelivr.net is not blocked.','err');
+    return;
+  }
   try{
     supabaseClient=window.supabase.createClient(cloudConfig.url,cloudConfig.key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
     const {data:{session},error}=await supabaseClient.auth.getSession(); if(error)throw error;
     cloudUser=session&&session.user?session.user:null;
-    supabaseClient.auth.onAuthStateChange((_event,sessionNow)=>{ cloudUser=sessionNow&&sessionNow.user?sessionNow.user:null; if(!cloudUser){cloudArmed=false;localStorage.removeItem(CLOUD_ARMED_KEY);} renderSyncPanel(); if(cloudUser)smartInitialSync(); });
+    // IMPORTANT: keep this callback synchronous. Supabase documents a deadlock risk
+    // when another async Supabase API call is started inside onAuthStateChange.
+    supabaseClient.auth.onAuthStateChange((_event,sessionNow)=>{
+      cloudUser=sessionNow&&sessionNow.user?sessionNow.user:null;
+      if(!cloudUser){cloudArmed=false;localStorage.removeItem(CLOUD_ARMED_KEY);}
+      renderSyncPanel();
+    });
+    // Any database sync happens outside the auth callback.
     renderSyncPanel(); if(cloudUser)await smartInitialSync(); else if(showMessage)setSyncStatus('Connection saved. Log in or create an account.','ok');
   }catch(e){ console.error(e); setSyncStatus('Could not connect: '+(e.message||e),'err'); }
 }
