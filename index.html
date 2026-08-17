@@ -90,6 +90,7 @@
     <div class="card-head"><div class="card-title"><span class="prompt">$</span> <span id="shared-title">shared tab</span> <span class="custom-type" id="shared-type"></span></div></div>
     <div id="shared-content"><div class="empty">loading shared tab…</div></div>
     <div class="shared-save-status" id="shared-save-status"></div>
+    <div class="edit-note" id="shared-typing-note" style="margin-top:8px">You can take your time typing — this list will not refresh while you are editing.</div>
   </div>
 </div>
 <div class="wrap" id="dashboard-wrap">
@@ -403,6 +404,7 @@ let sharedSaveTimer = null;
 let sharedDirty = false;
 let sharedSaveInFlight = false;
 let sharedLastSavedAt = null;
+let sharedLastRemoteUpdated = null;
 
 function defaultState(){ return {events:[],tasks:[],habits:[],transactions:[],customTabs:[],tabOrder:[...BUILTIN_TAB_KEYS]}; }
 function loadState(){
@@ -1062,6 +1064,8 @@ async function saveSharedVisitorTab(){
     setSharedStatus('saving…');
     const {data,error}=await sharedClient.rpc('write_shared_tab',{p_token:sharedToken,p_data:payload});
     if(error)throw error;
+    const row=Array.isArray(data)?data[0]:data;
+    if(row&&row.updated_at)sharedLastRemoteUpdated=row.updated_at;
     sharedDirty=false;sharedLastSavedAt=Date.now();
     setSharedStatus('saved · everyone with this edit link will see the change','ok');
     return true;
@@ -1072,14 +1076,24 @@ async function saveSharedVisitorTab(){
     if(sharedDirty && JSON.stringify(payload)!==JSON.stringify(sharedTabData))scheduleSharedVisitorSave();
   }
 }
+function sharedEditorBusy(){
+  const active=document.activeElement;
+  if(active&&active.closest&&active.closest('#shared-content')&&active.matches('input,textarea,select'))return true;
+  const draft=document.getElementById('shared-new-item');
+  if(draft&&String(draft.value||'').trim())return true;
+  return false;
+}
 async function loadSharedTab(force=false){
   if(!sharedClient||!sharedToken)return;
-  if(!force&&(sharedDirty||sharedSaveInFlight))return;
+  // Never rebuild the shared editor while somebody is typing or has an unfinished draft.
+  if(!force&&(sharedDirty||sharedSaveInFlight||sharedEditorBusy()))return;
   if(!force&&sharedLastSavedAt&&Date.now()-sharedLastSavedAt<1200)return;
   try{
     const {data,error}=await sharedClient.rpc('get_shared_tab',{p_token:sharedToken});if(error)throw error;
     const row=Array.isArray(data)?data[0]:data;if(!row||!row.data)throw new Error('This share link is invalid or has been revoked.');
-    sharedTabData=normalizeSharedData(row.data);sharedPermission=row.permission==='edit'?'edit':'view';renderSharedTab();
+    const remoteStamp=row.updated_at||null;
+    if(!force&&remoteStamp&&sharedLastRemoteUpdated&&new Date(remoteStamp)<=new Date(sharedLastRemoteUpdated))return;
+    sharedTabData=normalizeSharedData(row.data);sharedPermission=row.permission==='edit'?'edit':'view';sharedLastRemoteUpdated=remoteStamp||sharedLastRemoteUpdated;renderSharedTab();
     setSharedStatus(sharedPermission==='edit'?'You can edit this shared tab.':'You can view this shared tab.','ok');
   }catch(e){document.getElementById('shared-content').innerHTML=`<div class="empty">${esc(e.message||e)}</div>`;setSharedStatus('shared tab unavailable','err');}
 }
@@ -1087,7 +1101,7 @@ async function initSharedLinkMode(){
   const p=new URLSearchParams(location.hash.replace(/^#/,''));const token=p.get('shared');if(!token)return false;
   const url=p.get('url'),key=p.get('key');document.getElementById('dashboard-wrap').style.display='none';document.getElementById('pull-refresh').style.display='none';document.getElementById('shared-shell').classList.add('open');sharedToken=token;
   if(!url||!key||!window.supabase){document.getElementById('shared-content').innerHTML='<div class="empty">This share link is missing its connection details.</div>';return true;}
-  sharedClient=window.supabase.createClient(url,key,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}});await loadSharedTab(true);setInterval(()=>{if(!document.hidden&&!sharedDirty&&!sharedSaveInFlight)loadSharedTab();},5000);return true;
+  sharedClient=window.supabase.createClient(url,key,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}});await loadSharedTab(true);setInterval(()=>{if(!document.hidden&&!sharedDirty&&!sharedSaveInFlight&&!sharedEditorBusy())loadSharedTab();},5000);return true;
 }
 
 function renameCustomTabInline(id,value){
