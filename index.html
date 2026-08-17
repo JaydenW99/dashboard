@@ -774,9 +774,22 @@ function toggleBuiltinTabHidden(key){
 }
 function resetBuiltinTabName(key){
   if(!BUILTIN_TAB_KEYS.includes(key))return;
+
+  // Keep the user exactly where they are while resetting the tab name.
+  const activeTab=document.querySelector('#tabs .tab.active')?.dataset.tab
+    || document.querySelector('.section.active')?.id?.replace(/^sec-/,'')
+    || 'settings';
+  const scrollX=window.scrollX;
+  const scrollY=window.scrollY;
+
   state.tabNames={...DEFAULT_TAB_NAMES,...(state.tabNames||{})};
   state.tabNames[key]=DEFAULT_TAB_NAMES[key];
-  saveState();applyBuiltinTabSettings();renderEdit();
+  saveState();
+  applyBuiltinTabSettings();
+  renderEdit();
+
+  activateTab(activeTab);
+  requestAnimationFrame(()=>window.scrollTo(scrollX,scrollY));
 }
 
 let suppressTabClick=false;
@@ -1719,7 +1732,16 @@ async function pullOwnedSharedTabs(){
         const {data,error}=await supabaseClient.rpc('get_shared_tab',{p_token:tab.shareToken});
         if(error)throw error;
         const row=Array.isArray(data)?data[0]:data;
-        if(!row||!row.data)continue;
+        if(!row||!row.data){
+          // If this is a received/collaborator tab, a missing shared row means
+          // the owner revoked sharing or deleted the tab. Remove the local copy too.
+          if(tab.shareRole==='collaborator'){
+            state.customTabs=state.customTabs.filter(x=>x.id!==tab.id);
+            state.tabOrder=(state.tabOrder||[]).filter(k=>k!=='custom-'+tab.id);
+            changed=true;
+          }
+          continue;
+        }
 
         const remote=normalizeSharedData(row.data);
         const remotePermission=row.permission==='edit'?'edit':'view';
@@ -1757,9 +1779,16 @@ async function pullOwnedSharedTabs(){
     if(changed){
       sharedApplying=true;
       try{
+        const activeCustom=document.querySelector('.tab.active')?.dataset.tab;
         localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
         renderCustomTabs();
         if(document.getElementById('sec-settings').classList.contains('active'))renderEdit();
+
+        if(activeCustom&&String(activeCustom).startsWith('custom-')){
+          const activeId=String(activeCustom).slice(7);
+          if(!(state.customTabs||[]).some(t=>t.id===activeId))activateTab('tasks');
+        }
+
         scheduleCloudPush();
       }finally{
         sharedApplying=false;
@@ -2000,11 +2029,42 @@ function renameCustomTab(id){
   const name=(prompt('Rename this list/tab (e.g. Mountain Trip / Camping Todo):',t.name)||'').trim(); if(!name)return;
   t.name=name; saveState(); scheduleSharedTabPush(id,250); renderCustomTabs(); renderEdit(); reopenCustomTab(id);
 }
-function deleteCustomTab(id){
+async function deleteCustomTab(id){
   const t=state.customTabs.find(x=>x.id===id); if(!t)return;
-  if(!confirm(`Delete the tab "${t.name}"?`))return;
-  state.customTabs=state.customTabs.filter(x=>x.id!==id); state.tabOrder=(state.tabOrder||[]).filter(k=>k!=='custom-'+id); saveState(); renderCustomTabs(); renderEdit();
-  const dailyTab=document.querySelector('.tab[data-tab="tasks"]'); if(dailyTab)dailyTab.click();
+
+  const isOwnerShared=!!(t.shareToken&&t.shareRole==='owner');
+  const message=isOwnerShared
+    ? `Delete the tab "${t.name}"?\n\nThis will also remove it from everyone you shared it with.`
+    : `Delete the tab "${t.name}"?`;
+
+  if(!confirm(message))return;
+
+  // Owner deletion must revoke the server-side shared row first.
+  // Otherwise receivers would keep seeing a stale shared tab.
+  if(isOwnerShared){
+    if(!supabaseClient||!cloudUser){
+      alert('You need to be online and logged in to delete a shared tab for everyone.');
+      return;
+    }
+    try{
+      const {error}=await supabaseClient.rpc('revoke_shared_tab',{p_token:t.shareToken});
+      if(error)throw error;
+    }catch(e){
+      alert('Could not remove this shared tab for everyone. Please try again.\n\n'+(e.message||e));
+      return;
+    }
+  }
+
+  const wasActive=document.querySelector('.tab.active')?.dataset.tab==='custom-'+id;
+
+  state.customTabs=state.customTabs.filter(x=>x.id!==id);
+  state.tabOrder=(state.tabOrder||[]).filter(k=>k!=='custom-'+id);
+  saveState();
+  renderCustomTabs();
+  renderEdit();
+
+  // Only leave the tab if the deleted tab itself was open.
+  if(wasActive)activateTab('tasks');
 }
 
 function renderEdit(){
@@ -2017,7 +2077,7 @@ function renderEdit(){
         <input type="text" id="ebt-name-${key}" value="${escAttr(builtinTabName(key))}" aria-label="Tab name">
         <div class="tab-manager-actions">
           <button onclick="saveBuiltinTabName('${key}')">save name</button>
-          <button class="btn-ghost" onclick="resetBuiltinTabName('${key}')">reset</button>
+          <button type="button" class="btn-ghost" onclick="resetBuiltinTabName('${key}')">reset</button>
           <button class="${hidden?'':'btn-ghost'}" onclick="toggleBuiltinTabHidden('${key}')">${hidden?'restore':'remove tab'}</button>
         </div>
       </div>`;
