@@ -1663,13 +1663,30 @@ async function shareCurrentTabLink(){
   if(ok)setShareModalStatus('Link copied — paste it into your chat app.','ok');
   else prompt('Copy this share link:',link);
 }
+async function revokeSharedTokenVerified(token){
+  if(!supabaseClient||!cloudUser)throw new Error('You need to be logged in.');
+
+  const {data,error}=await supabaseClient.rpc('revoke_shared_tab',{p_token:token});
+  if(error)throw error;
+
+  // revoke_shared_tab returns boolean. false means the server did NOT delete it.
+  if(data===true)return true;
+
+  // It may already be gone (for example another device revoked it). Verify that.
+  const {data:check,error:checkError}=await supabaseClient.rpc('get_shared_tab',{p_token:token});
+  if(checkError)throw checkError;
+  const row=Array.isArray(check)?check[0]:check;
+  if(!row||!row.data)return true;
+
+  throw new Error('Supabase did not revoke this shared tab. The tab is still available on the server.');
+}
+
 async function revokeCurrentTabShare(){
   const tab=currentShareTab(); if(!tab||!tab.shareToken)return;
   if(!confirm('Stop sharing this tab? Existing links will stop working.'))return;
   try{
     setShareModalStatus('Stopping sharing…');
-    const {error}=await supabaseClient.rpc('revoke_shared_tab',{p_token:tab.shareToken});
-    if(error)throw error;
+    await revokeSharedTokenVerified(tab.shareToken);
     tab.shareToken=null;tab.sharePermission=null;tab.shareUpdatedAt=null;tab.shareRole=null;
     saveState();renderCustomTabs();reopenCustomTab(tab.id);
     updateShareModalButtons(tab);
@@ -1736,8 +1753,23 @@ async function pullOwnedSharedTabs(){
           // If this is a received/collaborator tab, a missing shared row means
           // the owner revoked sharing or deleted the tab. Remove the local copy too.
           if(tab.shareRole==='collaborator'){
-            state.customTabs=state.customTabs.filter(x=>x.id!==tab.id);
-            state.tabOrder=(state.tabOrder||[]).filter(k=>k!=='custom-'+tab.id);
+            const revokedToken=tab.shareToken;
+            const removedIds=(state.customTabs||[])
+              .filter(x=>x.shareRole==='collaborator'&&x.shareToken===revokedToken)
+              .map(x=>x.id);
+
+            state.customTabs=(state.customTabs||[])
+              .filter(x=>!(x.shareRole==='collaborator'&&x.shareToken===revokedToken));
+
+            state.tabOrder=(state.tabOrder||[])
+              .filter(k=>!removedIds.includes(String(k).replace(/^custom-/,'')));
+
+            // Also clear a pending shared-link handoff if it points to the revoked token.
+            try{
+              const pending=JSON.parse(localStorage.getItem(PENDING_SHARED_KEY)||'null');
+              if(pending&&pending.token===revokedToken)localStorage.removeItem(PENDING_SHARED_KEY);
+            }catch(e){}
+
             changed=true;
           }
           continue;
@@ -1789,7 +1821,25 @@ async function pullOwnedSharedTabs(){
           if(!(state.customTabs||[]).some(t=>t.id===activeId))activateTab('tasks');
         }
 
-        scheduleCloudPush();
+        if(cloudUser&&supabaseClient){
+          try{
+            const stamp=new Date().toISOString();
+            const {error}=await supabaseClient.from('dashboard_state').upsert({
+              user_id:cloudUser.id,
+              data:state,
+              updated_at:stamp
+            },{onConflict:'user_id'});
+            if(error)throw error;
+            cloudLastRemoteUpdated=stamp;
+            cloudArmed=true;
+            localStorage.setItem(CLOUD_ARMED_KEY,'1');
+          }catch(e){
+            console.warn('could not persist revoked shared-tab removal to dashboard cloud',e);
+            scheduleCloudPush();
+          }
+        }else{
+          scheduleCloudPush();
+        }
       }finally{
         sharedApplying=false;
       }
@@ -2047,14 +2097,15 @@ async function deleteCustomTab(id){
       return;
     }
     try{
-      const {error}=await supabaseClient.rpc('revoke_shared_tab',{p_token:t.shareToken});
-      if(error)throw error;
+      await revokeSharedTokenVerified(t.shareToken);
     }catch(e){
       alert('Could not remove this shared tab for everyone. Please try again.\n\n'+(e.message||e));
       return;
     }
   }
 
+  // At this point the server share has been verified as gone.
+  // Only now remove the owner's local dashboard tab.
   const wasActive=document.querySelector('.tab.active')?.dataset.tab==='custom-'+id;
 
   state.customTabs=state.customTabs.filter(x=>x.id!==id);
