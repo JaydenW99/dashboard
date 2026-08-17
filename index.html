@@ -68,12 +68,15 @@
   .custom-title-edit{background:transparent;border:none;border-bottom:1px dashed var(--line);color:var(--text);font-family:'JetBrains Mono',monospace;font-size:12px;padding:2px 3px;min-width:120px;max-width:320px}.custom-title-edit:focus{outline:none;border-bottom-color:var(--amber)}
   .custom-type{font-family:'JetBrains Mono',monospace;font-size:9px;text-transform:uppercase;color:var(--teal);border:1px solid var(--teal-dim);border-radius:999px;padding:3px 7px;margin-left:8px;vertical-align:1px}
   .custom-list{display:flex;flex-direction:column;gap:8px}.custom-list-row{display:grid;grid-template-columns:auto minmax(160px,1fr) auto;gap:8px;align-items:center;background:var(--panel-2);border:1px solid var(--line-soft);border-radius:6px;padding:9px}.custom-list-row.buy{grid-template-columns:auto minmax(150px,1fr) 72px 90px auto}.custom-list-row.done .custom-item-text{text-decoration:line-through;color:var(--text-faint)}.custom-item-text{width:100%}.custom-list-dot{font-family:'JetBrains Mono',monospace;color:var(--teal);padding:0 4px}.custom-summary{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}.custom-summary .tag{font-size:11px}.custom-add-row{display:grid;grid-template-columns:minmax(160px,1fr) auto;gap:8px;margin-top:12px}.custom-add-row.buy{grid-template-columns:minmax(150px,1fr) 72px 90px auto}.custom-price{font-family:'JetBrains Mono',monospace;color:var(--text-dim);font-size:11px}
-  .template-modal-backdrop{position:fixed;inset:0;background:rgba(3,7,12,.78);display:none;align-items:center;justify-content:center;padding:18px;z-index:1000}.template-modal-backdrop.open{display:flex}.template-modal{width:min(620px,100%);background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px;box-shadow:0 20px 70px rgba(0,0,0,.45)}.template-modal-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}.template-name{width:100%;margin-bottom:12px}.template-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.template-option{text-align:left;border:1px solid var(--line);background:var(--panel-2);color:var(--text);padding:14px;border-radius:7px;font-family:'Inter',sans-serif}.template-option:hover{border-color:var(--teal-dim);background:rgba(94,234,212,.05)}.template-option b{display:block;font-family:'JetBrains Mono',monospace;color:var(--teal);font-size:12px;margin-bottom:5px}.template-option span{display:block;color:var(--text-dim);font-size:11px;line-height:1.45}
-  .share-badge{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--amber);border:1px solid var(--amber-dim);border-radius:999px;padding:3px 7px;margin-left:6px;white-space:nowrap}.shared-shell{display:none;max-width:760px;margin:0 auto;padding:28px 20px 60px}.shared-shell.open{display:block}.shared-head{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:18px}.shared-brand{font-family:'JetBrains Mono',monospace;color:var(--amber);font-size:13px}.shared-permission{font-family:'JetBrains Mono',monospace;font-size:10px;border:1px solid var(--line);border-radius:999px;padding:5px 9px;color:var(--text-dim)}.shared-save-status{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-faint);margin-top:10px}.shared-save-status.ok{color:var(--teal)}.shared-save-status.err{color:var(--red)}
+  .template-modal-backdrop{position:fixed;inset:0;background:rgba(3,7,12,.78);display:none;align-items:center;justify-content:center;padding:18px;z-index:1000;overflow-y:auto}.template-modal-backdrop.open{display:flex}.template-modal{width:min(620px,100%);background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px;box-shadow:0 20px 70px rgba(0,0,0,.45);max-height:calc(100dvh - 36px);overflow-y:auto}.template-modal-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}.template-step{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;color:var(--text-dim);letter-spacing:.5px;margin:14px 0 8px}.template-name{width:100%;margin-bottom:12px}.template-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.template-option{text-align:left;border:1px solid var(--line);background:var(--panel-2);color:var(--text);padding:14px;border-radius:7px;font-family:'Inter',sans-serif;min-height:82px}.template-option:hover{border-color:var(--teal-dim);background:rgba(94,234,212,.05)}.template-option.selected{border-color:var(--teal);background:rgba(94,234,212,.09);box-shadow:inset 0 0 0 1px var(--teal-dim)}.template-option b{display:block;font-family:'JetBrains Mono',monospace;color:var(--teal);font-size:12px;margin-bottom:5px}.template-option span{display:block;color:var(--text-dim);font-size:11px;line-height:1.45}.template-create-row{display:flex;justify-content:flex-end;gap:8px;margin-top:8px}.template-create-row button:disabled{opacity:.35;cursor:not-allowed;background:transparent}
+  .share-badge{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--amber);border:1px solid var(--amber-dim);border-radius:999px;padding:3px 7px;margin-left:6px;white-space:nowrap}
+  .share-icon-btn{width:36px;height:34px;padding:0;display:inline-grid;place-items:center;border-color:var(--line);color:var(--teal);font-size:17px;line-height:1}.share-icon-btn:hover{border-color:var(--teal-dim);background:rgba(94,234,212,.06)}.share-icon-btn.shared{color:var(--amber);border-color:var(--amber-dim)}
+  .share-modal-backdrop{position:fixed;inset:0;background:rgba(3,7,12,.78);display:none;align-items:center;justify-content:center;padding:18px;z-index:1100;overflow-y:auto}.share-modal-backdrop.open{display:flex}.share-modal{width:min(480px,100%);background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px;box-shadow:0 20px 70px rgba(0,0,0,.45);max-height:calc(100dvh - 36px);overflow-y:auto}.share-modal-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:8px}.share-tab-name{font-size:13px;color:var(--text);margin:8px 0 14px}.share-permission-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.share-permission-option{display:block;text-align:left;border:1px solid var(--line);background:var(--panel-2);color:var(--text);padding:14px;border-radius:7px;cursor:pointer}.share-permission-option.selected{border-color:var(--teal);background:rgba(94,234,212,.08)}.share-permission-option b{display:block;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--teal);margin-bottom:4px}.share-permission-option span{display:block;color:var(--text-dim);font-size:11px;line-height:1.45}.share-modal-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.share-modal-actions button{flex:1 1 120px}.share-danger{border-color:#60343a;color:var(--red)}.share-danger:hover{background:rgba(255,107,107,.07)}.share-status-line{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-dim);margin-top:12px;min-height:15px}.share-status-line.ok{color:var(--teal)}.share-status-line.err{color:var(--red)}
+  .shared-shell{display:none;max-width:760px;margin:0 auto;padding:28px 20px 60px}.shared-shell.open{display:block}.shared-head{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:18px}.shared-brand{font-family:'JetBrains Mono',monospace;color:var(--amber);font-size:13px}.shared-permission{font-family:'JetBrains Mono',monospace;font-size:10px;border:1px solid var(--line);border-radius:999px;padding:5px 9px;color:var(--text-dim)}.shared-save-status{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-faint);margin-top:10px}.shared-save-status.ok{color:var(--teal)}.shared-save-status.err{color:var(--red)}
   @media(max-width:900px){.edit-row,.edit-row.task-edit,.edit-row.tx-edit{grid-template-columns:1fr 1fr}.edit-row .wide{grid-column:1/-1}.edit-actions{grid-column:1/-1}}
   .empty{color:var(--text-faint);font-size:12px;font-style:italic;padding:8px 0}.footer-note{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-faint);margin-top:24px;text-align:center}
-  @media(max-width:760px){.sync-grid{grid-template-columns:1fr}body{padding:18px 12px 40px}.tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%;overflow:visible;gap:0}.tab{width:100%;text-align:center;padding:10px 6px;white-space:normal;border-right:1px solid var(--line);border-bottom:1px solid var(--line);font-size:11px}.tab .n{display:none}.stat-row{grid-template-columns:1fr}.finance-cols{grid-template-columns:1fr}.card{padding:15px}.week-grid{grid-template-columns:repeat(7,160px)}.task{grid-template-columns:auto 1fr auto}.task .tag{display:none}.tx{grid-template-columns:72px 1fr auto}.tx .tx-cat{display:none}.habit-month-layout{grid-template-columns:1fr}.month-activity-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-  @media(max-width:420px){.tabs{grid-template-columns:repeat(2,minmax(0,1fr))}.template-grid{grid-template-columns:1fr}.custom-list-row.buy{grid-template-columns:auto minmax(120px,1fr) auto}.custom-list-row.buy .buy-qty,.custom-list-row.buy .buy-price{grid-column:2}.custom-add-row.buy{grid-template-columns:1fr 1fr}.custom-add-row.buy .buy-new-text{grid-column:1/-1}.custom-add-row.buy button{grid-column:1/-1}}
+  @media(max-width:760px){.sync-grid{grid-template-columns:1fr}body{padding:18px 12px 40px}.tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%;overflow:visible;gap:0}.tab{width:100%;text-align:center;padding:10px 6px;white-space:normal;border-right:1px solid var(--line);border-bottom:1px solid var(--line);font-size:11px}.tab .n{display:none}.stat-row{grid-template-columns:1fr}.finance-cols{grid-template-columns:1fr}.card{padding:15px}.week-grid{grid-template-columns:repeat(7,160px)}.task{grid-template-columns:auto 1fr auto}.task .tag{display:none}.tx{grid-template-columns:72px 1fr auto}.tx .tx-cat{display:none}.habit-month-layout{grid-template-columns:1fr}.month-activity-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.template-modal-backdrop{align-items:flex-start;padding:12px}.template-modal{margin-top:max(8px,env(safe-area-inset-top));max-height:calc(100dvh - 24px);padding:15px}.template-grid{grid-template-columns:1fr}.template-option{min-height:72px}.template-create-row{position:sticky;bottom:-15px;background:var(--panel);padding:10px 0 3px}}
+  @media(max-width:420px){.tabs{grid-template-columns:repeat(2,minmax(0,1fr))}.template-grid{grid-template-columns:1fr}.custom-list-row.buy{grid-template-columns:auto minmax(120px,1fr) auto}.custom-list-row.buy .buy-qty,.custom-list-row.buy .buy-price{grid-column:2}.custom-add-row.buy{grid-template-columns:1fr 1fr}.custom-add-row.buy .buy-new-text{grid-column:1/-1}.custom-add-row.buy button{grid-column:1/-1}.share-modal-backdrop{align-items:flex-end;padding:0}.share-modal{width:100%;max-height:88dvh;border-radius:14px 14px 0 0;padding:16px 14px max(16px,env(safe-area-inset-bottom))}.share-permission-grid{grid-template-columns:1fr}.share-icon-btn{width:40px;height:38px}}
 </style>
 </head>
 <body>
@@ -323,13 +326,45 @@
         <div class="card-title" id="tab-template-title"><span class="prompt">$</span> create a new tab</div>
         <button class="btn-x" onclick="closeCustomTabModal()">✕</button>
       </div>
-      <input class="template-name" type="text" id="new-tab-name" placeholder="tab name (optional — a default name will be used)">
+      <div class="template-step">1 · choose what you want to make</div>
       <div class="template-grid">
-        <button class="template-option" onclick="createCustomTabFromTemplate('notes')"><b>📝 Notes</b><span>Free-form text for ideas, plans, information or anything else.</span></button>
-        <button class="template-option" onclick="createCustomTabFromTemplate('tobuy')"><b>🛒 To-buy list</b><span>Items with checkboxes, quantity, price and a running estimated total.</span></button>
-        <button class="template-option" onclick="createCustomTabFromTemplate('checklist')"><b>✅ Checklist</b><span>Tick items off and see your completion percentage automatically.</span></button>
-        <button class="template-option" onclick="createCustomTabFromTemplate('list')"><b>• Simple list</b><span>A clean editable list without completion tracking.</span></button>
+        <button class="template-option" data-template="notes" onclick="selectCustomTabTemplate('notes',this)"><b>📝 Notes</b><span>Free-form text for ideas, plans, information or anything else.</span></button>
+        <button class="template-option" data-template="tobuy" onclick="selectCustomTabTemplate('tobuy',this)"><b>🛒 To-buy list</b><span>Items with checkboxes, quantity, price and a running estimated total.</span></button>
+        <button class="template-option" data-template="checklist" onclick="selectCustomTabTemplate('checklist',this)"><b>✅ Checklist / Todo</b><span>Tick tasks off and see your completion percentage automatically.</span></button>
+        <button class="template-option" data-template="list" onclick="selectCustomTabTemplate('list',this)"><b>• Simple list</b><span>A clean editable list without completion tracking.</span></button>
       </div>
+      <div class="template-step">2 · give it a name</div>
+      <input class="template-name" type="text" id="new-tab-name" placeholder="e.g. Mountain Trip / Shopping / Things to Pack" onkeydown="if(event.key==='Enter'&&selectedCustomTabTemplate)createSelectedCustomTab()">
+      <div class="template-create-row">
+        <button class="btn-ghost" onclick="closeCustomTabModal()">cancel</button>
+        <button id="create-tab-button" onclick="createSelectedCustomTab()" disabled>create tab</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="share-modal-backdrop" id="share-modal" onclick="if(event.target===this)closeShareModal()">
+    <div class="share-modal" role="dialog" aria-modal="true" aria-labelledby="share-modal-title">
+      <div class="share-modal-head">
+        <div class="card-title" id="share-modal-title"><span class="prompt">$</span> share tab</div>
+        <button class="btn-x" onclick="closeShareModal()">✕</button>
+      </div>
+      <div class="share-tab-name" id="share-modal-tab-name"></div>
+      <div class="template-step">permission</div>
+      <div class="share-permission-grid">
+        <button class="share-permission-option" id="share-perm-view" onclick="selectSharePermission('view')">
+          <b>👁 View only</b><span>They can open and read this tab, but cannot change it.</span>
+        </button>
+        <button class="share-permission-option" id="share-perm-edit" onclick="selectSharePermission('edit')">
+          <b>✎ Can edit</b><span>They can add items, tick checkboxes and plan together with you.</span>
+        </button>
+      </div>
+      <div class="share-modal-actions">
+        <button id="share-save-btn" onclick="saveSharePermission()">create share link</button>
+        <button class="btn-ghost" id="share-send-btn" onclick="shareCurrentTabLink()" style="display:none">↗ share link</button>
+        <button class="btn-ghost" id="share-copy-btn" onclick="copyCurrentTabShareLink()" style="display:none">copy link</button>
+        <button class="share-danger" id="share-revoke-btn" onclick="revokeCurrentTabShare()" style="display:none">stop sharing</button>
+      </div>
+      <div class="share-status-line" id="share-modal-status"></div>
     </div>
   </div>
 
@@ -730,22 +765,41 @@ function renderCustomTabs(){
     <div class="card">
       <div class="card-head">
         <div class="card-title"><span class="prompt">$</span> <input class="custom-title-edit" value="${escAttr(tab.name)}" aria-label="Custom tab name" onblur="renameCustomTabInline('${tab.id}',this.value)" onkeydown="if(event.key==='Enter'){this.blur()}"> <span class="custom-type">${customTabTypeLabel(tab.type)}</span>${tab.shareToken?`<span class="share-badge">shared · ${tab.sharePermission==='edit'?'can edit':'view only'}</span>`:''}</div>
-        <div class="custom-toolbar"><button class="btn-ghost" onclick="shareCustomTab('${tab.id}')">${tab.shareToken?'share settings':'share'}</button><button class="btn-ghost" onclick="renameCustomTab('${tab.id}')">rename</button><button class="btn-x" onclick="deleteCustomTab('${tab.id}')">delete tab</button></div>
+        <div class="custom-toolbar"><button class="share-icon-btn ${tab.shareToken?'shared':''}" onclick="shareCustomTab('${tab.id}')" title="${tab.shareToken?'Share settings':'Share this tab'}" aria-label="${tab.shareToken?'Share settings':'Share this tab'}">↗</button><button class="btn-ghost" onclick="renameCustomTab('${tab.id}')">rename</button><button class="btn-x" onclick="deleteCustomTab('${tab.id}')">delete tab</button></div>
       </div>
       ${customTabBody(tab)}
       <div class="edit-note" style="margin-top:10px">Saved automatically${cloudArmed&&cloudUser?' and synced to your account':' in this browser'}. Tap the title above to rename this list anytime.${tab.shareToken?' Shared-tab changes are also synced with people who have your link.':''}</div>
     </div>
   </section>`).join('');
 }
+let selectedCustomTabTemplate=null;
 function addCustomTab(){
   const modal=document.getElementById('tab-template-modal'); if(!modal)return;
-  document.getElementById('new-tab-name').value=''; modal.classList.add('open');
-  setTimeout(()=>document.getElementById('new-tab-name').focus(),30);
+  selectedCustomTabTemplate=null;
+  const nameInput=document.getElementById('new-tab-name'); if(nameInput)nameInput.value='';
+  document.querySelectorAll('#tab-template-modal .template-option').forEach(x=>x.classList.remove('selected'));
+  const createBtn=document.getElementById('create-tab-button'); if(createBtn)createBtn.disabled=true;
+  modal.classList.add('open');
+  // Do not autofocus on phones: opening the keyboard can hide the template choices.
 }
-function closeCustomTabModal(){ const modal=document.getElementById('tab-template-modal'); if(modal)modal.classList.remove('open'); }
+function closeCustomTabModal(){
+  const modal=document.getElementById('tab-template-modal'); if(modal)modal.classList.remove('open');
+  selectedCustomTabTemplate=null;
+}
+function selectCustomTabTemplate(type,el){
+  if(!['notes','tobuy','checklist','list'].includes(type))return;
+  selectedCustomTabTemplate=type;
+  document.querySelectorAll('#tab-template-modal .template-option').forEach(x=>x.classList.toggle('selected',x===el));
+  const createBtn=document.getElementById('create-tab-button'); if(createBtn)createBtn.disabled=false;
+}
+function createSelectedCustomTab(){
+  if(!selectedCustomTabTemplate)return;
+  createCustomTabFromTemplate(selectedCustomTabTemplate);
+}
 function createCustomTabFromTemplate(type){
   const defaults={notes:'Notes',tobuy:'To buy',checklist:'Checklist',list:'List'};
-  const name=(document.getElementById('new-tab-name').value.trim()||defaults[type]||'Tab');
+  const input=document.getElementById('new-tab-name');
+  const name=((input&&input.value||'').trim()||defaults[type]||'Tab');
   const tab={id:uid(),name,type:['notes','tobuy','checklist','list'].includes(type)?type:'notes',content:'',items:[]};
   state.customTabs.push(tab); state.tabOrder=Array.isArray(state.tabOrder)?state.tabOrder:[]; state.tabOrder.push('custom-'+tab.id); saveState(); closeCustomTabModal(); renderCustomTabs(); renderEdit();
   const tabEl=document.querySelector(`.custom-tab[data-tab="custom-${tab.id}"]`); if(tabEl)tabEl.click();
@@ -777,37 +831,134 @@ function buildShareLink(token){
   return base+'#'+params.toString();
 }
 async function copyShareLink(link){
-  try{ await navigator.clipboard.writeText(link); alert('Share link copied.'); }
-  catch(e){ prompt('Copy this share link:',link); }
+  try{
+    await navigator.clipboard.writeText(link);
+    return true;
+  }catch(e){
+    try{
+      const ta=document.createElement('textarea');
+      ta.value=link; ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.focus();ta.select();
+      const ok=document.execCommand('copy');ta.remove();return !!ok;
+    }catch(_){ return false; }
+  }
+}
+
+let activeShareTabId=null;
+let pendingSharePermission='edit';
+
+function setShareModalStatus(text,kind=''){
+  const el=document.getElementById('share-modal-status'); if(!el)return;
+  el.textContent=text||''; el.className='share-status-line'+(kind?' '+kind:'');
+}
+function selectSharePermission(permission){
+  if(permission!=='view'&&permission!=='edit')return;
+  pendingSharePermission=permission;
+  const view=document.getElementById('share-perm-view'),edit=document.getElementById('share-perm-edit');
+  if(view)view.classList.toggle('selected',permission==='view');
+  if(edit)edit.classList.toggle('selected',permission==='edit');
+}
+function updateShareModalButtons(tab){
+  const shared=!!(tab&&tab.shareToken);
+  const save=document.getElementById('share-save-btn'),send=document.getElementById('share-send-btn'),copy=document.getElementById('share-copy-btn'),revoke=document.getElementById('share-revoke-btn');
+  if(save){save.textContent=shared?'save permission':'create share link';save.style.display='inline-block';}
+  if(send)send.style.display=shared?'inline-block':'none';
+  if(copy)copy.style.display=shared?'inline-block':'none';
+  if(revoke)revoke.style.display=shared?'inline-block':'none';
+}
+function closeShareModal(){
+  const modal=document.getElementById('share-modal'); if(modal)modal.classList.remove('open');
+  activeShareTabId=null; setShareModalStatus('');
 }
 async function shareCustomTab(id){
   const tab=state.customTabs.find(x=>x.id===id); if(!tab)return;
   if(!supabaseClient||!cloudUser){ alert('Log in to Supabase in Settings before sharing a tab.'); return; }
   if(!cloudConfig.url||!cloudConfig.key){ alert('Save your Supabase connection first.'); return; }
-  try{
-    if(tab.shareToken){
-      const action=(prompt(`"${tab.name}" is already shared (${tab.sharePermission==='edit'?'can edit':'view only'}).\n\nType:\ncopy = copy link\nview = change to view only\nedit = allow editing\nrevoke = stop sharing`,'copy')||'').trim().toLowerCase();
-      if(!action)return;
-      if(action==='copy'){ await copyShareLink(buildShareLink(tab.shareToken)); return; }
-      if(action==='revoke'){
-        if(!confirm('Stop sharing this tab? Existing links will stop working.'))return;
-        const {error}=await supabaseClient.rpc('revoke_shared_tab',{p_token:tab.shareToken}); if(error)throw error;
-        tab.shareToken=null;tab.sharePermission=null;tab.shareUpdatedAt=null;saveState();renderCustomTabs();reopenCustomTab(id);return;
-      }
-      if(action!=='view'&&action!=='edit'){ alert('Use copy, view, edit, or revoke.'); return; }
-      const {data,error}=await supabaseClient.rpc('owner_update_shared_tab',{p_token:tab.shareToken,p_data:publicCustomTabData(tab),p_permission:action}); if(error)throw error;
-      tab.sharePermission=action; if(data&&data.updated_at)tab.shareUpdatedAt=data.updated_at; saveState();renderCustomTabs();reopenCustomTab(id); await copyShareLink(buildShareLink(tab.shareToken)); return;
-    }
-    const permission=(prompt('How should this link work? Type "view" for view-only or "edit" so you can plan together.','edit')||'').trim().toLowerCase();
-    if(permission!=='view'&&permission!=='edit'){ if(permission)alert('Please type view or edit.'); return; }
-    const {data,error}=await supabaseClient.rpc('create_shared_tab',{p_data:publicCustomTabData(tab),p_permission:permission}); if(error)throw error;
-    const result=Array.isArray(data)?data[0]:data;
-    const token=result&&result.share_token?result.share_token:(typeof data==='string'?data:null);
-    if(!token)throw new Error('No share token was returned. Did you run the shared-tabs SQL setup?');
-    tab.shareToken=String(token);tab.sharePermission=permission;tab.shareUpdatedAt=result&&result.updated_at?result.updated_at:null;
-    saveState();renderCustomTabs();reopenCustomTab(id);await copyShareLink(buildShareLink(tab.shareToken));
-  }catch(e){ console.error(e); alert('Could not share this tab: '+(e.message||e)+'\n\nMake sure you ran the shared-tabs SQL setup in Supabase.'); }
+  activeShareTabId=id;
+  pendingSharePermission=tab.sharePermission==='view'?'view':'edit';
+  const modal=document.getElementById('share-modal'); if(!modal)return;
+  const name=document.getElementById('share-modal-tab-name'); if(name)name.textContent=tab.name;
+  selectSharePermission(pendingSharePermission);
+  updateShareModalButtons(tab);
+  setShareModalStatus(tab.shareToken?`Currently shared · ${tab.sharePermission==='edit'?'can edit':'view only'}`:'Choose a permission, then create the link.');
+  modal.classList.add('open');
 }
+async function saveSharePermission(){
+  const tab=state.customTabs.find(x=>x.id===activeShareTabId); if(!tab)return;
+  if(!supabaseClient||!cloudUser)return;
+  const save=document.getElementById('share-save-btn');
+  try{
+    if(save)save.disabled=true;
+    setShareModalStatus(tab.shareToken?'Updating permission…':'Creating share link…');
+    if(tab.shareToken){
+      const {data,error}=await supabaseClient.rpc('owner_update_shared_tab',{p_token:tab.shareToken,p_data:publicCustomTabData(tab),p_permission:pendingSharePermission});
+      if(error)throw error;
+      const row=Array.isArray(data)?data[0]:data;
+      tab.sharePermission=pendingSharePermission;
+      if(row&&row.updated_at)tab.shareUpdatedAt=row.updated_at;
+    }else{
+      const {data,error}=await supabaseClient.rpc('create_shared_tab',{p_data:publicCustomTabData(tab),p_permission:pendingSharePermission});
+      if(error)throw error;
+      const result=Array.isArray(data)?data[0]:data;
+      const token=result&&result.share_token?result.share_token:(typeof data==='string'?data:null);
+      if(!token)throw new Error('No share token was returned. Did you run the shared-tabs SQL setup?');
+      tab.shareToken=String(token);tab.sharePermission=pendingSharePermission;tab.shareUpdatedAt=result&&result.updated_at?result.updated_at:null;
+    }
+    saveState();renderCustomTabs();reopenCustomTab(tab.id);
+    updateShareModalButtons(tab);
+    selectSharePermission(tab.sharePermission);
+    setShareModalStatus(`Shared · ${tab.sharePermission==='edit'?'can edit':'view only'}`,'ok');
+  }catch(e){
+    console.error(e);
+    setShareModalStatus('Could not update sharing: '+(e.message||e),'err');
+  }finally{
+    if(save)save.disabled=false;
+  }
+}
+function currentShareTab(){
+  return state.customTabs.find(x=>x.id===activeShareTabId)||null;
+}
+async function copyCurrentTabShareLink(){
+  const tab=currentShareTab(); if(!tab||!tab.shareToken)return;
+  const link=buildShareLink(tab.shareToken);
+  const ok=await copyShareLink(link);
+  if(ok)setShareModalStatus('Link copied.','ok');
+  else{
+    setShareModalStatus('Could not copy automatically.','err');
+    prompt('Copy this share link:',link);
+  }
+}
+async function shareCurrentTabLink(){
+  const tab=currentShareTab(); if(!tab||!tab.shareToken)return;
+  const link=buildShareLink(tab.shareToken);
+  if(navigator.share){
+    try{
+      await navigator.share({title:tab.name,text:`Shared ${tab.name}`,url:link});
+      setShareModalStatus('Share sheet opened.','ok');
+      return;
+    }catch(e){
+      if(e&&e.name==='AbortError')return;
+    }
+  }
+  const ok=await copyShareLink(link);
+  if(ok)setShareModalStatus('Link copied — paste it into your chat app.','ok');
+  else prompt('Copy this share link:',link);
+}
+async function revokeCurrentTabShare(){
+  const tab=currentShareTab(); if(!tab||!tab.shareToken)return;
+  if(!confirm('Stop sharing this tab? Existing links will stop working.'))return;
+  try{
+    setShareModalStatus('Stopping sharing…');
+    const {error}=await supabaseClient.rpc('revoke_shared_tab',{p_token:tab.shareToken});
+    if(error)throw error;
+    tab.shareToken=null;tab.sharePermission=null;tab.shareUpdatedAt=null;
+    saveState();renderCustomTabs();reopenCustomTab(tab.id);
+    updateShareModalButtons(tab);
+    setShareModalStatus('Sharing stopped. Existing links no longer work.','ok');
+  }catch(e){
+    setShareModalStatus('Could not stop sharing: '+(e.message||e),'err');
+  }
+}
+
 function scheduleSharedTabsPush(){
   if(!supabaseClient||!cloudUser)return;
   clearTimeout(sharedPushTimer);
