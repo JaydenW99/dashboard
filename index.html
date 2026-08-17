@@ -549,6 +549,7 @@ const LEGACY_KEY = 'dashboard-state';
 const CLOUD_CONFIG_KEY = 'dashboard-cloud-config-v1';
 const CLOUD_ARMED_KEY = 'dashboard-cloud-armed-v1';
 const AUTH_USER_KEY = 'dashboard-last-auth-user-v1';
+const PENDING_SHARED_KEY = 'dashboard-pending-shared-tab-v1';
 
 /*
   PUBLIC APP CONNECTION
@@ -1806,7 +1807,18 @@ async function loadSharedTab(force=false){
 function setSharedAccountText(text){
   const el=document.getElementById('shared-account-text');if(el)el.textContent=text||'';
 }
+function rememberPendingSharedTab(){
+  if(!sharedToken)return;
+  try{
+    localStorage.setItem(PENDING_SHARED_KEY,JSON.stringify({
+      token:sharedToken,
+      url:sharedLinkUrl||cloudConfig.url||APP_SUPABASE_URL||'',
+      key:sharedLinkKey||cloudConfig.key||APP_SUPABASE_KEY||''
+    }));
+  }catch(e){}
+}
 function openDashboardFromShared(){
+  rememberPendingSharedTab();
   location.href=location.origin+location.pathname;
 }
 async function getSharedAccountDashboardRow(){
@@ -1818,11 +1830,14 @@ async function getSharedAccountDashboardRow(){
 async function refreshSharedAccountMembership(){
   const addBtn=document.getElementById('shared-add-dashboard-btn');
   if(!addBtn)return;
+  const openBtn=document.getElementById('shared-open-dashboard-btn');
   if(!sharedAccountUser){
     addBtn.style.display='none';
-    setSharedAccountText('If you have an account, open your dashboard and log in first. Then reopen this shared link.');
+    if(openBtn)openBtn.textContent='create account / log in';
+    setSharedAccountText('Create an account or log in. This shared tab will be added to your dashboard automatically.');
     return;
   }
+  if(openBtn)openBtn.textContent='open my dashboard';
   try{
     const row=await getSharedAccountDashboardRow();
     const base=normalizeState(row&&row.data?row.data:state);
@@ -1886,6 +1901,7 @@ async function addSharedTabToMyDashboard(){
     localStorage.setItem(CLOUD_CONFIG_KEY,JSON.stringify({url:sharedLinkUrl,key:sharedLinkKey}));
     localStorage.setItem(CLOUD_ARMED_KEY,'1');
 
+    localStorage.removeItem(PENDING_SHARED_KEY);
     if(btn){btn.disabled=true;btn.textContent='✓ added to my dashboard';}
     setSharedAccountText(`Added for ${sharedAccountUser.email||'your account'}. Open your dashboard and the shared tab will appear there.`);
   }catch(e){
@@ -2076,14 +2092,112 @@ async function isolateBrowserForUser(user){
   }
   localStorage.setItem(AUTH_USER_KEY,user.id);
 }
+
+async function addPendingSharedTabAfterAuth(){
+  if(!cloudUser||!supabaseClient)return null;
+
+  let pending=null;
+  try{
+    const raw=localStorage.getItem(PENDING_SHARED_KEY);
+    if(!raw)return null;
+    pending=JSON.parse(raw);
+  }catch(e){
+    localStorage.removeItem(PENDING_SHARED_KEY);
+    return null;
+  }
+
+  if(!pending||!pending.token){
+    localStorage.removeItem(PENDING_SHARED_KEY);
+    return null;
+  }
+
+  try{
+    let shareClient=supabaseClient;
+    if(pending.url&&pending.key&&pending.url!==cloudConfig.url){
+      shareClient=window.supabase.createClient(pending.url,pending.key,{
+        auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}
+      });
+    }
+
+    const {data:shareResult,error:shareError}=await shareClient.rpc('get_shared_tab',{p_token:pending.token});
+    if(shareError)throw shareError;
+    const shareRow=Array.isArray(shareResult)?shareResult[0]:shareResult;
+    if(!shareRow||!shareRow.data)throw new Error('This shared tab is no longer available.');
+
+    const sharedData=normalizeSharedData(shareRow.data);
+    const permission=shareRow.permission==='edit'?'edit':'view';
+
+    // Merge into the latest cloud dashboard, if one already exists.
+    let dashboardRow=null;
+    try{dashboardRow=await getCloudRow();}catch(e){}
+    let merged=normalizeState(dashboardRow&&dashboardRow.data?dashboardRow.data:state);
+
+    let existing=(merged.customTabs||[]).find(t=>t.shareToken===pending.token);
+    let tabId=null;
+
+    if(existing){
+      tabId=existing.id;
+      if(existing.shareRole!=='owner'){
+        existing.name=sharedData.name;
+        existing.type=sharedData.type;
+        existing.content=sharedData.content||'';
+        existing.items=JSON.parse(JSON.stringify(sharedData.items||[]));
+        existing.sharePermission=permission;
+        existing.shareUpdatedAt=shareRow.updated_at||null;
+        existing.shareRole='collaborator';
+      }
+    }else{
+      tabId=uid();
+      merged.customTabs.push({
+        id:tabId,
+        name:sharedData.name,
+        type:sharedData.type,
+        content:sharedData.content||'',
+        items:JSON.parse(JSON.stringify(sharedData.items||[])),
+        shareToken:pending.token,
+        sharePermission:permission,
+        shareUpdatedAt:shareRow.updated_at||null,
+        shareRole:'collaborator'
+      });
+
+      merged.tabOrder=Array.isArray(merged.tabOrder)?merged.tabOrder:[...BUILTIN_TAB_KEYS];
+      if(!merged.tabOrder.includes('custom-'+tabId))merged.tabOrder.push('custom-'+tabId);
+    }
+
+    merged=normalizeState(merged);
+
+    const stamp=new Date().toISOString();
+    const {error}=await supabaseClient.from('dashboard_state').upsert({
+      user_id:cloudUser.id,
+      data:merged,
+      updated_at:stamp
+    },{onConflict:'user_id'});
+    if(error)throw error;
+
+    state=merged;
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
+    cloudLastRemoteUpdated=stamp;
+    cloudArmed=true;
+    localStorage.setItem(CLOUD_ARMED_KEY,'1');
+    localStorage.removeItem(PENDING_SHARED_KEY);
+
+    return tabId?'custom-'+tabId:null;
+  }catch(e){
+    console.warn('Could not automatically add pending shared tab',e);
+    setSyncStatus('Logged in, but the shared tab could not be added automatically: '+(e.message||e),'warn');
+    return null;
+  }
+}
 async function enterAuthenticatedApp(){
   if(!cloudUser||!supabaseClient)return false;
   await isolateBrowserForUser(cloudUser);
   await smartInitialSync();
+  const autoAddedSharedTab=await addPendingSharedTabAfterAuth();
   setupRealtimeSubscription();
   setupCalendarInvitePolling();
   hideAuthGate();
   renderCustomTabs();applyBuiltinTabSettings();renderWeek();renderCalendarInvites();renderTasks();renderHabits();renderGoals();renderFinance();renderSyncPanel();
+  if(autoAddedSharedTab)activateTab(autoAddedSharedTab);
   pullOwnedSharedTabs();
   appEntered=true;
   return true;
