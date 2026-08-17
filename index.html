@@ -65,15 +65,31 @@
   .custom-note{width:100%;min-height:360px;resize:vertical;background:var(--panel-2);border:1px solid var(--line);color:var(--text);font-family:'Inter',sans-serif;font-size:14px;line-height:1.6;padding:14px;border-radius:6px}
   .custom-note:focus{outline:none;border-color:var(--amber-dim)}
   .custom-toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.custom-toolbar input{min-width:220px;flex:1}
+  .custom-title-edit{background:transparent;border:none;border-bottom:1px dashed var(--line);color:var(--text);font-family:'JetBrains Mono',monospace;font-size:12px;padding:2px 3px;min-width:120px;max-width:320px}.custom-title-edit:focus{outline:none;border-bottom-color:var(--amber)}
+  .custom-type{font-family:'JetBrains Mono',monospace;font-size:9px;text-transform:uppercase;color:var(--teal);border:1px solid var(--teal-dim);border-radius:999px;padding:3px 7px;margin-left:8px;vertical-align:1px}
+  .custom-list{display:flex;flex-direction:column;gap:8px}.custom-list-row{display:grid;grid-template-columns:auto minmax(160px,1fr) auto;gap:8px;align-items:center;background:var(--panel-2);border:1px solid var(--line-soft);border-radius:6px;padding:9px}.custom-list-row.buy{grid-template-columns:auto minmax(150px,1fr) 72px 90px auto}.custom-list-row.done .custom-item-text{text-decoration:line-through;color:var(--text-faint)}.custom-item-text{width:100%}.custom-list-dot{font-family:'JetBrains Mono',monospace;color:var(--teal);padding:0 4px}.custom-summary{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}.custom-summary .tag{font-size:11px}.custom-add-row{display:grid;grid-template-columns:minmax(160px,1fr) auto;gap:8px;margin-top:12px}.custom-add-row.buy{grid-template-columns:minmax(150px,1fr) 72px 90px auto}.custom-price{font-family:'JetBrains Mono',monospace;color:var(--text-dim);font-size:11px}
+  .template-modal-backdrop{position:fixed;inset:0;background:rgba(3,7,12,.78);display:none;align-items:center;justify-content:center;padding:18px;z-index:1000}.template-modal-backdrop.open{display:flex}.template-modal{width:min(620px,100%);background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px;box-shadow:0 20px 70px rgba(0,0,0,.45)}.template-modal-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}.template-name{width:100%;margin-bottom:12px}.template-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.template-option{text-align:left;border:1px solid var(--line);background:var(--panel-2);color:var(--text);padding:14px;border-radius:7px;font-family:'Inter',sans-serif}.template-option:hover{border-color:var(--teal-dim);background:rgba(94,234,212,.05)}.template-option b{display:block;font-family:'JetBrains Mono',monospace;color:var(--teal);font-size:12px;margin-bottom:5px}.template-option span{display:block;color:var(--text-dim);font-size:11px;line-height:1.45}
+  .share-badge{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--amber);border:1px solid var(--amber-dim);border-radius:999px;padding:3px 7px;margin-left:6px;white-space:nowrap}.shared-shell{display:none;max-width:760px;margin:0 auto;padding:28px 20px 60px}.shared-shell.open{display:block}.shared-head{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:18px}.shared-brand{font-family:'JetBrains Mono',monospace;color:var(--amber);font-size:13px}.shared-permission{font-family:'JetBrains Mono',monospace;font-size:10px;border:1px solid var(--line);border-radius:999px;padding:5px 9px;color:var(--text-dim)}.shared-save-status{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-faint);margin-top:10px}.shared-save-status.ok{color:var(--teal)}.shared-save-status.err{color:var(--red)}
   @media(max-width:900px){.edit-row,.edit-row.task-edit,.edit-row.tx-edit{grid-template-columns:1fr 1fr}.edit-row .wide{grid-column:1/-1}.edit-actions{grid-column:1/-1}}
   .empty{color:var(--text-faint);font-size:12px;font-style:italic;padding:8px 0}.footer-note{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-faint);margin-top:24px;text-align:center}
   @media(max-width:760px){.sync-grid{grid-template-columns:1fr}body{padding:18px 12px 40px}.tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%;overflow:visible;gap:0}.tab{width:100%;text-align:center;padding:10px 6px;white-space:normal;border-right:1px solid var(--line);border-bottom:1px solid var(--line);font-size:11px}.tab .n{display:none}.stat-row{grid-template-columns:1fr}.finance-cols{grid-template-columns:1fr}.card{padding:15px}.week-grid{grid-template-columns:repeat(7,160px)}.task{grid-template-columns:auto 1fr auto}.task .tag{display:none}.tx{grid-template-columns:72px 1fr auto}.tx .tx-cat{display:none}.habit-month-layout{grid-template-columns:1fr}.month-activity-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-  @media(max-width:420px){.tabs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media(max-width:420px){.tabs{grid-template-columns:repeat(2,minmax(0,1fr))}.template-grid{grid-template-columns:1fr}.custom-list-row.buy{grid-template-columns:auto minmax(120px,1fr) auto}.custom-list-row.buy .buy-qty,.custom-list-row.buy .buy-price{grid-column:2}.custom-add-row.buy{grid-template-columns:1fr 1fr}.custom-add-row.buy .buy-new-text{grid-column:1/-1}.custom-add-row.buy button{grid-column:1/-1}}
 </style>
 </head>
 <body>
 <div class="pull-refresh" id="pull-refresh" aria-live="polite">↓ pull to refresh</div>
-<div class="wrap">
+<div class="shared-shell" id="shared-shell">
+  <div class="shared-head">
+    <div class="shared-brand">~/shared-tab</div>
+    <div class="shared-permission" id="shared-permission">shared</div>
+  </div>
+  <div class="card">
+    <div class="card-head"><div class="card-title"><span class="prompt">$</span> <span id="shared-title">shared tab</span> <span class="custom-type" id="shared-type"></span></div></div>
+    <div id="shared-content"><div class="empty">loading shared tab…</div></div>
+    <div class="shared-save-status" id="shared-save-status"></div>
+  </div>
+</div>
+<div class="wrap" id="dashboard-wrap">
   <div class="topbar">
     <div class="brand">~/dashboard<span class="cursor"></span></div>
     <div class="clock" id="clock"></div>
@@ -301,6 +317,22 @@
 
   <div id="custom-sections"></div>
 
+  <div class="template-modal-backdrop" id="tab-template-modal" onclick="if(event.target===this)closeCustomTabModal()">
+    <div class="template-modal" role="dialog" aria-modal="true" aria-labelledby="tab-template-title">
+      <div class="template-modal-head">
+        <div class="card-title" id="tab-template-title"><span class="prompt">$</span> create a new tab</div>
+        <button class="btn-x" onclick="closeCustomTabModal()">✕</button>
+      </div>
+      <input class="template-name" type="text" id="new-tab-name" placeholder="tab name (optional — a default name will be used)">
+      <div class="template-grid">
+        <button class="template-option" onclick="createCustomTabFromTemplate('notes')"><b>📝 Notes</b><span>Free-form text for ideas, plans, information or anything else.</span></button>
+        <button class="template-option" onclick="createCustomTabFromTemplate('tobuy')"><b>🛒 To-buy list</b><span>Items with checkboxes, quantity, price and a running estimated total.</span></button>
+        <button class="template-option" onclick="createCustomTabFromTemplate('checklist')"><b>✅ Checklist</b><span>Tick items off and see your completion percentage automatically.</span></button>
+        <button class="template-option" onclick="createCustomTabFromTemplate('list')"><b>• Simple list</b><span>A clean editable list without completion tracking.</span></button>
+      </div>
+    </div>
+  </div>
+
   <div class="footer-note" id="footer-note">saved locally in your browser · cloud sync optional</div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -326,6 +358,13 @@ let cloudRealtimeChannel = null;
 let cloudApplying = false;
 let cloudArmed = localStorage.getItem(CLOUD_ARMED_KEY)==='1';
 let cloudLastRemoteUpdated = null;
+let sharedPushTimer = null;
+let sharedApplying = false;
+let sharedClient = null;
+let sharedToken = null;
+let sharedTabData = null;
+let sharedPermission = 'view';
+let sharedSaveTimer = null;
 
 function defaultState(){ return {events:[],tasks:[],habits:[],transactions:[],customTabs:[],tabOrder:[...BUILTIN_TAB_KEYS]}; }
 function loadState(){
@@ -369,14 +408,23 @@ function normalizeState(s){
       createdDate:h.createdDate||dates[0]||isoDate(new Date())
     };
   });
-  const customTabs=Array.isArray(s.customTabs)?s.customTabs:[];
+  const customTabs=(Array.isArray(s.customTabs)?s.customTabs:[]).map(t=>({
+    id:t.id||uid(),
+    name:String(t.name||'Tab'),
+    type:['notes','tobuy','checklist','list'].includes(t.type)?t.type:'notes',
+    content:String(t.content||''),
+    items:(Array.isArray(t.items)?t.items:[]).map(it=>({id:it.id||uid(),text:String(it.text||''),done:!!it.done,qty:Math.max(1,Number(it.qty)||1),price:Math.max(0,Number(it.price)||0)})),
+    shareToken:t.shareToken?String(t.shareToken):null,
+    sharePermission:t.sharePermission==='edit'?'edit':(t.sharePermission==='view'?'view':null),
+    shareUpdatedAt:t.shareUpdatedAt?String(t.shareUpdatedAt):null
+  }));
   const validKeys=[...BUILTIN_TAB_KEYS,...customTabs.map(t=>'custom-'+t.id)];
   const rawOrder=Array.isArray(s.tabOrder)?s.tabOrder:[];
   const tabOrder=[...new Set(rawOrder.filter(k=>validKeys.includes(k)))];
   validKeys.forEach(k=>{ if(!tabOrder.includes(k))tabOrder.push(k); });
   return {events,tasks,habits,transactions:Array.isArray(s.transactions)?s.transactions:[],customTabs,tabOrder};
 }
-function saveState(){ localStorage.setItem(STORAGE_KEY,JSON.stringify(state)); updateFooter(); if(!cloudApplying) scheduleCloudPush(); }
+function saveState(){ localStorage.setItem(STORAGE_KEY,JSON.stringify(state)); updateFooter(); if(!cloudApplying) scheduleCloudPush(); if(!sharedApplying) scheduleSharedTabsPush(); }
 function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,8); }
 function stripTime(d){ return new Date(d.getFullYear(),d.getMonth(),d.getDate()); }
 function startOfWeek(d){ const x=stripTime(d), day=(x.getDay()+6)%7; x.setDate(x.getDate()-day); return x; }
@@ -649,6 +697,23 @@ function addTransaction(){ const amount=parseFloat(document.getElementById('tx-a
 function deleteTransaction(id){ state.transactions=state.transactions.filter(x=>x.id!==id);saveState();renderFinance(); }
 
 
+function customTabTypeLabel(type){ return ({notes:'notes',tobuy:'to-buy',checklist:'checklist',list:'list'})[type]||'notes'; }
+function customTabBody(tab){
+  if(tab.type==='notes') return `<textarea class="custom-note" id="custom-note-${tab.id}" placeholder="Write anything you want in this tab..." oninput="saveCustomTabContent('${tab.id}',this.value)">${esc(tab.content||'')}</textarea>`;
+  const items=Array.isArray(tab.items)?tab.items:[];
+  if(tab.type==='tobuy'){
+    const bought=items.filter(x=>x.done).length,total=items.length,estimated=items.reduce((sum,x)=>sum+(Number(x.qty)||1)*(Number(x.price)||0),0);
+    const rows=items.map(it=>`<div class="custom-list-row buy ${it.done?'done':''}"><div class="check ${it.done?'done':''}" onclick="toggleCustomItem('${tab.id}','${it.id}')"></div><input class="custom-item-text" type="text" value="${escAttr(it.text)}" onchange="updateCustomItem('${tab.id}','${it.id}','text',this.value)"><input class="buy-qty" type="number" min="1" step="1" value="${Number(it.qty)||1}" title="quantity" onchange="updateCustomItem('${tab.id}','${it.id}','qty',this.value)"><input class="buy-price" type="number" min="0" step="0.01" value="${Number(it.price)||0}" title="price each" onchange="updateCustomItem('${tab.id}','${it.id}','price',this.value)"><button class="btn-x" onclick="deleteCustomItem('${tab.id}','${it.id}')">✕</button></div>`).join('');
+    return `<div class="custom-summary"><span class="tag">${bought}/${total} bought</span><span class="tag">estimated ${money(estimated)}</span></div><div class="custom-list">${rows||'<div class="empty">nothing to buy yet</div>'}</div><div class="custom-add-row buy"><input class="buy-new-text" type="text" id="new-item-${tab.id}" placeholder="item"><input type="number" id="new-qty-${tab.id}" min="1" step="1" value="1" title="quantity"><input type="number" id="new-price-${tab.id}" min="0" step="0.01" placeholder="€ each" title="price each"><button onclick="addCustomItem('${tab.id}')">add</button></div>`;
+  }
+  if(tab.type==='checklist'){
+    const done=items.filter(x=>x.done).length,total=items.length,pct=total?Math.round(done/total*100):0;
+    const rows=items.map(it=>`<div class="custom-list-row ${it.done?'done':''}"><div class="check ${it.done?'done':''}" onclick="toggleCustomItem('${tab.id}','${it.id}')"></div><input class="custom-item-text" type="text" value="${escAttr(it.text)}" onchange="updateCustomItem('${tab.id}','${it.id}','text',this.value)"><button class="btn-x" onclick="deleteCustomItem('${tab.id}','${it.id}')">✕</button></div>`).join('');
+    return `<div class="custom-summary"><span class="tag">${done}/${total} done</span><span class="tag">${pct}% complete</span></div><div class="habit-progress-track" style="margin-bottom:12px"><div class="habit-progress-fill" style="width:${pct}%"></div></div><div class="custom-list">${rows||'<div class="empty">no checklist items yet</div>'}</div><div class="custom-add-row"><input type="text" id="new-item-${tab.id}" placeholder="new checklist item"><button onclick="addCustomItem('${tab.id}')">add</button></div>`;
+  }
+  const rows=items.map(it=>`<div class="custom-list-row"><span class="custom-list-dot">•</span><input class="custom-item-text" type="text" value="${escAttr(it.text)}" onchange="updateCustomItem('${tab.id}','${it.id}','text',this.value)"><button class="btn-x" onclick="deleteCustomItem('${tab.id}','${it.id}')">✕</button></div>`).join('');
+  return `<div class="custom-list">${rows||'<div class="empty">no list items yet</div>'}</div><div class="custom-add-row"><input type="text" id="new-item-${tab.id}" placeholder="new list item"><button onclick="addCustomItem('${tab.id}')">add</button></div>`;
+}
 function renderCustomTabs(){
   document.querySelectorAll('.custom-tab').forEach(x=>x.remove());
   const addBtn=document.getElementById('add-tab');
@@ -659,35 +724,176 @@ function renderCustomTabs(){
     el.innerHTML=`<span class="tab-handle" title="Drag to reorder">⋮⋮</span><span class="n">${String(i+6).padStart(2,'0')}</span>${esc(tab.name)}`;
     addBtn.parentNode.insertBefore(el,addBtn);
   });
-
   renderTabOrder();
-
   const host=document.getElementById('custom-sections');
   host.innerHTML=state.customTabs.map(tab=>`<section class="section custom-section" id="sec-custom-${tab.id}">
     <div class="card">
       <div class="card-head">
-        <div class="card-title"><span class="prompt">$</span> ${esc(tab.name)}</div>
-        <div class="custom-toolbar">
-          <button class="btn-ghost" onclick="renameCustomTab('${tab.id}')">rename</button>
-          <button class="btn-x" onclick="deleteCustomTab('${tab.id}')">delete tab</button>
-        </div>
+        <div class="card-title"><span class="prompt">$</span> <input class="custom-title-edit" value="${escAttr(tab.name)}" aria-label="Custom tab name" onblur="renameCustomTabInline('${tab.id}',this.value)" onkeydown="if(event.key==='Enter'){this.blur()}"> <span class="custom-type">${customTabTypeLabel(tab.type)}</span>${tab.shareToken?`<span class="share-badge">shared · ${tab.sharePermission==='edit'?'can edit':'view only'}</span>`:''}</div>
+        <div class="custom-toolbar"><button class="btn-ghost" onclick="shareCustomTab('${tab.id}')">${tab.shareToken?'share settings':'share'}</button><button class="btn-ghost" onclick="renameCustomTab('${tab.id}')">rename</button><button class="btn-x" onclick="deleteCustomTab('${tab.id}')">delete tab</button></div>
       </div>
-      <textarea class="custom-note" id="custom-note-${tab.id}" placeholder="Write anything you want in this tab..." oninput="saveCustomTabContent('${tab.id}',this.value)">${esc(tab.content||'')}</textarea>
-      <div class="edit-note" style="margin-top:10px">Saved automatically${cloudArmed&&cloudUser?' and synced to your account':' in this browser'}.</div>
+      ${customTabBody(tab)}
+      <div class="edit-note" style="margin-top:10px">Saved automatically${cloudArmed&&cloudUser?' and synced to your account':' in this browser'}. Tap the title above to rename this list anytime.${tab.shareToken?' Shared-tab changes are also synced with people who have your link.':''}</div>
     </div>
   </section>`).join('');
 }
 function addCustomTab(){
-  const name=(prompt('Name your new tab:')||'').trim(); if(!name)return;
-  const tab={id:uid(),name,content:''}; state.customTabs.push(tab); state.tabOrder=Array.isArray(state.tabOrder)?state.tabOrder:[]; state.tabOrder.push('custom-'+tab.id); saveState(); renderCustomTabs(); renderEdit();
+  const modal=document.getElementById('tab-template-modal'); if(!modal)return;
+  document.getElementById('new-tab-name').value=''; modal.classList.add('open');
+  setTimeout(()=>document.getElementById('new-tab-name').focus(),30);
+}
+function closeCustomTabModal(){ const modal=document.getElementById('tab-template-modal'); if(modal)modal.classList.remove('open'); }
+function createCustomTabFromTemplate(type){
+  const defaults={notes:'Notes',tobuy:'To buy',checklist:'Checklist',list:'List'};
+  const name=(document.getElementById('new-tab-name').value.trim()||defaults[type]||'Tab');
+  const tab={id:uid(),name,type:['notes','tobuy','checklist','list'].includes(type)?type:'notes',content:'',items:[]};
+  state.customTabs.push(tab); state.tabOrder=Array.isArray(state.tabOrder)?state.tabOrder:[]; state.tabOrder.push('custom-'+tab.id); saveState(); closeCustomTabModal(); renderCustomTabs(); renderEdit();
   const tabEl=document.querySelector(`.custom-tab[data-tab="custom-${tab.id}"]`); if(tabEl)tabEl.click();
 }
 function saveCustomTabContent(id,value){ const t=state.customTabs.find(x=>x.id===id); if(!t)return; t.content=value; saveState(); }
+function addCustomItem(tabId){
+  const tab=state.customTabs.find(x=>x.id===tabId); if(!tab)return;
+  const input=document.getElementById('new-item-'+tabId),text=(input&&input.value||'').trim(); if(!text)return;
+  const item={id:uid(),text,done:false,qty:1,price:0};
+  if(tab.type==='tobuy'){
+    const q=document.getElementById('new-qty-'+tabId),p=document.getElementById('new-price-'+tabId);
+    item.qty=Math.max(1,Number(q&&q.value)||1); item.price=Math.max(0,Number(p&&p.value)||0);
+  }
+  tab.items=Array.isArray(tab.items)?tab.items:[]; tab.items.push(item); saveState(); renderCustomTabs(); reopenCustomTab(tabId);
+}
+function updateCustomItem(tabId,itemId,field,value){
+  const tab=state.customTabs.find(x=>x.id===tabId); if(!tab)return; const item=(tab.items||[]).find(x=>x.id===itemId); if(!item)return;
+  if(field==='qty')item.qty=Math.max(1,Number(value)||1); else if(field==='price')item.price=Math.max(0,Number(value)||0); else item.text=String(value||''); saveState(); renderCustomTabs(); reopenCustomTab(tabId);
+}
+function toggleCustomItem(tabId,itemId){ const tab=state.customTabs.find(x=>x.id===tabId); if(!tab)return; const item=(tab.items||[]).find(x=>x.id===itemId); if(!item)return; item.done=!item.done; saveState(); renderCustomTabs(); reopenCustomTab(tabId); }
+function deleteCustomItem(tabId,itemId){ const tab=state.customTabs.find(x=>x.id===tabId); if(!tab)return; tab.items=(tab.items||[]).filter(x=>x.id!==itemId); saveState(); renderCustomTabs(); reopenCustomTab(tabId); }
+function reopenCustomTab(id){ requestAnimationFrame(()=>{ const el=document.querySelector(`.custom-tab[data-tab="custom-${id}"]`); if(el)el.click(); }); }
+function publicCustomTabData(tab){
+  return {name:tab.name,type:tab.type,content:tab.content||'',items:(tab.items||[]).map(it=>({id:it.id,text:it.text,done:!!it.done,qty:Math.max(1,Number(it.qty)||1),price:Math.max(0,Number(it.price)||0)}))};
+}
+function buildShareLink(token){
+  const base=location.origin+location.pathname;
+  const params=new URLSearchParams({shared:token,url:cloudConfig.url||'',key:cloudConfig.key||''});
+  return base+'#'+params.toString();
+}
+async function copyShareLink(link){
+  try{ await navigator.clipboard.writeText(link); alert('Share link copied.'); }
+  catch(e){ prompt('Copy this share link:',link); }
+}
+async function shareCustomTab(id){
+  const tab=state.customTabs.find(x=>x.id===id); if(!tab)return;
+  if(!supabaseClient||!cloudUser){ alert('Log in to Supabase in Settings before sharing a tab.'); return; }
+  if(!cloudConfig.url||!cloudConfig.key){ alert('Save your Supabase connection first.'); return; }
+  try{
+    if(tab.shareToken){
+      const action=(prompt(`"${tab.name}" is already shared (${tab.sharePermission==='edit'?'can edit':'view only'}).\n\nType:\ncopy = copy link\nview = change to view only\nedit = allow editing\nrevoke = stop sharing`,'copy')||'').trim().toLowerCase();
+      if(!action)return;
+      if(action==='copy'){ await copyShareLink(buildShareLink(tab.shareToken)); return; }
+      if(action==='revoke'){
+        if(!confirm('Stop sharing this tab? Existing links will stop working.'))return;
+        const {error}=await supabaseClient.rpc('revoke_shared_tab',{p_token:tab.shareToken}); if(error)throw error;
+        tab.shareToken=null;tab.sharePermission=null;tab.shareUpdatedAt=null;saveState();renderCustomTabs();reopenCustomTab(id);return;
+      }
+      if(action!=='view'&&action!=='edit'){ alert('Use copy, view, edit, or revoke.'); return; }
+      const {data,error}=await supabaseClient.rpc('owner_update_shared_tab',{p_token:tab.shareToken,p_data:publicCustomTabData(tab),p_permission:action}); if(error)throw error;
+      tab.sharePermission=action; if(data&&data.updated_at)tab.shareUpdatedAt=data.updated_at; saveState();renderCustomTabs();reopenCustomTab(id); await copyShareLink(buildShareLink(tab.shareToken)); return;
+    }
+    const permission=(prompt('How should this link work? Type "view" for view-only or "edit" so you can plan together.','edit')||'').trim().toLowerCase();
+    if(permission!=='view'&&permission!=='edit'){ if(permission)alert('Please type view or edit.'); return; }
+    const {data,error}=await supabaseClient.rpc('create_shared_tab',{p_data:publicCustomTabData(tab),p_permission:permission}); if(error)throw error;
+    const result=Array.isArray(data)?data[0]:data;
+    const token=result&&result.share_token?result.share_token:(typeof data==='string'?data:null);
+    if(!token)throw new Error('No share token was returned. Did you run the shared-tabs SQL setup?');
+    tab.shareToken=String(token);tab.sharePermission=permission;tab.shareUpdatedAt=result&&result.updated_at?result.updated_at:null;
+    saveState();renderCustomTabs();reopenCustomTab(id);await copyShareLink(buildShareLink(tab.shareToken));
+  }catch(e){ console.error(e); alert('Could not share this tab: '+(e.message||e)+'\n\nMake sure you ran the shared-tabs SQL setup in Supabase.'); }
+}
+function scheduleSharedTabsPush(){
+  if(!supabaseClient||!cloudUser)return;
+  clearTimeout(sharedPushTimer);
+  sharedPushTimer=setTimeout(()=>{ (state.customTabs||[]).filter(t=>t.shareToken).forEach(t=>pushOwnedSharedTab(t)); },900);
+}
+async function pushOwnedSharedTab(tab){
+  if(!supabaseClient||!cloudUser||!tab||!tab.shareToken)return;
+  try{
+    const {data,error}=await supabaseClient.rpc('owner_update_shared_tab',{p_token:tab.shareToken,p_data:publicCustomTabData(tab),p_permission:tab.sharePermission==='edit'?'edit':'view'});
+    if(error)throw error;
+    const row=Array.isArray(data)?data[0]:data;
+    if(row&&row.updated_at){tab.shareUpdatedAt=row.updated_at;localStorage.setItem(STORAGE_KEY,JSON.stringify(state));}
+  }catch(e){console.warn('shared tab push failed',e);}
+}
+async function pullOwnedSharedTabs(){
+  if(!supabaseClient||!cloudUser||sharedApplying)return;
+  const tabs=(state.customTabs||[]).filter(t=>t.shareToken); if(!tabs.length)return;
+  let changed=false;
+  for(const tab of tabs){
+    try{
+      const {data,error}=await supabaseClient.rpc('get_shared_tab',{p_token:tab.shareToken}); if(error)throw error;
+      const row=Array.isArray(data)?data[0]:data; if(!row||!row.data)continue;
+      if(tab.shareUpdatedAt&&row.updated_at&&new Date(row.updated_at)<=new Date(tab.shareUpdatedAt))continue;
+      const d=row.data;
+      tab.name=String(d.name||tab.name);tab.type=['notes','tobuy','checklist','list'].includes(d.type)?d.type:tab.type;tab.content=String(d.content||'');
+      tab.items=(Array.isArray(d.items)?d.items:[]).map(it=>({id:it.id||uid(),text:String(it.text||''),done:!!it.done,qty:Math.max(1,Number(it.qty)||1),price:Math.max(0,Number(it.price)||0)}));
+      tab.sharePermission=row.permission==='edit'?'edit':'view';tab.shareUpdatedAt=row.updated_at||tab.shareUpdatedAt;changed=true;
+    }catch(e){console.warn('shared tab pull failed',e);}
+  }
+  if(changed){sharedApplying=true;try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state));renderCustomTabs();if(document.getElementById('sec-settings').classList.contains('active'))renderEdit();scheduleCloudPush();}finally{sharedApplying=false;}}
+}
+
+function sharedTypeLabel(type){return customTabTypeLabel(type);}
+function setSharedStatus(text,kind=''){const el=document.getElementById('shared-save-status');if(!el)return;el.textContent=text;el.className='shared-save-status'+(kind?' '+kind:'');}
+function normalizeSharedData(d){return {name:String(d&&d.name||'Shared tab'),type:['notes','tobuy','checklist','list'].includes(d&&d.type)?d.type:'notes',content:String(d&&d.content||''),items:(Array.isArray(d&&d.items)?d.items:[]).map(it=>({id:it.id||uid(),text:String(it.text||''),done:!!it.done,qty:Math.max(1,Number(it.qty)||1),price:Math.max(0,Number(it.price)||0)}))};}
+function renderSharedTab(){
+  if(!sharedTabData)return;
+  document.getElementById('shared-title').textContent=sharedTabData.name;
+  document.getElementById('shared-type').textContent=sharedTypeLabel(sharedTabData.type);
+  document.getElementById('shared-permission').textContent=sharedPermission==='edit'?'shared · can edit':'shared · view only';
+  const edit=sharedPermission==='edit',items=sharedTabData.items||[];
+  let html='';
+  if(sharedTabData.type==='notes'){
+    html=edit?`<textarea class="custom-note" oninput="sharedTabData.content=this.value;scheduleSharedVisitorSave()">${esc(sharedTabData.content||'')}</textarea>`:`<div class="custom-note" style="white-space:pre-wrap;min-height:180px">${esc(sharedTabData.content||'')||'<span class="empty">no notes yet</span>'}</div>`;
+  }else if(sharedTabData.type==='tobuy'){
+    const bought=items.filter(x=>x.done).length,total=items.reduce((s,x)=>s+(Number(x.qty)||1)*(Number(x.price)||0),0);
+    const rows=items.map(it=>`<div class="custom-list-row buy ${it.done?'done':''}">${edit?`<div class="check ${it.done?'done':''}" onclick="sharedToggleItem('${it.id}')"></div>`:`<div class="check ${it.done?'done':''}"></div>`}${edit?`<input class="custom-item-text" value="${escAttr(it.text)}" onchange="sharedUpdateItem('${it.id}','text',this.value)"><input class="buy-qty" type="number" min="1" value="${it.qty}" onchange="sharedUpdateItem('${it.id}','qty',this.value)"><input class="buy-price" type="number" min="0" step="0.01" value="${it.price}" onchange="sharedUpdateItem('${it.id}','price',this.value)"><button class="btn-x" onclick="sharedDeleteItem('${it.id}')">✕</button>`:`<div>${esc(it.text)}</div><div class="custom-price">×${it.qty}</div><div class="custom-price">${money(it.price)}</div><span></span>`}</div>`).join('');
+    html=`<div class="custom-summary"><span class="tag">${bought}/${items.length} bought</span><span class="tag">estimated ${money(total)}</span></div><div class="custom-list">${rows||'<div class="empty">no items yet</div>'}</div>${edit?`<div class="custom-add-row buy"><input class="buy-new-text" id="shared-new-item" placeholder="new item"><input id="shared-new-qty" type="number" min="1" value="1" title="quantity"><input id="shared-new-price" type="number" min="0" step="0.01" placeholder="€ price"><button onclick="sharedAddItem()">add</button></div>`:''}`;
+  }else if(sharedTabData.type==='checklist'){
+    const done=items.filter(x=>x.done).length,pct=items.length?Math.round(done/items.length*100):0;
+    const rows=items.map(it=>`<div class="custom-list-row ${it.done?'done':''}">${edit?`<div class="check ${it.done?'done':''}" onclick="sharedToggleItem('${it.id}')"></div><input class="custom-item-text" value="${escAttr(it.text)}" onchange="sharedUpdateItem('${it.id}','text',this.value)"><button class="btn-x" onclick="sharedDeleteItem('${it.id}')">✕</button>`:`<div class="check ${it.done?'done':''}"></div><div>${esc(it.text)}</div><span></span>`}</div>`).join('');
+    html=`<div class="custom-summary"><span class="tag">${done}/${items.length} done</span><span class="tag">${pct}% complete</span></div><div class="habit-progress-track" style="margin-bottom:12px"><div class="habit-progress-fill" style="width:${pct}%"></div></div><div class="custom-list">${rows||'<div class="empty">no checklist items yet</div>'}</div>${edit?`<div class="custom-add-row"><input id="shared-new-item" placeholder="new checklist item"><button onclick="sharedAddItem()">add</button></div>`:''}`;
+  }else{
+    const rows=items.map(it=>`<div class="custom-list-row"><span class="custom-list-dot">•</span>${edit?`<input class="custom-item-text" value="${escAttr(it.text)}" onchange="sharedUpdateItem('${it.id}','text',this.value)"><button class="btn-x" onclick="sharedDeleteItem('${it.id}')">✕</button>`:`<div>${esc(it.text)}</div><span></span>`}</div>`).join('');
+    html=`<div class="custom-list">${rows||'<div class="empty">no list items yet</div>'}</div>${edit?`<div class="custom-add-row"><input id="shared-new-item" placeholder="new list item"><button onclick="sharedAddItem()">add</button></div>`:''}`;
+  }
+  document.getElementById('shared-content').innerHTML=html;
+}
+function sharedAddItem(){if(sharedPermission!=='edit')return;const input=document.getElementById('shared-new-item'),text=(input&&input.value||'').trim();if(!text)return;const it={id:uid(),text,done:false,qty:1,price:0};if(sharedTabData.type==='tobuy'){it.qty=Math.max(1,Number(document.getElementById('shared-new-qty')?.value)||1);it.price=Math.max(0,Number(document.getElementById('shared-new-price')?.value)||0);}sharedTabData.items.push(it);renderSharedTab();scheduleSharedVisitorSave();}
+function sharedToggleItem(id){if(sharedPermission!=='edit')return;const it=sharedTabData.items.find(x=>x.id===id);if(!it)return;it.done=!it.done;renderSharedTab();scheduleSharedVisitorSave();}
+function sharedUpdateItem(id,field,value){if(sharedPermission!=='edit')return;const it=sharedTabData.items.find(x=>x.id===id);if(!it)return;if(field==='qty')it.qty=Math.max(1,Number(value)||1);else if(field==='price')it.price=Math.max(0,Number(value)||0);else it.text=String(value||'');scheduleSharedVisitorSave();}
+function sharedDeleteItem(id){if(sharedPermission!=='edit')return;sharedTabData.items=sharedTabData.items.filter(x=>x.id!==id);renderSharedTab();scheduleSharedVisitorSave();}
+function scheduleSharedVisitorSave(){if(sharedPermission!=='edit'||!sharedClient||!sharedToken)return;setSharedStatus('saving…');clearTimeout(sharedSaveTimer);sharedSaveTimer=setTimeout(saveSharedVisitorTab,650);}
+async function saveSharedVisitorTab(){try{const {data,error}=await sharedClient.rpc('write_shared_tab',{p_token:sharedToken,p_data:sharedTabData});if(error)throw error;setSharedStatus('saved · everyone with this edit link will see the change','ok');}catch(e){console.warn(e);setSharedStatus('could not save: '+(e.message||e),'err');}}
+async function loadSharedTab(){
+  if(!sharedClient||!sharedToken)return;
+  try{const {data,error}=await sharedClient.rpc('get_shared_tab',{p_token:sharedToken});if(error)throw error;const row=Array.isArray(data)?data[0]:data;if(!row||!row.data)throw new Error('This share link is invalid or has been revoked.');sharedTabData=normalizeSharedData(row.data);sharedPermission=row.permission==='edit'?'edit':'view';renderSharedTab();setSharedStatus(sharedPermission==='edit'?'You can edit this shared tab.':'You can view this shared tab.','ok');}catch(e){document.getElementById('shared-content').innerHTML=`<div class="empty">${esc(e.message||e)}</div>`;setSharedStatus('shared tab unavailable','err');}
+}
+async function initSharedLinkMode(){
+  const p=new URLSearchParams(location.hash.replace(/^#/,''));const token=p.get('shared');if(!token)return false;
+  const url=p.get('url'),key=p.get('key');document.getElementById('dashboard-wrap').style.display='none';document.getElementById('pull-refresh').style.display='none';document.getElementById('shared-shell').classList.add('open');sharedToken=token;
+  if(!url||!key||!window.supabase){document.getElementById('shared-content').innerHTML='<div class="empty">This share link is missing its connection details.</div>';return true;}
+  sharedClient=window.supabase.createClient(url,key,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}});await loadSharedTab();setInterval(()=>{if(!document.hidden)loadSharedTab();},5000);return true;
+}
+
+function renameCustomTabInline(id,value){
+  const t=state.customTabs.find(x=>x.id===id); if(!t)return;
+  const name=String(value||'').trim();
+  if(!name){ renderCustomTabs(); return; }
+  if(t.name===name)return;
+  t.name=name; saveState(); renderCustomTabs(); if(document.getElementById('sec-settings')&&document.getElementById('sec-settings').classList.contains('active'))renderEdit();
+}
 function renameCustomTab(id){
   const t=state.customTabs.find(x=>x.id===id); if(!t)return;
-  const name=(prompt('Rename tab:',t.name)||'').trim(); if(!name)return;
-  t.name=name; saveState(); renderCustomTabs(); renderEdit();
-  const tabEl=document.querySelector(`.custom-tab[data-tab="custom-${id}"]`); if(tabEl)tabEl.click();
+  const name=(prompt('Rename this list/tab (e.g. Mountain Trip / Camping Todo):',t.name)||'').trim(); if(!name)return;
+  t.name=name; saveState(); renderCustomTabs(); renderEdit(); reopenCustomTab(id);
 }
 function deleteCustomTab(id){
   const t=state.customTabs.find(x=>x.id===id); if(!t)return;
@@ -972,11 +1178,14 @@ async function refreshDashboardFromPull(){
 })();
 
 function renderAllData(){renderCustomTabs();renderWeek();renderTasks();renderHabits();renderFinance();if(document.getElementById('sec-settings').classList.contains('active')){renderEdit();renderSyncPanel();}}
-window.addEventListener('focus',()=>{pullCloudIfNewer();});
-document.addEventListener('visibilitychange',()=>{if(!document.hidden)pullCloudIfNewer();});
-cloudPollTimer=setInterval(()=>{if(!document.hidden)pullCloudIfNewer();},30000);
+window.addEventListener('focus',()=>{pullCloudIfNewer();pullOwnedSharedTabs();});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden){pullCloudIfNewer();pullOwnedSharedTabs();}});
+cloudPollTimer=setInterval(()=>{if(!document.hidden){pullCloudIfNewer();pullOwnedSharedTabs();}},10000);
 
-renderCustomTabs();renderWeek();renderTasks();renderHabits();renderFinance();renderSyncPanel();initCloud();
+(async()=>{
+  if(await initSharedLinkMode())return;
+  renderCustomTabs();renderWeek();renderTasks();renderHabits();renderFinance();renderSyncPanel();await initCloud();pullOwnedSharedTabs();
+})();
 </script>
 </body>
 </html>
