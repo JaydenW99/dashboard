@@ -584,6 +584,8 @@ let cloudArmed = localStorage.getItem(CLOUD_ARMED_KEY)==='1';
 let cloudLastRemoteUpdated = null;
 let sharedPushTimer = null;
 let sharedApplying = false;
+let sharedOwnerPollTimer = null;
+let sharedPullInFlight = false;
 let sharedClient = null;
 let sharedToken = null;
 let sharedTabData = null;
@@ -742,6 +744,11 @@ function activateTab(key){
   if(t)t.classList.add('active');
   section.classList.add('active');
   if(key==='settings'){renderEdit();renderSyncPanel();}
+  if(String(key||'').startsWith('custom-')){
+    const id=String(key).slice(7);
+    const tab=(state.customTabs||[]).find(x=>x.id===id);
+    if(tab&&tab.shareToken)pullOwnedSharedTabs();
+  }
 }
 function openTabManager(){
   // Settings can itself be hidden, so this always opens its section directly.
@@ -1698,21 +1705,82 @@ async function pushOwnedSharedTab(tab){
   }catch(e){console.warn('shared tab push failed',e);}
 }
 async function pullOwnedSharedTabs(){
-  if(!supabaseClient||!cloudUser||sharedApplying)return;
-  const tabs=(state.customTabs||[]).filter(t=>t.shareToken); if(!tabs.length)return;
+  if(!supabaseClient||!cloudUser||sharedApplying||sharedPullInFlight)return false;
+  const tabs=(state.customTabs||[]).filter(t=>t.shareToken);
+  if(!tabs.length)return false;
+
+  sharedPullInFlight=true;
   let changed=false;
-  for(const tab of tabs){
-    try{
-      const {data,error}=await supabaseClient.rpc('get_shared_tab',{p_token:tab.shareToken}); if(error)throw error;
-      const row=Array.isArray(data)?data[0]:data; if(!row||!row.data)continue;
-      if(tab.shareUpdatedAt&&row.updated_at&&new Date(row.updated_at)<=new Date(tab.shareUpdatedAt))continue;
-      const d=row.data;
-      tab.name=String(d.name||tab.name);tab.type=['notes','tobuy','checklist','list'].includes(d.type)?d.type:tab.type;tab.content=String(d.content||'');
-      tab.items=(Array.isArray(d.items)?d.items:[]).map(it=>({id:it.id||uid(),text:String(it.text||''),done:!!it.done,qty:Math.max(1,Number(it.qty)||1),price:Math.max(0,Number(it.price)||0)}));
-      tab.sharePermission=row.permission==='edit'?'edit':'view';tab.shareUpdatedAt=row.updated_at||tab.shareUpdatedAt;changed=true;
-    }catch(e){console.warn('shared tab pull failed',e);}
+  try{
+    for(const tab of tabs){
+      // Do not overwrite an edit from this browser while its shared write is still queued.
+      if(sharedTabPushTimers.has(tab.id))continue;
+      try{
+        const {data,error}=await supabaseClient.rpc('get_shared_tab',{p_token:tab.shareToken});
+        if(error)throw error;
+        const row=Array.isArray(data)?data[0]:data;
+        if(!row||!row.data)continue;
+
+        const remote=normalizeSharedData(row.data);
+        const remotePermission=row.permission==='edit'?'edit':'view';
+        const remoteStamp=row.updated_at||null;
+        const localStamp=tab.shareUpdatedAt||null;
+
+        const remoteMs=remoteStamp?Date.parse(remoteStamp):0;
+        const localMs=localStamp?Date.parse(localStamp):0;
+        const sameData=JSON.stringify(publicCustomTabData(tab))===JSON.stringify(remote);
+        const samePermission=tab.sharePermission===remotePermission;
+
+        // Older remote state must never replace a newer local/shared version.
+        if(remoteMs&&localMs&&remoteMs<localMs)continue;
+        // If timestamp, data and permission all match, there is nothing to do.
+        if(remoteMs===localMs&&sameData&&samePermission)continue;
+        // With no newer timestamp, only reconcile when the actual shared content differs.
+        if(remoteMs===localMs&&sameData&&!samePermission){
+          tab.sharePermission=remotePermission;
+          changed=true;
+          continue;
+        }
+
+        tab.name=remote.name;
+        tab.type=remote.type;
+        tab.content=remote.content;
+        tab.items=remote.items;
+        tab.sharePermission=remotePermission;
+        tab.shareUpdatedAt=remoteStamp||tab.shareUpdatedAt;
+        changed=true;
+      }catch(e){
+        console.warn('shared tab pull failed',e);
+      }
+    }
+
+    if(changed){
+      sharedApplying=true;
+      try{
+        localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
+        renderCustomTabs();
+        if(document.getElementById('sec-settings').classList.contains('active'))renderEdit();
+        scheduleCloudPush();
+      }finally{
+        sharedApplying=false;
+      }
+    }
+    return changed;
+  }finally{
+    sharedPullInFlight=false;
   }
-  if(changed){sharedApplying=true;try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state));renderCustomTabs();if(document.getElementById('sec-settings').classList.contains('active'))renderEdit();scheduleCloudPush();}finally{sharedApplying=false;}}
+}
+
+function setupSharedOwnerPolling(){
+  clearInterval(sharedOwnerPollTimer);
+  sharedOwnerPollTimer=null;
+  if(!supabaseClient||!cloudUser)return;
+
+  // Shared tabs are separate from the user's dashboard_state row, so poll them
+  // independently and more frequently. Realtime/cloud sync remains the fallback.
+  sharedOwnerPollTimer=setInterval(()=>{
+    if(!document.hidden)pullOwnedSharedTabs();
+  },2500);
 }
 
 function sharedTypeLabel(type){return customTabTypeLabel(type);}
@@ -2193,12 +2261,13 @@ async function enterAuthenticatedApp(){
   await isolateBrowserForUser(cloudUser);
   await smartInitialSync();
   const autoAddedSharedTab=await addPendingSharedTabAfterAuth();
+  await pullOwnedSharedTabs();
   setupRealtimeSubscription();
   setupCalendarInvitePolling();
+  setupSharedOwnerPolling();
   hideAuthGate();
   renderCustomTabs();applyBuiltinTabSettings();renderWeek();renderCalendarInvites();renderTasks();renderHabits();renderGoals();renderFinance();renderSyncPanel();
   if(autoAddedSharedTab)activateTab(autoAddedSharedTab);
-  pullOwnedSharedTabs();
   appEntered=true;
   return true;
 }
@@ -2326,7 +2395,7 @@ function setupRealtimeSubscription(){
 }
 
 async function clearCloudConnection(){
-  teardownRealtimeSubscription();clearInterval(calendarInvitePollTimer);calendarInvites=[];renderCalendarInvites();
+  teardownRealtimeSubscription();clearInterval(calendarInvitePollTimer);clearInterval(sharedOwnerPollTimer);sharedOwnerPollTimer=null;calendarInvites=[];renderCalendarInvites();
   if(supabaseClient&&cloudUser){ try{await supabaseClient.auth.signOut();}catch(e){} }
   localStorage.removeItem(CLOUD_CONFIG_KEY);localStorage.removeItem(CLOUD_ARMED_KEY);cloudConfig={url:'',key:''};cloudUser=null;cloudArmed=false;supabaseClient=null;renderSyncPanel();
 }
@@ -2375,7 +2444,7 @@ async function loginCloud(){
   catch(e){setSyncStatus('Login failed: '+(e.message||e),'err');}
 }
 async function logoutCloud(){
-  teardownRealtimeSubscription();clearInterval(calendarInvitePollTimer);calendarInvites=[];renderCalendarInvites();
+  teardownRealtimeSubscription();clearInterval(calendarInvitePollTimer);clearInterval(sharedOwnerPollTimer);sharedOwnerPollTimer=null;calendarInvites=[];renderCalendarInvites();
   if(supabaseClient){try{await supabaseClient.auth.signOut();}catch(e){}}
   cloudUser=null;cloudArmed=false;localStorage.removeItem(CLOUD_ARMED_KEY);renderSyncPanel();showAuthGate('Logged out.','ok');
 }
@@ -2485,9 +2554,15 @@ async function refreshDashboardFromPull(){
 })();
 
 function renderAllData(){renderCustomTabs();applyBuiltinTabSettings();renderWeek();renderCalendarInvites();renderTasks();renderHabits();renderGoals();renderFinance();if(document.getElementById('sec-settings').classList.contains('active')){renderEdit();renderSyncPanel();}}
-window.addEventListener('focus',()=>{pullCloudIfNewer();pullOwnedSharedTabs();loadCalendarInvites();});
-document.addEventListener('visibilitychange',()=>{if(!document.hidden){pullCloudIfNewer();pullOwnedSharedTabs();loadCalendarInvites();}});
-cloudPollTimer=setInterval(()=>{if(!document.hidden){pullCloudIfNewer();pullOwnedSharedTabs();loadCalendarInvites();}},10000);
+async function refreshRemoteDashboardData(){
+  if(document.hidden)return;
+  await pullCloudIfNewer();
+  await pullOwnedSharedTabs();
+  loadCalendarInvites();
+}
+window.addEventListener('focus',()=>{refreshRemoteDashboardData();});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshRemoteDashboardData();});
+cloudPollTimer=setInterval(()=>{if(!document.hidden)pullCloudIfNewer();},10000);
 
 (async()=>{
   if(await initSharedLinkMode())return;
