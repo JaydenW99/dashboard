@@ -21,7 +21,7 @@
   .clock{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text-dim);text-align:right}
   .tabs{display:flex;gap:2px;margin-bottom:22px;border:1px solid var(--line);border-radius:6px;overflow:hidden;width:fit-content;max-width:100%}
   .tab{font-family:'JetBrains Mono',monospace;font-size:12px;padding:9px 16px;cursor:pointer;color:var(--text-dim);background:var(--panel-2);user-select:none;border-right:1px solid var(--line);white-space:nowrap}.tab:last-child{border-right:none}.tab:hover{color:var(--text)}.tab.active{background:var(--panel);color:var(--amber)}.tab .n{color:var(--text-faint);margin-right:6px}.tab.active .n{color:var(--amber-dim)}
-  .tab[data-tab]{cursor:grab;touch-action:none}.tab[data-tab]:active{cursor:grabbing}.tab.dragging{opacity:.55;outline:1px dashed var(--teal);outline-offset:-2px;z-index:3}.tab.drag-over{background:rgba(94,234,212,.08)}
+  .tab[data-tab]{position:relative}.tab-handle{display:inline-block;margin-right:6px;color:var(--text-faint);cursor:grab;touch-action:none;user-select:none;font-size:11px;letter-spacing:-2px;vertical-align:1px}.tab-handle:active{cursor:grabbing}.tab.dragging{opacity:.55;outline:1px dashed var(--teal);outline-offset:-2px;z-index:3}.tab.drag-over{background:rgba(94,234,212,.08)}
   .section{display:none}.section.active{display:block}
   .card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:18px 20px;margin-bottom:16px}
   .card-head{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:14px;flex-wrap:wrap}
@@ -77,11 +77,11 @@
   </div>
 
   <div class="tabs" id="tabs">
-    <div class="tab active" data-tab="week"><span class="n">01</span>weekly</div>
-    <div class="tab" data-tab="tasks"><span class="n">02</span>daily</div>
-    <div class="tab" data-tab="habits"><span class="n">03</span>habits</div>
-    <div class="tab" data-tab="finance"><span class="n">04</span>finances</div>
-    <div class="tab" data-tab="settings"><span class="n">05</span>settings</div>
+    <div class="tab active" data-tab="week"><span class="tab-handle" title="Drag to reorder">⋮⋮</span><span class="n">01</span>weekly</div>
+    <div class="tab" data-tab="tasks"><span class="tab-handle" title="Drag to reorder">⋮⋮</span><span class="n">02</span>daily</div>
+    <div class="tab" data-tab="habits"><span class="tab-handle" title="Drag to reorder">⋮⋮</span><span class="n">03</span>habits</div>
+    <div class="tab" data-tab="finance"><span class="tab-handle" title="Drag to reorder">⋮⋮</span><span class="n">04</span>finances</div>
+    <div class="tab" data-tab="settings"><span class="tab-handle" title="Drag to reorder">⋮⋮</span><span class="n">05</span>settings</div>
     <div class="tab add-tab" id="add-tab" data-action="add-tab">＋ tab</div>
   </div>
 
@@ -226,7 +226,7 @@
       <div class="card-head">
         <div class="card-title"><span class="prompt">$</span> edit dashboard data</div>
       </div>
-      <div class="edit-note">Change existing weekly plans, daily plans, habits, or finance transactions here. Unticked weekly and daily plans carry forward automatically until completed; habit streaks are based on the days you tick. Press and drag any tab at the top to reorder it; the order is saved automatically.</div>
+      <div class="edit-note">Change existing weekly plans, daily plans, habits, or finance transactions here. Unticked weekly and daily plans carry forward automatically until completed; habit streaks are based on the days you tick. Drag the ⋮⋮ handle beside a tab to reorder it; the order is saved automatically.</div>
 
       <div class="edit-group">
         <div class="subhead">weekly planner items</div>
@@ -428,29 +428,28 @@ function renderTabOrder(){
   let dragged=null,startX=0,startY=0,isDragging=false,pointerId=null;
 
   tabs.addEventListener('pointerdown',e=>{
-    const tab=e.target.closest('.tab[data-tab]');
+    const handle=e.target.closest('.tab-handle');
+    const tab=handle&&handle.closest('.tab[data-tab]');
     if(!tab || (e.button!==undefined&&e.button!==0))return;
     dragged=tab; startX=e.clientX; startY=e.clientY; isDragging=false; pointerId=e.pointerId;
-    try{tab.setPointerCapture(pointerId);}catch(_){}
+    try{handle.setPointerCapture(pointerId);}catch(_){}
   });
 
   tabs.addEventListener('pointermove',e=>{
     if(!dragged || e.pointerId!==pointerId)return;
     const dx=e.clientX-startX,dy=e.clientY-startY;
-    if(!isDragging && Math.hypot(dx,dy)<8)return;
+    if(!isDragging && Math.hypot(dx,dy)<7)return;
     if(!isDragging){ isDragging=true; dragged.classList.add('dragging'); }
     e.preventDefault();
-
     document.querySelectorAll('#tabs .tab.drag-over').forEach(x=>x.classList.remove('drag-over'));
     let target=document.elementFromPoint(e.clientX,e.clientY);
     target=target&&target.closest?target.closest('#tabs .tab[data-tab]'):null;
     if(!target || target===dragged)return;
     target.classList.add('drag-over');
-
     const reorderable=[...tabs.querySelectorAll('.tab[data-tab]')];
     const from=reorderable.indexOf(dragged),to=reorderable.indexOf(target);
     if(from<0||to<0)return;
-    if(from<to)tabs.insertBefore(dragged,target.nextSibling);
+    if(from<to)tabs.insertBefore(dragged,target.nextElementSibling || document.getElementById('add-tab'));
     else tabs.insertBefore(dragged,target);
   },{passive:false});
 
@@ -461,13 +460,13 @@ function renderTabOrder(){
       dragged.classList.remove('dragging');
       suppressTabClick=true;
       saveTabOrderFromDom();
-      setTimeout(()=>{suppressTabClick=false;},0);
+      setTimeout(()=>{suppressTabClick=false;},50);
     }
     dragged=null;pointerId=null;isDragging=false;
   }
   tabs.addEventListener('pointerup',finish);
   tabs.addEventListener('pointercancel',finish);
-})();
+})();;
 
 function shiftWeek(n){ weekStart=addDays(weekStart,n*7); renderWeek(); }
 function goCurrentWeek(){ weekStart=startOfWeek(new Date()); renderWeek(); }
@@ -648,7 +647,7 @@ function renderCustomTabs(){
     const el=document.createElement('div');
     el.className='tab custom-tab';
     el.dataset.tab='custom-'+tab.id;
-    el.innerHTML=`<span class="n">${String(i+6).padStart(2,'0')}</span>${esc(tab.name)}`;
+    el.innerHTML=`<span class="tab-handle" title="Drag to reorder">⋮⋮</span><span class="n">${String(i+6).padStart(2,'0')}</span>${esc(tab.name)}`;
     addBtn.parentNode.insertBefore(el,addBtn);
   });
 
