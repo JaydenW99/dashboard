@@ -766,6 +766,14 @@ function customTabBody(tab){
   return `<div class="custom-list">${rows||'<div class="empty">no list items yet</div>'}</div><div class="custom-add-row"><input type="text" id="new-item-${tab.id}" placeholder="new list item"><button onclick="addCustomItem('${tab.id}')">add</button></div>`;
 }
 function renderCustomTabs(){
+  // Remember the currently open custom tab before rebuilding the custom-tab DOM.
+  // Without this, incoming sync updates recreate the section and make it look closed.
+  const activeTab=document.querySelector('#tabs .tab.active');
+  const activeSection=document.querySelector('.custom-section.active');
+  let activeCustomKey=null;
+  if(activeTab&&String(activeTab.dataset.tab||'').startsWith('custom-'))activeCustomKey=activeTab.dataset.tab;
+  else if(activeSection&&String(activeSection.id||'').startsWith('sec-custom-'))activeCustomKey=activeSection.id.replace(/^sec-/,'');
+
   document.querySelectorAll('.custom-tab').forEach(x=>x.remove());
   const addBtn=document.getElementById('add-tab');
   state.customTabs.forEach((tab,i)=>{
@@ -787,6 +795,18 @@ function renderCustomTabs(){
       <div class="edit-note" style="margin-top:10px">Saved automatically${cloudArmed&&cloudUser?' and synced to your account':' in this browser'}. Tap the title above to rename this list anytime.${tab.shareToken?' Shared-tab changes are also synced with people who have your link.':''}</div>
     </div>
   </section>`).join('');
+
+  // Restore the same custom tab immediately after rebuilding it.
+  if(activeCustomKey){
+    const restoredTab=document.querySelector(`#tabs .tab[data-tab="${activeCustomKey}"]`);
+    const restoredSection=document.getElementById('sec-'+activeCustomKey);
+    if(restoredTab&&restoredSection){
+      document.querySelectorAll('#tabs .tab').forEach(x=>x.classList.remove('active'));
+      document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));
+      restoredTab.classList.add('active');
+      restoredSection.classList.add('active');
+    }
+  }
 }
 let selectedCustomTabTemplate=null;
 function addCustomTab(){
