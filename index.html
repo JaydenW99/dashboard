@@ -103,6 +103,26 @@
   .share-modal-backdrop{position:fixed;inset:0;background:rgba(3,7,12,.78);display:none;align-items:center;justify-content:center;padding:18px;z-index:1100;overflow-y:auto}.share-modal-backdrop.open{display:flex}.share-modal{width:min(480px,100%);background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px;box-shadow:0 20px 70px rgba(0,0,0,.45);max-height:calc(100dvh - 36px);overflow-y:auto}.share-modal-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:8px}.share-tab-name{font-size:13px;color:var(--text);margin:8px 0 14px}.share-permission-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.share-permission-option{display:block;text-align:left;border:1px solid var(--line);background:var(--panel-2);color:var(--text);padding:14px;border-radius:7px;cursor:pointer}.share-permission-option.selected{border-color:var(--teal);background:rgba(94,234,212,.08)}.share-permission-option b{display:block;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--teal);margin-bottom:4px}.share-permission-option span{display:block;color:var(--text-dim);font-size:11px;line-height:1.45}.share-modal-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.share-modal-actions button{flex:1 1 120px}.share-danger{border-color:#60343a;color:var(--red)}.share-danger:hover{background:rgba(255,107,107,.07)}.share-status-line{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-dim);margin-top:12px;min-height:15px}.share-status-line.ok{color:var(--teal)}.share-status-line.err{color:var(--red)}
   .shared-shell{display:none;max-width:760px;margin:0 auto;padding:28px 20px 60px}.shared-shell.open{display:block}.shared-head{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:18px}.shared-brand{font-family:'JetBrains Mono',monospace;color:var(--amber);font-size:13px}.shared-permission{font-family:'JetBrains Mono',monospace;font-size:10px;border:1px solid var(--line);border-radius:999px;padding:5px 9px;color:var(--text-dim)}.shared-save-status{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-faint);margin-top:10px}.shared-save-status.ok{color:var(--teal)}.shared-save-status.err{color:var(--red)}.shared-account-box{margin-top:14px;padding:12px;border:1px solid var(--line-soft);background:var(--panel-2);border-radius:7px}.shared-account-title{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--teal);margin-bottom:6px}.shared-account-text{font-size:11px;color:var(--text-dim);line-height:1.5}.shared-account-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.shared-account-actions button{flex:1 1 150px}.joined-badge{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--teal);border:1px solid var(--teal-dim);border-radius:999px;padding:3px 7px;margin-left:6px;white-space:nowrap}.readonly-note{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-dim);margin-top:10px}
   @media(max-width:900px){.edit-row,.edit-row.task-edit,.edit-row.tx-edit{grid-template-columns:1fr 1fr}.edit-row .wide{grid-column:1/-1}.edit-actions{grid-column:1/-1}}
+  /* AUTH / REGISTRATION GATE */
+  .auth-gate{display:none;min-height:100dvh;align-items:center;justify-content:center;padding:24px}
+  .auth-gate.open{display:flex}
+  .auth-card{width:min(460px,100%);background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:24px;box-shadow:0 24px 80px rgba(0,0,0,.42)}
+  .auth-brand{font-family:'JetBrains Mono',monospace;font-size:15px;color:var(--amber);margin-bottom:6px}
+  .auth-subtitle{font-size:12px;color:var(--text-dim);line-height:1.6;margin-bottom:18px}
+  .auth-switch{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:7px;overflow:hidden;margin-bottom:16px}
+  .auth-switch button{border:0;border-radius:0;background:var(--panel-2);color:var(--text-dim);padding:10px}
+  .auth-switch button.active{background:rgba(94,234,212,.08);color:var(--teal)}
+  .auth-fields{display:flex;flex-direction:column;gap:10px}
+  .auth-field{display:flex;flex-direction:column;gap:5px}
+  .auth-field label{font-family:'JetBrains Mono',monospace;font-size:9px;text-transform:uppercase;color:var(--text-dim)}
+  .auth-field input{width:100%}
+  .auth-main-btn{width:100%;margin-top:4px;padding:10px}
+  .auth-status{font-family:'JetBrains Mono',monospace;font-size:10px;line-height:1.55;color:var(--text-dim);margin-top:12px;min-height:16px}
+  .auth-status.ok{color:var(--teal)}.auth-status.err{color:var(--red)}.auth-status.warn{color:var(--amber)}
+  .auth-setup{display:none;margin-top:16px;padding:12px;border:1px solid var(--amber-dim);background:rgba(255,190,80,.04);border-radius:7px;font-size:11px;color:var(--text-dim);line-height:1.6}
+  .auth-setup.open{display:block}
+  .auth-setup code{font-family:'JetBrains Mono',monospace;color:var(--amber);font-size:10px}
+  .auth-note{font-size:10px;color:var(--text-faint);line-height:1.55;margin-top:14px}
   .empty{color:var(--text-faint);font-size:12px;font-style:italic;padding:8px 0}.footer-note{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-faint);margin-top:24px;text-align:center}
   @media(max-width:760px){.sync-grid{grid-template-columns:1fr}body{padding:18px 12px 40px}.tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%;overflow:visible;gap:0}.tab{width:100%;text-align:center;padding:10px 6px;white-space:normal;border-right:1px solid var(--line);border-bottom:1px solid var(--line);font-size:11px}.tab .n{display:none}.stat-row{grid-template-columns:1fr}.finance-cols{grid-template-columns:1fr}.card{padding:15px}.week-grid{grid-template-columns:repeat(7,160px)}.task{grid-template-columns:auto 1fr auto}.task .tag{display:none}.tx{grid-template-columns:72px 1fr auto}.tx .tx-cat{display:none}.habit-month-layout{grid-template-columns:1fr}.month-activity-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.goal-grid{grid-template-columns:1fr}.goal-actions input{flex:1 1 100px;width:auto}.invite-row{grid-template-columns:1fr}.invite-actions{width:100%}.invite-actions button{flex:1}.tab-manager-row{grid-template-columns:1fr}.tab-manager-actions{width:100%}.tab-manager-actions button{flex:1}.invite-modal-backdrop{align-items:flex-end;padding:0}.invite-modal{width:100%;border-radius:14px 14px 0 0;padding:16px 14px max(16px,env(safe-area-inset-bottom))}.template-modal-backdrop{align-items:flex-start;padding:12px}.template-modal{margin-top:max(8px,env(safe-area-inset-top));max-height:calc(100dvh - 24px);padding:15px}.template-grid{grid-template-columns:1fr}.template-option{min-height:72px}.template-create-row{position:sticky;bottom:-15px;background:var(--panel);padding:10px 0 3px}}
   @media(max-width:420px){.tabs{grid-template-columns:repeat(2,minmax(0,1fr))}.template-grid{grid-template-columns:1fr}.custom-list-row{grid-template-columns:auto minmax(0,1fr) auto}.custom-list-row.buy{grid-template-columns:auto minmax(0,1fr) auto;align-items:start}.custom-list-row.buy .custom-item-text{grid-column:2}.custom-list-row.buy .buy-field{grid-column:2}.custom-list-row.buy .btn-x{grid-column:3;grid-row:1}.custom-add-row.buy{grid-template-columns:1fr 1fr}.custom-add-row.buy .buy-new-text{grid-column:1/-1}.custom-add-row.buy .buy-field{min-width:0}.custom-add-row.buy button{grid-column:1/-1}.buy-view-name{grid-column:2}.buy-view-meta{grid-column:2}.custom-title-edit{min-width:0;max-width:190px}.share-modal-backdrop{align-items:flex-end;padding:0}.share-modal{width:100%;max-height:88dvh;border-radius:14px 14px 0 0;padding:16px 14px max(16px,env(safe-area-inset-bottom))}.share-permission-grid{grid-template-columns:1fr}.share-icon-btn{width:40px;height:38px}}
@@ -110,6 +130,39 @@
 </style>
 </head>
 <body>
+<div class="auth-gate" id="auth-gate">
+  <div class="auth-card">
+    <div class="auth-brand">~/dashboard</div>
+    <div class="auth-subtitle" id="auth-subtitle">Create an account to start your personal dashboard. Your planner, habits, goals and shared items stay connected to your account.</div>
+
+    <div class="auth-switch">
+      <button id="auth-mode-register" class="active" onclick="setAuthMode('register')">create account</button>
+      <button id="auth-mode-login" onclick="setAuthMode('login')">log in</button>
+    </div>
+
+    <div class="auth-fields">
+      <div class="auth-field">
+        <label for="auth-email">email</label>
+        <input type="email" id="auth-email" autocomplete="email" placeholder="you@example.com">
+      </div>
+      <div class="auth-field">
+        <label for="auth-password">password</label>
+        <input type="password" id="auth-password" autocomplete="new-password" placeholder="minimum 6 characters" onkeydown="if(event.key==='Enter'&&authGateMode==='login'){event.preventDefault();submitAuthGate()}">
+      </div>
+      <div class="auth-field" id="auth-confirm-wrap">
+        <label for="auth-confirm">confirm password</label>
+        <input type="password" id="auth-confirm" autocomplete="new-password" placeholder="repeat password" onkeydown="if(event.key==='Enter'){event.preventDefault();submitAuthGate()}">
+      </div>
+      <button class="auth-main-btn" id="auth-submit-btn" onclick="submitAuthGate()">create account</button>
+    </div>
+
+    <div class="auth-status" id="auth-status"></div>
+    <div class="auth-setup" id="auth-setup">
+      This website does not have its app-wide Supabase connection embedded yet. The owner must put the browser-safe Project URL and publishable/anon key into <code>APP_SUPABASE_URL</code> and <code>APP_SUPABASE_KEY</code> in <code>index.html</code> once.
+    </div>
+    <div class="auth-note">Already invited to a shared tab? Shared links still open directly without requiring an account.</div>
+  </div>
+</div>
 <div class="pull-refresh" id="pull-refresh" aria-live="polite">↓ pull to refresh</div>
 <div class="shared-shell" id="shared-shell">
   <div class="shared-head">
@@ -131,7 +184,7 @@
     </div>
   </div>
 </div>
-<div class="wrap" id="dashboard-wrap">
+<div class="wrap" id="dashboard-wrap" style="display:none">
   <div class="topbar">
     <div class="brand">~/dashboard<span class="cursor"></span></div>
     <div class="topbar-right">
@@ -492,6 +545,20 @@ const STORAGE_KEY = 'dashboard-state-v2';
 const LEGACY_KEY = 'dashboard-state';
 const CLOUD_CONFIG_KEY = 'dashboard-cloud-config-v1';
 const CLOUD_ARMED_KEY = 'dashboard-cloud-armed-v1';
+const AUTH_USER_KEY = 'dashboard-last-auth-user-v1';
+
+/*
+  PUBLIC APP CONNECTION
+  ---------------------
+  Paste your browser-safe Supabase values here ONCE before publishing:
+  const APP_SUPABASE_URL = 'https://xxxxx.supabase.co';
+  const APP_SUPABASE_KEY = 'sb_publishable_xxxxx';  // or legacy anon key
+
+  These two values are designed to be used in browser apps.
+  NEVER put a service_role key here.
+*/
+const APP_SUPABASE_URL = '';
+const APP_SUPABASE_KEY = '';
 const DAY_NAMES = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
 const BUILTIN_TAB_KEYS = ['week','tasks','habits','goals','finance','settings'];
 const DEFAULT_TAB_NAMES = {week:'weekly',tasks:'daily',habits:'habits',goals:'goals',finance:'finances',settings:'settings'};
@@ -528,6 +595,8 @@ let activeCalendarInviteEventId = null;
 let calendarInvites = [];
 let calendarInvitePollTimer = null;
 let calendarInviteRpcAvailable = true;
+let authGateMode = 'register';
+let appEntered = false;
 
 function defaultState(){ return {events:[],tasks:[],habits:[],goals:[],transactions:[],customTabs:[],tabOrder:[...BUILTIN_TAB_KEYS],tabNames:{...DEFAULT_TAB_NAMES},hiddenTabs:[]}; }
 function loadState(){
@@ -1813,7 +1882,7 @@ async function addSharedTabToMyDashboard(){
 }
 async function initSharedLinkMode(){
   const p=new URLSearchParams(location.hash.replace(/^#/,''));const token=p.get('shared');if(!token)return false;
-  const url=p.get('url'),key=p.get('key');document.getElementById('dashboard-wrap').style.display='none';document.getElementById('pull-refresh').style.display='none';document.getElementById('shared-shell').classList.add('open');sharedToken=token;sharedLinkUrl=url||'';sharedLinkKey=key||'';
+  const url=p.get('url'),key=p.get('key');document.getElementById('auth-gate').classList.remove('open');document.getElementById('dashboard-wrap').style.display='none';document.getElementById('pull-refresh').style.display='none';document.getElementById('shared-shell').classList.add('open');sharedToken=token;sharedLinkUrl=url||'';sharedLinkKey=key||'';
   if(!url||!key||!window.supabase){document.getElementById('shared-content').innerHTML='<div class="empty">This share link is missing its connection details.</div>';return true;}
   sharedClient=window.supabase.createClient(url,key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
   try{const {data:{session}}=await sharedClient.auth.getSession();sharedAccountUser=session&&session.user?session.user:null;}catch(e){sharedAccountUser=null;}
@@ -1949,10 +2018,117 @@ function downloadBackup(){const blob=new Blob([JSON.stringify(state,null,2)],{ty
 function importBackup(event){const file=event.target.files&&event.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const parsed=normalizeState(JSON.parse(reader.result));state=parsed;saveState();renderWeek();renderTasks();renderHabits();renderGoals();renderFinance();renderCustomTabs();applyBuiltinTabSettings();renderEdit();alert('Backup imported.');}catch(e){alert('Could not import this backup file.');}event.target.value='';};reader.readAsText(file);}
 
 
+/* ---------- AUTH / REGISTRATION GATE ---------- */
+function setAuthGateStatus(text,kind=''){
+  const el=document.getElementById('auth-status');if(!el)return;
+  el.textContent=text||'';el.className='auth-status'+(kind?' '+kind:'');
+}
+function setAuthMode(mode){
+  authGateMode=mode==='login'?'login':'register';
+  const reg=document.getElementById('auth-mode-register'),login=document.getElementById('auth-mode-login');
+  const confirmWrap=document.getElementById('auth-confirm-wrap'),btn=document.getElementById('auth-submit-btn');
+  if(reg)reg.classList.toggle('active',authGateMode==='register');
+  if(login)login.classList.toggle('active',authGateMode==='login');
+  if(confirmWrap)confirmWrap.style.display=authGateMode==='register'?'flex':'none';
+  if(btn)btn.textContent=authGateMode==='register'?'create account':'log in';
+  const pass=document.getElementById('auth-password');
+  if(pass)pass.autocomplete=authGateMode==='register'?'new-password':'current-password';
+  setAuthGateStatus('');
+}
+function showAuthGate(message='',kind=''){
+  appEntered=false;
+  const gate=document.getElementById('auth-gate'),dash=document.getElementById('dashboard-wrap'),pull=document.getElementById('pull-refresh');
+  if(gate)gate.classList.add('open');
+  if(dash)dash.style.display='none';
+  if(pull)pull.style.display='none';
+  if(message)setAuthGateStatus(message,kind);
+  const setup=document.getElementById('auth-setup');
+  if(setup)setup.classList.toggle('open',!(cloudConfig&&cloudConfig.url&&cloudConfig.key));
+}
+function hideAuthGate(){
+  const gate=document.getElementById('auth-gate'),dash=document.getElementById('dashboard-wrap'),pull=document.getElementById('pull-refresh');
+  if(gate)gate.classList.remove('open');
+  if(dash)dash.style.display='';
+  if(pull)pull.style.display='';
+}
+async function isolateBrowserForUser(user){
+  if(!user)return;
+  const previous=localStorage.getItem(AUTH_USER_KEY);
+  if(previous&&previous!==user.id){
+    // Prevent another account on the same browser from seeing the previous account's local dashboard.
+    state=defaultState();
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
+    cloudArmed=false;
+    localStorage.removeItem(CLOUD_ARMED_KEY);
+  }
+  localStorage.setItem(AUTH_USER_KEY,user.id);
+}
+async function enterAuthenticatedApp(){
+  if(!cloudUser||!supabaseClient)return false;
+  await isolateBrowserForUser(cloudUser);
+  await smartInitialSync();
+  setupRealtimeSubscription();
+  setupCalendarInvitePolling();
+  hideAuthGate();
+  renderCustomTabs();applyBuiltinTabSettings();renderWeek();renderCalendarInvites();renderTasks();renderHabits();renderGoals();renderFinance();renderSyncPanel();
+  pullOwnedSharedTabs();
+  appEntered=true;
+  return true;
+}
+async function submitAuthGate(){
+  if(!cloudConfig.url||!cloudConfig.key||!supabaseClient){
+    showAuthGate('The website owner still needs to configure the app connection.','err');
+    return;
+  }
+  const email=(document.getElementById('auth-email')?.value||'').trim();
+  const password=document.getElementById('auth-password')?.value||'';
+  if(!email||password.length<6){
+    setAuthGateStatus('Enter a valid email and a password of at least 6 characters.','err');return;
+  }
+  try{
+    if(authGateMode==='register'){
+      const confirm=document.getElementById('auth-confirm')?.value||'';
+      if(password!==confirm){setAuthGateStatus('The two passwords do not match.','err');return;}
+      setAuthGateStatus('Creating account…','warn');
+      const {data,error}=await supabaseClient.auth.signUp({
+        email,password,
+        options:{emailRedirectTo:location.origin+location.pathname}
+      });
+      if(error)throw error;
+      if(data.session&&data.user){
+        cloudUser=data.user;
+        setAuthGateStatus('Account created. Opening your dashboard…','ok');
+        await enterAuthenticatedApp();
+      }else{
+        setAuthGateStatus('Account created. Check your email and confirm the account, then come back and log in.','ok');
+        setAuthMode('login');
+      }
+    }else{
+      setAuthGateStatus('Logging in…','warn');
+      const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});
+      if(error)throw error;
+      cloudUser=data.user;
+      setAuthGateStatus('Logged in. Opening your dashboard…','ok');
+      await enterAuthenticatedApp();
+    }
+  }catch(e){
+    setAuthGateStatus((authGateMode==='register'?'Could not create account: ':'Login failed: ')+(e.message||e),'err');
+  }
+}
+
 /* ---------- CLOUD SYNC ---------- */
 function loadCloudConfig(){
-  try{ const raw=localStorage.getItem(CLOUD_CONFIG_KEY); return raw?JSON.parse(raw):{url:'',key:''}; }
-  catch(e){ return {url:'',key:''}; }
+  try{
+    const raw=localStorage.getItem(CLOUD_CONFIG_KEY);
+    if(raw){
+      const saved=JSON.parse(raw);
+      if(saved&&saved.url&&saved.key)return saved;
+    }
+    if(APP_SUPABASE_URL&&APP_SUPABASE_KEY)return {url:APP_SUPABASE_URL,key:APP_SUPABASE_KEY};
+    return {url:'',key:''};
+  }catch(e){
+    return APP_SUPABASE_URL&&APP_SUPABASE_KEY?{url:APP_SUPABASE_URL,key:APP_SUPABASE_KEY}:{url:'',key:''};
+  }
 }
 function stateHasData(s=state){ return !!((s.events&&s.events.length)||(s.tasks&&s.tasks.length)||(s.habits&&s.habits.length)||(s.goals&&s.goals.length)||(s.transactions&&s.transactions.length)||(s.customTabs&&s.customTabs.length)); }
 function updateFooter(){
@@ -1976,7 +2152,8 @@ function saveCloudConnection(){
   const key=document.getElementById('sb-key').value.trim();
   if(!url||!key){ setSyncStatus('Enter both the Supabase project URL and publishable key.','err'); return; }
   cloudConfig={url,key}; localStorage.setItem(CLOUD_CONFIG_KEY,JSON.stringify(cloudConfig));
-  cloudArmed=false; localStorage.removeItem(CLOUD_ARMED_KEY); initCloud(true);
+  cloudArmed=false; localStorage.removeItem(CLOUD_ARMED_KEY);
+  initCloud(true).then(()=>{if(!cloudUser)showAuthGate('Connection saved. You can now create an account or log in.','ok');});
 }
 function teardownRealtimeSubscription(){
   if(cloudRealtimeChannel&&supabaseClient){
@@ -2017,26 +2194,31 @@ async function clearCloudConnection(){
   localStorage.removeItem(CLOUD_CONFIG_KEY);localStorage.removeItem(CLOUD_ARMED_KEY);cloudConfig={url:'',key:''};cloudUser=null;cloudArmed=false;supabaseClient=null;renderSyncPanel();
 }
 async function initCloud(showMessage=false){
-  if(!cloudConfig.url||!cloudConfig.key){ renderSyncPanel(); return; }
+  cloudConfig=loadCloudConfig();
+  if(!cloudConfig.url||!cloudConfig.key){ renderSyncPanel(); return false; }
   if(!window.supabase){
     renderSyncPanel();
     setSyncStatus('Supabase library could not load. Reload the page and check that cdn.jsdelivr.net is not blocked.','err');
-    return;
+    return false;
   }
   try{
     supabaseClient=window.supabase.createClient(cloudConfig.url,cloudConfig.key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
     const {data:{session},error}=await supabaseClient.auth.getSession(); if(error)throw error;
     cloudUser=session&&session.user?session.user:null;
-    // IMPORTANT: keep this callback synchronous. Supabase documents a deadlock risk
-    // when another async Supabase API call is started inside onAuthStateChange.
-    supabaseClient.auth.onAuthStateChange((_event,sessionNow)=>{
+    supabaseClient.auth.onAuthStateChange((event,sessionNow)=>{
       cloudUser=sessionNow&&sessionNow.user?sessionNow.user:null;
-      if(!cloudUser){cloudArmed=false;localStorage.removeItem(CLOUD_ARMED_KEY);}
+      if(!cloudUser){
+        cloudArmed=false;localStorage.removeItem(CLOUD_ARMED_KEY);
+        if(event==='SIGNED_OUT')setTimeout(()=>showAuthGate('You have been logged out.','ok'),0);
+      }
       renderSyncPanel();
     });
-    // Any database sync happens outside the auth callback.
-    renderSyncPanel(); if(cloudUser){await smartInitialSync();setupRealtimeSubscription();setupCalendarInvitePolling();} else if(showMessage)setSyncStatus('Connection saved. Log in or create an account.','ok');
-  }catch(e){ console.error(e); setSyncStatus('Could not connect: '+(e.message||e),'err'); }
+    renderSyncPanel();
+    if(!cloudUser&&showMessage)setSyncStatus('Connection saved. Log in or create an account.','ok');
+    return true;
+  }catch(e){
+    console.error(e);setSyncStatus('Could not connect: '+(e.message||e),'err');return false;
+  }
 }
 function getLoginValues(){ return {email:document.getElementById('sync-email').value.trim(),password:document.getElementById('sync-password').value}; }
 async function registerCloud(){
@@ -2045,20 +2227,20 @@ async function registerCloud(){
   try{
     setSyncStatus('Creating account…','warn');
     const {data,error}=await supabaseClient.auth.signUp({email,password,options:{emailRedirectTo:location.origin+location.pathname}}); if(error)throw error;
-    if(data.session){cloudUser=data.user;setSyncStatus('Account created and logged in.','ok');await smartInitialSync();setupRealtimeSubscription();setupCalendarInvitePolling();}
+    if(data.session){cloudUser=data.user;setSyncStatus('Account created and logged in.','ok');await enterAuthenticatedApp();}
     else setSyncStatus('Account created. Check your email to confirm it, then come back and log in.','ok');
   }catch(e){setSyncStatus('Sign-up failed: '+(e.message||e),'err');}
 }
 async function loginCloud(){
   if(!supabaseClient){setSyncStatus('Save your Supabase connection first.','err');return;}
   const {email,password}=getLoginValues(); if(!email||!password){setSyncStatus('Enter your email and password.','err');return;}
-  try{ setSyncStatus('Logging in…','warn'); const {data,error}=await supabaseClient.auth.signInWithPassword({email,password}); if(error)throw error; cloudUser=data.user; renderSyncPanel(); await smartInitialSync(); setupRealtimeSubscription(); setupCalendarInvitePolling(); }
+  try{ setSyncStatus('Logging in…','warn'); const {data,error}=await supabaseClient.auth.signInWithPassword({email,password}); if(error)throw error; cloudUser=data.user; renderSyncPanel(); await enterAuthenticatedApp(); }
   catch(e){setSyncStatus('Login failed: '+(e.message||e),'err');}
 }
 async function logoutCloud(){
   teardownRealtimeSubscription();clearInterval(calendarInvitePollTimer);calendarInvites=[];renderCalendarInvites();
   if(supabaseClient){try{await supabaseClient.auth.signOut();}catch(e){}}
-  cloudUser=null;cloudArmed=false;localStorage.removeItem(CLOUD_ARMED_KEY);renderSyncPanel();
+  cloudUser=null;cloudArmed=false;localStorage.removeItem(CLOUD_ARMED_KEY);renderSyncPanel();showAuthGate('Logged out.','ok');
 }
 async function getCloudRow(){
   if(!supabaseClient||!cloudUser)return null;
@@ -2172,7 +2354,21 @@ cloudPollTimer=setInterval(()=>{if(!document.hidden){pullCloudIfNewer();pullOwne
 
 (async()=>{
   if(await initSharedLinkMode())return;
-  renderCustomTabs();applyBuiltinTabSettings();renderWeek();renderTasks();renderHabits();renderGoals();renderFinance();renderSyncPanel();await initCloud();pullOwnedSharedTabs();
+
+  // Never show the dashboard before authentication.
+  showAuthGate();
+  const connected=await initCloud();
+
+  if(!connected){
+    showAuthGate('The app connection has not been configured yet.','err');
+    return;
+  }
+
+  if(cloudUser){
+    await enterAuthenticatedApp();
+  }else{
+    showAuthGate();
+  }
 })();
 </script>
 </body>
