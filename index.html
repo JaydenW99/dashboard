@@ -90,7 +90,7 @@
     <div class="card-head"><div class="card-title"><span class="prompt">$</span> <span id="shared-title">shared tab</span> <span class="custom-type" id="shared-type"></span></div></div>
     <div id="shared-content"><div class="empty">loading shared tab…</div></div>
     <div class="shared-save-status" id="shared-save-status"></div>
-    <div class="edit-note" id="shared-typing-note" style="margin-top:8px">You can take your time typing — this list will not refresh while you are editing.</div>
+    <div class="edit-note" id="shared-typing-note" style="margin-top:8px">You can take your time typing — drafts are protected and unrelated dashboard changes will not reset this shared list.</div>
   </div>
 </div>
 <div class="wrap" id="dashboard-wrap">
@@ -473,7 +473,7 @@ function normalizeState(s){
   validKeys.forEach(k=>{ if(!tabOrder.includes(k))tabOrder.push(k); });
   return {events,tasks,habits,transactions:Array.isArray(s.transactions)?s.transactions:[],customTabs,tabOrder};
 }
-function saveState(){ localStorage.setItem(STORAGE_KEY,JSON.stringify(state)); updateFooter(); if(!cloudApplying) scheduleCloudPush(); if(!sharedApplying) scheduleSharedTabsPush(); }
+function saveState(){ localStorage.setItem(STORAGE_KEY,JSON.stringify(state)); updateFooter(); if(!cloudApplying) scheduleCloudPush(); }
 function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,8); }
 function stripTime(d){ return new Date(d.getFullYear(),d.getMonth(),d.getDate()); }
 function startOfWeek(d){ const x=stripTime(d), day=(x.getDay()+6)%7; x.setDate(x.getDate()-day); return x; }
@@ -820,7 +820,7 @@ function createCustomTabFromTemplate(type){
   state.customTabs.push(tab); state.tabOrder=Array.isArray(state.tabOrder)?state.tabOrder:[]; state.tabOrder.push('custom-'+tab.id); saveState(); closeCustomTabModal(); renderCustomTabs(); renderEdit();
   const tabEl=document.querySelector(`.custom-tab[data-tab="custom-${tab.id}"]`); if(tabEl)tabEl.click();
 }
-function saveCustomTabContent(id,value){ const t=state.customTabs.find(x=>x.id===id); if(!t)return; t.content=value; saveState(); }
+function saveCustomTabContent(id,value){ const t=state.customTabs.find(x=>x.id===id); if(!t)return; t.content=value; saveState(); scheduleSharedTabPush(id,650); }
 function addCustomItem(tabId){
   const tab=state.customTabs.find(x=>x.id===tabId); if(!tab)return;
   const input=document.getElementById('new-item-'+tabId),text=(input&&input.value||'').trim(); if(!text)return;
@@ -830,14 +830,14 @@ function addCustomItem(tabId){
     const q=document.getElementById('new-qty-'+tabId),p=document.getElementById('new-price-'+tabId);
     item.qty=Math.max(1,Number(q&&q.value)||1); item.price=Math.max(0,Number(p&&p.value)||0);
   }
-  tab.items=Array.isArray(tab.items)?tab.items:[]; tab.items.push(item); saveState(); renderCustomTabs(); reopenCustomTab(tabId);
+  tab.items=Array.isArray(tab.items)?tab.items:[]; tab.items.push(item); saveState(); scheduleSharedTabPush(tabId,0); renderCustomTabs(); reopenCustomTab(tabId);
 }
 function updateCustomItem(tabId,itemId,field,value){
   const tab=state.customTabs.find(x=>x.id===tabId); if(!tab)return; const item=(tab.items||[]).find(x=>x.id===itemId); if(!item)return;
-  if(field==='qty')item.qty=Math.max(1,Number(value)||1); else if(field==='price')item.price=Math.max(0,Number(value)||0); else item.text=String(value||''); saveState(); renderCustomTabs(); reopenCustomTab(tabId);
+  if(field==='qty')item.qty=Math.max(1,Number(value)||1); else if(field==='price')item.price=Math.max(0,Number(value)||0); else item.text=String(value||''); saveState(); scheduleSharedTabPush(tabId,250); renderCustomTabs(); reopenCustomTab(tabId);
 }
-function toggleCustomItem(tabId,itemId){ const tab=state.customTabs.find(x=>x.id===tabId); if(!tab)return; const item=(tab.items||[]).find(x=>x.id===itemId); if(!item)return; item.done=!item.done; saveState(); renderCustomTabs(); reopenCustomTab(tabId); }
-function deleteCustomItem(tabId,itemId){ const tab=state.customTabs.find(x=>x.id===tabId); if(!tab)return; tab.items=(tab.items||[]).filter(x=>x.id!==itemId); saveState(); renderCustomTabs(); reopenCustomTab(tabId); }
+function toggleCustomItem(tabId,itemId){ const tab=state.customTabs.find(x=>x.id===tabId); if(!tab)return; const item=(tab.items||[]).find(x=>x.id===itemId); if(!item)return; item.done=!item.done; saveState(); scheduleSharedTabPush(tabId,0); renderCustomTabs(); reopenCustomTab(tabId); }
+function deleteCustomItem(tabId,itemId){ const tab=state.customTabs.find(x=>x.id===tabId); if(!tab)return; tab.items=(tab.items||[]).filter(x=>x.id!==itemId); saveState(); scheduleSharedTabPush(tabId,0); renderCustomTabs(); reopenCustomTab(tabId); }
 function reopenCustomTab(id){ requestAnimationFrame(()=>{ const el=document.querySelector(`.custom-tab[data-tab="custom-${id}"]`); if(el)el.click(); }); }
 function publicCustomTabData(tab){
   return {name:tab.name,type:effectiveCustomTabType(tab),content:tab.content||'',items:(tab.items||[]).map(it=>({id:it.id,text:it.text,done:!!it.done,qty:Math.max(1,Number(it.qty)||1),price:Math.max(0,Number(it.price)||0)}))};
@@ -976,14 +976,32 @@ async function revokeCurrentTabShare(){
   }
 }
 
-function scheduleSharedTabsPush(){
-  if(!supabaseClient||!cloudUser)return;
-  clearTimeout(sharedPushTimer);
-  sharedPushTimer=setTimeout(()=>{ (state.customTabs||[]).filter(t=>t.shareToken).forEach(t=>pushOwnedSharedTab(t)); },900);
+const sharedTabPushTimers=new Map();
+function scheduleSharedTabPush(tabId,delay=350){
+  if(!supabaseClient||!cloudUser||!tabId)return;
+  const tab=(state.customTabs||[]).find(t=>t.id===tabId);
+  if(!tab||!tab.shareToken)return;
+  const old=sharedTabPushTimers.get(tabId);
+  if(old)clearTimeout(old);
+  const timer=setTimeout(async()=>{
+    sharedTabPushTimers.delete(tabId);
+    const latest=(state.customTabs||[]).find(t=>t.id===tabId);
+    if(latest&&latest.shareToken)await pushOwnedSharedTab(latest);
+  },Math.max(0,delay));
+  sharedTabPushTimers.set(tabId,timer);
 }
 async function pushOwnedSharedTab(tab){
   if(!supabaseClient||!cloudUser||!tab||!tab.shareToken)return;
   try{
+    const {data:checkData,error:checkError}=await supabaseClient.rpc('get_shared_tab',{p_token:tab.shareToken});
+    if(checkError)throw checkError;
+    const current=Array.isArray(checkData)?checkData[0]:checkData;
+    if(current&&current.updated_at&&tab.shareUpdatedAt&&new Date(current.updated_at)>new Date(tab.shareUpdatedAt)){
+      // A collaborator changed this list after our last known version.
+      // Do not overwrite it with a stale whole-list copy.
+      await pullOwnedSharedTabs();
+      return;
+    }
     const {data,error}=await supabaseClient.rpc('owner_update_shared_tab',{p_token:tab.shareToken,p_data:publicCustomTabData(tab),p_permission:tab.sharePermission==='edit'?'edit':'view'});
     if(error)throw error;
     const row=Array.isArray(data)?data[0]:data;
@@ -1109,12 +1127,12 @@ function renameCustomTabInline(id,value){
   const name=String(value||'').trim();
   if(!name){ renderCustomTabs(); return; }
   if(t.name===name)return;
-  t.name=name; saveState(); renderCustomTabs(); if(document.getElementById('sec-settings')&&document.getElementById('sec-settings').classList.contains('active'))renderEdit();
+  t.name=name; saveState(); scheduleSharedTabPush(id,250); renderCustomTabs(); if(document.getElementById('sec-settings')&&document.getElementById('sec-settings').classList.contains('active'))renderEdit();
 }
 function renameCustomTab(id){
   const t=state.customTabs.find(x=>x.id===id); if(!t)return;
   const name=(prompt('Rename this list/tab (e.g. Mountain Trip / Camping Todo):',t.name)||'').trim(); if(!name)return;
-  t.name=name; saveState(); renderCustomTabs(); renderEdit(); reopenCustomTab(id);
+  t.name=name; saveState(); scheduleSharedTabPush(id,250); renderCustomTabs(); renderEdit(); reopenCustomTab(id);
 }
 function deleteCustomTab(id){
   const t=state.customTabs.find(x=>x.id===id); if(!t)return;
@@ -1174,7 +1192,7 @@ function saveEventEdit(id){const x=state.events.find(v=>v.id===id);if(!x)return;
 function saveTaskEdit(id){const x=state.tasks.find(v=>v.id===id);if(!x)return;const date=document.getElementById('et-date-'+id).value,name=document.getElementById('et-name-'+id).value.trim();if(!date||!name)return;x.date=date;x.name=name;x.priority=document.getElementById('et-priority-'+id).value;x.completedDate=document.getElementById('et-completed-'+id).value||null;saveState();renderTasks();renderEdit();}
 function saveHabitEdit(id){const h=state.habits.find(x=>x.id===id);if(!h)return;const name=document.getElementById('eh-name-'+id).value.trim();if(!name)return;h.name=name;saveState();renderHabits();renderEdit();}
 function saveTransactionEdit(id){const x=state.transactions.find(v=>v.id===id);if(!x)return;const date=document.getElementById('ex-date-'+id).value,name=document.getElementById('ex-name-'+id).value.trim(),amount=parseFloat(document.getElementById('ex-amount-'+id).value);if(!date||!name||!amount||amount<=0)return;x.date=date;x.type=document.getElementById('ex-type-'+id).value;x.category=document.getElementById('ex-cat-'+id).value.trim()||(x.type==='income'?'Income':'Other');x.name=name;x.amount=amount;saveState();renderFinance();renderEdit();}
-function saveCustomTabName(id){const t=state.customTabs.find(x=>x.id===id);if(!t)return;const name=document.getElementById('ect-name-'+id).value.trim();if(!name)return;t.name=name;saveState();renderCustomTabs();renderEdit();}
+function saveCustomTabName(id){const t=state.customTabs.find(x=>x.id===id);if(!t)return;const name=document.getElementById('ect-name-'+id).value.trim();if(!name)return;t.name=name;saveState();scheduleSharedTabPush(id,250);renderCustomTabs();renderEdit();}
 function deleteEventEdit(id){deleteEvent(id);renderEdit();}
 function deleteTaskEdit(id){deleteTask(id);renderEdit();}
 function deleteTransactionEdit(id){deleteTransaction(id);renderEdit();}
