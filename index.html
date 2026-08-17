@@ -29,7 +29,7 @@
   button{background:transparent;border:1px solid var(--amber-dim);color:var(--amber);font-family:'JetBrains Mono',monospace;font-size:12px;padding:8px 14px;border-radius:5px;cursor:pointer}button:hover{background:rgba(255,180,84,.08)}
   .btn-ghost{border-color:var(--line);color:var(--text-dim)}.btn-ghost:hover{color:var(--text);background:var(--panel-2)}
   .btn-x{border:none;color:var(--text-faint);padding:2px 6px;font-size:14px;background:none}.btn-x:hover{color:var(--red);background:none}
-  input[type=text],input[type=number],input[type=time],input[type=date],select{background:var(--panel-2);border:1px solid var(--line);color:var(--text);font-family:'Inter',sans-serif;font-size:13px;padding:8px 10px;border-radius:5px;min-width:0}input:focus,select:focus{outline:none;border-color:var(--amber-dim)}
+  input[type=text],input[type=number],input[type=time],input[type=date],input[type=email],input[type=password],select{background:var(--panel-2);border:1px solid var(--line);color:var(--text);font-family:'Inter',sans-serif;font-size:13px;padding:8px 10px;border-radius:5px;min-width:0}input:focus,select:focus{outline:none;border-color:var(--amber-dim)}
   .row-add{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}.grow{flex:1 1 220px}.small{flex:0 1 140px}
   .stat-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:16px}.stat{background:var(--panel-2);border:1px solid var(--line-soft);border-radius:6px;padding:12px 14px}.stat-label{font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}.stat-val{font-family:'JetBrains Mono',monospace;font-size:20px;color:var(--text)}.teal{color:var(--teal)}.amber{color:var(--amber)}.red{color:var(--red)}
   /* WEEK */
@@ -45,6 +45,9 @@
   .edit-row:first-child{border-top:none}.edit-row.task-edit{grid-template-columns:125px minmax(180px,1fr) 105px 135px auto auto}.edit-row.tx-edit{grid-template-columns:125px 105px 130px minmax(170px,1fr) 110px auto auto}
   .edit-row input,.edit-row select{width:100%}.edit-actions{display:flex;gap:6px;align-items:center}
   .backup-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+
+  /* CLOUD SYNC */
+  .sync-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.sync-field{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}.sync-field label{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;color:var(--text-dim)}.sync-field input{width:100%}.sync-actions{display:flex;gap:8px;flex-wrap:wrap}.sync-status{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border:1px solid var(--line-soft);background:var(--panel-2);border-radius:6px;margin-bottom:14px;font-size:12px;line-height:1.5}.sync-dot{width:9px;height:9px;border-radius:50%;background:var(--text-faint);margin-top:4px;flex:0 0 auto}.sync-status.ok .sync-dot{background:var(--teal)}.sync-status.warn .sync-dot{background:var(--amber)}.sync-status.err .sync-dot{background:var(--red)}.sync-user{font-family:'JetBrains Mono',monospace;color:var(--teal);font-size:11px}.sync-help{font-size:12px;color:var(--text-dim);line-height:1.65}.sync-help code{font-family:'JetBrains Mono',monospace;color:var(--amber);font-size:11px}.sync-sep{height:1px;background:var(--line-soft);margin:16px 0}
   /* CUSTOM TABS */
   .tab.add-tab{color:var(--teal);font-weight:600}.tab.add-tab:hover{background:rgba(94,234,212,.07)}
   .custom-note{width:100%;min-height:360px;resize:vertical;background:var(--panel-2);border:1px solid var(--line);color:var(--text);font-family:'Inter',sans-serif;font-size:14px;line-height:1.6;padding:14px;border-radius:6px}
@@ -52,7 +55,7 @@
   .custom-toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.custom-toolbar input{min-width:220px;flex:1}
   @media(max-width:900px){.edit-row,.edit-row.task-edit,.edit-row.tx-edit{grid-template-columns:1fr 1fr}.edit-row .wide{grid-column:1/-1}.edit-actions{grid-column:1/-1}}
   .empty{color:var(--text-faint);font-size:12px;font-style:italic;padding:8px 0}.footer-note{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-faint);margin-top:24px;text-align:center}
-  @media(max-width:760px){body{padding:18px 12px 40px}.tabs{width:100%}.tab{flex:1;text-align:center;padding:9px 8px}.tab .n{display:none}.stat-row{grid-template-columns:1fr}.finance-cols{grid-template-columns:1fr}.card{padding:15px}.week-grid{grid-template-columns:repeat(7,160px)}.task{grid-template-columns:auto 1fr auto}.task .tag{display:none}.tx{grid-template-columns:72px 1fr auto}.tx .tx-cat{display:none}}
+  @media(max-width:760px){.sync-grid{grid-template-columns:1fr}body{padding:18px 12px 40px}.tabs{width:100%}.tab{flex:1;text-align:center;padding:9px 8px}.tab .n{display:none}.stat-row{grid-template-columns:1fr}.finance-cols{grid-template-columns:1fr}.card{padding:15px}.week-grid{grid-template-columns:repeat(7,160px)}.task{grid-template-columns:auto 1fr auto}.task .tag{display:none}.tx{grid-template-columns:72px 1fr auto}.tx .tx-cat{display:none}}
 </style>
 </head>
 <body>
@@ -67,6 +70,7 @@
     <div class="tab" data-tab="tasks"><span class="n">02</span>daily tasks</div>
     <div class="tab" data-tab="finance"><span class="n">03</span>finances</div>
     <div class="tab" data-tab="edit"><span class="n">04</span>edit</div>
+    <div class="tab" data-tab="sync"><span class="n">05</span>sync</div>
     <div class="tab add-tab" id="add-tab" data-action="add-tab">＋ tab</div>
   </div>
 
@@ -192,18 +196,63 @@
     </div>
   </section>
 
+
+  <section class="section" id="sec-sync">
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title"><span class="prompt">$</span> cloud sync</div>
+      </div>
+      <div class="sync-status" id="sync-status"><span class="sync-dot"></span><div id="sync-status-text">Cloud sync is not configured yet.</div></div>
+      <div class="sync-grid">
+        <div class="subcard">
+          <div class="subhead">1 · Supabase connection</div>
+          <div class="sync-field"><label for="sb-url">Project URL</label><input type="text" id="sb-url" placeholder="https://your-project.supabase.co"></div>
+          <div class="sync-field"><label for="sb-key">Publishable / anon key</label><input type="password" id="sb-key" placeholder="sb_publishable_... or anon key"></div>
+          <div class="sync-actions"><button onclick="saveCloudConnection()">save connection</button><button class="btn-ghost" onclick="clearCloudConnection()">clear</button></div>
+          <div class="sync-help" style="margin-top:12px">Use only the browser-safe <code>publishable</code> (or legacy <code>anon</code>) key. Never paste a <code>service_role</code> key here.</div>
+        </div>
+        <div class="subcard">
+          <div class="subhead">2 · Your account</div>
+          <div class="sync-field"><label for="sync-email">Email</label><input type="email" id="sync-email" placeholder="you@example.com"></div>
+          <div class="sync-field"><label for="sync-password">Password</label><input type="password" id="sync-password" placeholder="minimum 6 characters"></div>
+          <div class="sync-actions"><button onclick="loginCloud()">log in</button><button class="btn-ghost" onclick="registerCloud()">create account</button><button class="btn-ghost" id="logout-btn" onclick="logoutCloud()" style="display:none">log out</button></div>
+          <div id="sync-user" class="sync-user" style="margin-top:12px"></div>
+        </div>
+      </div>
+      <div class="sync-sep"></div>
+      <div class="subhead">3 · First sync / manual controls</div>
+      <div class="sync-actions">
+        <button onclick="uploadToCloud(true)">↑ upload this device</button>
+        <button class="btn-ghost" onclick="downloadFromCloud(true)">↓ download cloud</button>
+        <button class="btn-ghost" onclick="syncNow()">↻ sync now</button>
+      </div>
+      <div class="sync-help" style="margin-top:12px">On your current laptop, use <b>upload this device</b> the first time. On a new phone, log into the same account and use <b>download cloud</b> if it does not load automatically. Once a device is armed, edits auto-upload and the page checks for newer cloud data when you return to it.</div>
+    </div>
+  </section>
+
   <div id="custom-sections"></div>
 
-  <div class="footer-note">saved locally in your browser · no account or database required</div>
+  <div class="footer-note" id="footer-note">saved locally in your browser · cloud sync optional</div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const STORAGE_KEY = 'dashboard-state-v2';
 const LEGACY_KEY = 'dashboard-state';
+const CLOUD_CONFIG_KEY = 'dashboard-cloud-config-v1';
+const CLOUD_ARMED_KEY = 'dashboard-cloud-armed-v1';
 const DAY_NAMES = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
 let weekStart = startOfWeek(new Date());
 let taskDate = stripTime(new Date());
 let financeMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
 let state = loadState();
+let cloudConfig = loadCloudConfig();
+let supabaseClient = null;
+let cloudUser = null;
+let cloudPushTimer = null;
+let cloudPollTimer = null;
+let cloudApplying = false;
+let cloudArmed = localStorage.getItem(CLOUD_ARMED_KEY)==='1';
+let cloudLastRemoteUpdated = null;
 
 function defaultState(){ return {events:[],tasks:[],transactions:[],customTabs:[]}; }
 function loadState(){
@@ -232,7 +281,7 @@ function normalizeState(s){
   });
   return {events:Array.isArray(s.events)?s.events:[],tasks,transactions:Array.isArray(s.transactions)?s.transactions:[],customTabs:Array.isArray(s.customTabs)?s.customTabs:[]};
 }
-function saveState(){ localStorage.setItem(STORAGE_KEY,JSON.stringify(state)); }
+function saveState(){ localStorage.setItem(STORAGE_KEY,JSON.stringify(state)); updateFooter(); if(!cloudApplying) scheduleCloudPush(); }
 function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,8); }
 function stripTime(d){ return new Date(d.getFullYear(),d.getMonth(),d.getDate()); }
 function startOfWeek(d){ const x=stripTime(d), day=(x.getDay()+6)%7; x.setDate(x.getDate()-day); return x; }
@@ -253,6 +302,7 @@ document.getElementById('tabs').addEventListener('click',e=>{
   document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));
   t.classList.add('active'); section.classList.add('active');
   if(t.dataset.tab==='edit')renderEdit();
+  if(t.dataset.tab==='sync')renderSyncPanel();
 });
 
 function shiftWeek(n){ weekStart=addDays(weekStart,n*7); renderWeek(); }
@@ -326,7 +376,7 @@ function renderCustomTabs(){
     const el=document.createElement('div');
     el.className='tab custom-tab';
     el.dataset.tab='custom-'+tab.id;
-    el.innerHTML=`<span class="n">${String(i+5).padStart(2,'0')}</span>${esc(tab.name)}`;
+    el.innerHTML=`<span class="n">${String(i+6).padStart(2,'0')}</span>${esc(tab.name)}`;
     addBtn.parentNode.insertBefore(el,addBtn);
   });
 
@@ -341,7 +391,7 @@ function renderCustomTabs(){
         </div>
       </div>
       <textarea class="custom-note" id="custom-note-${tab.id}" placeholder="Write anything you want in this tab..." oninput="saveCustomTabContent('${tab.id}',this.value)">${esc(tab.content||'')}</textarea>
-      <div class="edit-note" style="margin-top:10px">Saved automatically in this browser.</div>
+      <div class="edit-note" style="margin-top:10px">Saved automatically${cloudArmed&&cloudUser?' and synced to your account':' in this browser'}.</div>
     </div>
   </section>`).join('');
 }
@@ -413,7 +463,127 @@ function deleteTransactionEdit(id){deleteTransaction(id);renderEdit();}
 function downloadBackup(){const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='dashboard-backup-'+isoDate(new Date())+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000);}
 function importBackup(event){const file=event.target.files&&event.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const parsed=normalizeState(JSON.parse(reader.result));state=parsed;saveState();renderWeek();renderTasks();renderFinance();renderCustomTabs();renderEdit();alert('Backup imported.');}catch(e){alert('Could not import this backup file.');}event.target.value='';};reader.readAsText(file);}
 
-renderCustomTabs();renderWeek();renderTasks();renderFinance();
+
+/* ---------- CLOUD SYNC ---------- */
+function loadCloudConfig(){
+  try{ const raw=localStorage.getItem(CLOUD_CONFIG_KEY); return raw?JSON.parse(raw):{url:'',key:''}; }
+  catch(e){ return {url:'',key:''}; }
+}
+function stateHasData(s=state){ return !!((s.events&&s.events.length)||(s.tasks&&s.tasks.length)||(s.transactions&&s.transactions.length)||(s.customTabs&&s.customTabs.length)); }
+function updateFooter(){
+  const el=document.getElementById('footer-note'); if(!el)return;
+  el.textContent=cloudUser&&cloudArmed?'saved locally + synced to cloud':'saved locally in this browser · cloud sync optional';
+}
+function setSyncStatus(text,kind=''){
+  const box=document.getElementById('sync-status'),txt=document.getElementById('sync-status-text');
+  if(!box||!txt)return; box.className='sync-status'+(kind?' '+kind:''); txt.textContent=text;
+}
+function renderSyncPanel(){
+  document.getElementById('sb-url').value=cloudConfig.url||'';
+  document.getElementById('sb-key').value=cloudConfig.key||'';
+  const userEl=document.getElementById('sync-user'),logout=document.getElementById('logout-btn');
+  if(cloudUser){ userEl.textContent='logged in as '+cloudUser.email; logout.style.display='inline-block'; setSyncStatus(cloudArmed?'Connected · automatic sync is on.':'Connected · choose upload or download once to arm automatic sync.','ok'); }
+  else { userEl.textContent=''; logout.style.display='none'; if(cloudConfig.url&&cloudConfig.key)setSyncStatus('Supabase configured · log in to sync.','warn'); else setSyncStatus('Cloud sync is not configured yet.',''); }
+  updateFooter();
+}
+function saveCloudConnection(){
+  const url=document.getElementById('sb-url').value.trim().replace(/\/$/,'');
+  const key=document.getElementById('sb-key').value.trim();
+  if(!url||!key){ setSyncStatus('Enter both the Supabase project URL and publishable key.','err'); return; }
+  cloudConfig={url,key}; localStorage.setItem(CLOUD_CONFIG_KEY,JSON.stringify(cloudConfig));
+  cloudArmed=false; localStorage.removeItem(CLOUD_ARMED_KEY); initCloud(true);
+}
+async function clearCloudConnection(){
+  if(supabaseClient&&cloudUser){ try{await supabaseClient.auth.signOut();}catch(e){} }
+  localStorage.removeItem(CLOUD_CONFIG_KEY);localStorage.removeItem(CLOUD_ARMED_KEY);cloudConfig={url:'',key:''};cloudUser=null;cloudArmed=false;supabaseClient=null;renderSyncPanel();
+}
+async function initCloud(showMessage=false){
+  if(!cloudConfig.url||!cloudConfig.key||!window.supabase){ renderSyncPanel(); return; }
+  try{
+    supabaseClient=window.supabase.createClient(cloudConfig.url,cloudConfig.key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+    const {data:{session},error}=await supabaseClient.auth.getSession(); if(error)throw error;
+    cloudUser=session&&session.user?session.user:null;
+    supabaseClient.auth.onAuthStateChange((_event,sessionNow)=>{ cloudUser=sessionNow&&sessionNow.user?sessionNow.user:null; if(!cloudUser){cloudArmed=false;localStorage.removeItem(CLOUD_ARMED_KEY);} renderSyncPanel(); if(cloudUser)smartInitialSync(); });
+    renderSyncPanel(); if(cloudUser)await smartInitialSync(); else if(showMessage)setSyncStatus('Connection saved. Log in or create an account.','ok');
+  }catch(e){ console.error(e); setSyncStatus('Could not connect: '+(e.message||e),'err'); }
+}
+function getLoginValues(){ return {email:document.getElementById('sync-email').value.trim(),password:document.getElementById('sync-password').value}; }
+async function registerCloud(){
+  if(!supabaseClient){setSyncStatus('Save your Supabase connection first.','err');return;}
+  const {email,password}=getLoginValues(); if(!email||password.length<6){setSyncStatus('Enter an email and a password of at least 6 characters.','err');return;}
+  try{
+    setSyncStatus('Creating account…','warn');
+    const {data,error}=await supabaseClient.auth.signUp({email,password,options:{emailRedirectTo:location.origin+location.pathname}}); if(error)throw error;
+    if(data.session){cloudUser=data.user;setSyncStatus('Account created and logged in.','ok');await smartInitialSync();}
+    else setSyncStatus('Account created. Check your email to confirm it, then come back and log in.','ok');
+  }catch(e){setSyncStatus('Sign-up failed: '+(e.message||e),'err');}
+}
+async function loginCloud(){
+  if(!supabaseClient){setSyncStatus('Save your Supabase connection first.','err');return;}
+  const {email,password}=getLoginValues(); if(!email||!password){setSyncStatus('Enter your email and password.','err');return;}
+  try{ setSyncStatus('Logging in…','warn'); const {data,error}=await supabaseClient.auth.signInWithPassword({email,password}); if(error)throw error; cloudUser=data.user; renderSyncPanel(); await smartInitialSync(); }
+  catch(e){setSyncStatus('Login failed: '+(e.message||e),'err');}
+}
+async function logoutCloud(){
+  if(supabaseClient){try{await supabaseClient.auth.signOut();}catch(e){}}
+  cloudUser=null;cloudArmed=false;localStorage.removeItem(CLOUD_ARMED_KEY);renderSyncPanel();
+}
+async function getCloudRow(){
+  if(!supabaseClient||!cloudUser)return null;
+  const {data,error}=await supabaseClient.from('dashboard_state').select('data,updated_at').eq('user_id',cloudUser.id).maybeSingle();
+  if(error)throw error; return data;
+}
+async function smartInitialSync(){
+  if(!supabaseClient||!cloudUser)return;
+  try{
+    setSyncStatus('Checking cloud data…','warn'); const row=await getCloudRow();
+    if(!row){ if(stateHasData()){await uploadToCloud(false);} else {cloudArmed=true;localStorage.setItem(CLOUD_ARMED_KEY,'1');renderSyncPanel();} return; }
+    cloudLastRemoteUpdated=row.updated_at||null;
+    if(!stateHasData()){ await applyCloudRow(row); cloudArmed=true;localStorage.setItem(CLOUD_ARMED_KEY,'1');renderSyncPanel(); return; }
+    if(cloudArmed){ await pullCloudIfNewer(); renderSyncPanel(); return; }
+    setSyncStatus('Both this device and the cloud contain data. Choose “upload this device” or “download cloud” once.','warn');
+  }catch(e){setSyncStatus('Sync check failed: '+(e.message||e),'err');}
+}
+async function uploadToCloud(manual=false){
+  if(!supabaseClient||!cloudUser){setSyncStatus('Log in before uploading.','err');return;}
+  try{
+    if(manual&&!confirm('Replace the cloud dashboard with the data on this device?'))return;
+    setSyncStatus('Uploading…','warn'); const stamp=new Date().toISOString();
+    const {error}=await supabaseClient.from('dashboard_state').upsert({user_id:cloudUser.id,data:state,updated_at:stamp},{onConflict:'user_id'}); if(error)throw error;
+    cloudLastRemoteUpdated=stamp;cloudArmed=true;localStorage.setItem(CLOUD_ARMED_KEY,'1');setSyncStatus('Synced · cloud updated.','ok');updateFooter();
+  }catch(e){setSyncStatus('Upload failed: '+(e.message||e),'err');}
+}
+async function applyCloudRow(row){
+  cloudApplying=true; try{ state=normalizeState(row.data||defaultState());localStorage.setItem(STORAGE_KEY,JSON.stringify(state));cloudLastRemoteUpdated=row.updated_at||null;renderAllData(); }
+  finally{cloudApplying=false;}
+}
+async function downloadFromCloud(manual=false){
+  if(!supabaseClient||!cloudUser){setSyncStatus('Log in before downloading.','err');return;}
+  try{
+    if(manual&&stateHasData()&&!confirm('Replace this device\'s dashboard with the cloud data?'))return;
+    setSyncStatus('Downloading…','warn'); const row=await getCloudRow(); if(!row){setSyncStatus('There is no cloud dashboard yet. Upload this device first.','warn');return;}
+    await applyCloudRow(row);cloudArmed=true;localStorage.setItem(CLOUD_ARMED_KEY,'1');setSyncStatus('Synced · this device now matches the cloud.','ok');updateFooter();
+  }catch(e){setSyncStatus('Download failed: '+(e.message||e),'err');}
+}
+function scheduleCloudPush(){
+  if(!cloudArmed||!cloudUser||!supabaseClient)return; clearTimeout(cloudPushTimer);cloudPushTimer=setTimeout(()=>uploadToCloud(false),700);
+}
+async function pullCloudIfNewer(){
+  if(!cloudArmed||!cloudUser||!supabaseClient||cloudApplying)return;
+  try{ const row=await getCloudRow(); if(!row)return; if(!cloudLastRemoteUpdated||new Date(row.updated_at)>new Date(cloudLastRemoteUpdated))await applyCloudRow(row); }
+  catch(e){console.warn('cloud pull failed',e);}
+}
+async function syncNow(){
+  if(!cloudUser||!supabaseClient){setSyncStatus('Log in first.','err');return;}
+  if(!cloudArmed){setSyncStatus('Choose upload or download once before automatic sync starts.','warn');return;}
+  try{await pullCloudIfNewer();await uploadToCloud(false);}catch(e){setSyncStatus('Sync failed: '+(e.message||e),'err');}
+}
+function renderAllData(){renderCustomTabs();renderWeek();renderTasks();renderFinance();if(document.getElementById('sec-edit').classList.contains('active'))renderEdit();}
+window.addEventListener('focus',()=>{pullCloudIfNewer();});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)pullCloudIfNewer();});
+cloudPollTimer=setInterval(()=>{if(!document.hidden)pullCloudIfNewer();},30000);
+
+renderCustomTabs();renderWeek();renderTasks();renderFinance();renderSyncPanel();initCloud();
 </script>
 </body>
 </html>
