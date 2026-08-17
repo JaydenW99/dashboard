@@ -38,6 +38,19 @@
   .task-list{display:flex;flex-direction:column}.task{display:grid;grid-template-columns:auto 1fr auto auto;gap:10px;align-items:center;padding:11px 0;border-top:1px solid var(--line-soft)}.task:first-child{border-top:none}.check{width:21px;height:21px;border:1px solid var(--line);border-radius:4px;background:var(--panel-2);cursor:pointer}.check.done{background:var(--teal-dim);border-color:var(--teal);position:relative}.check.done:after{content:'✓';position:absolute;inset:0;text-align:center;line-height:19px;color:var(--teal);font-size:13px}.task.done .task-name{text-decoration:line-through;color:var(--text-faint)}.task-name{font-size:14px}.tag{font-family:'JetBrains Mono',monospace;font-size:10px;padding:3px 6px;border:1px solid var(--line);border-radius:999px;color:var(--text-dim)}.tag.high{color:var(--red);border-color:#60343a}.tag.medium{color:var(--amber);border-color:var(--amber-dim)}.tag.low{color:var(--teal);border-color:var(--teal-dim)}
   /* FINANCE */
   .finance-cols{display:grid;grid-template-columns:1fr 1.4fr;gap:16px}.subcard{background:var(--panel-2);border:1px solid var(--line-soft);border-radius:6px;padding:14px}.subhead{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;color:var(--text-dim);margin-bottom:10px}.tx{display:grid;grid-template-columns:90px 1fr auto auto;gap:8px;align-items:center;padding:9px 0;border-top:1px solid var(--line-soft);font-size:12px}.tx:first-child{border-top:none}.tx-date{font-family:'JetBrains Mono',monospace;color:var(--text-faint);font-size:10px}.tx-cat{color:var(--text-dim);font-size:11px}.tx-amt{font-family:'JetBrains Mono',monospace}.tx-amt.income{color:var(--teal)}.tx-amt.expense{color:var(--amber)}.cat-row{margin:10px 0}.cat-top{display:flex;justify-content:space-between;gap:8px;font-size:12px}.cat-amt{font-family:'JetBrains Mono',monospace}.bar-track{height:6px;background:#0b1119;border:1px solid var(--line-soft);border-radius:4px;overflow:hidden;margin-top:5px}.bar-fill{height:100%;background:var(--amber-dim)}
+  /* EDIT */
+  .edit-note{font-size:12px;color:var(--text-dim);line-height:1.6;margin-bottom:14px}
+  .edit-group{margin-top:18px}.edit-group:first-child{margin-top:0}
+  .edit-row{display:grid;grid-template-columns:125px 95px minmax(180px,1fr) 115px auto auto;gap:8px;align-items:center;padding:9px 0;border-top:1px solid var(--line-soft)}
+  .edit-row:first-child{border-top:none}.edit-row.task-edit{grid-template-columns:125px minmax(180px,1fr) 105px 135px auto auto}.edit-row.tx-edit{grid-template-columns:125px 105px 130px minmax(170px,1fr) 110px auto auto}
+  .edit-row input,.edit-row select{width:100%}.edit-actions{display:flex;gap:6px;align-items:center}
+  .backup-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+  /* CUSTOM TABS */
+  .tab.add-tab{color:var(--teal);font-weight:600}.tab.add-tab:hover{background:rgba(94,234,212,.07)}
+  .custom-note{width:100%;min-height:360px;resize:vertical;background:var(--panel-2);border:1px solid var(--line);color:var(--text);font-family:'Inter',sans-serif;font-size:14px;line-height:1.6;padding:14px;border-radius:6px}
+  .custom-note:focus{outline:none;border-color:var(--amber-dim)}
+  .custom-toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.custom-toolbar input{min-width:220px;flex:1}
+  @media(max-width:900px){.edit-row,.edit-row.task-edit,.edit-row.tx-edit{grid-template-columns:1fr 1fr}.edit-row .wide{grid-column:1/-1}.edit-actions{grid-column:1/-1}}
   .empty{color:var(--text-faint);font-size:12px;font-style:italic;padding:8px 0}.footer-note{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-faint);margin-top:24px;text-align:center}
   @media(max-width:760px){body{padding:18px 12px 40px}.tabs{width:100%}.tab{flex:1;text-align:center;padding:9px 8px}.tab .n{display:none}.stat-row{grid-template-columns:1fr}.finance-cols{grid-template-columns:1fr}.card{padding:15px}.week-grid{grid-template-columns:repeat(7,160px)}.task{grid-template-columns:auto 1fr auto}.task .tag{display:none}.tx{grid-template-columns:72px 1fr auto}.tx .tx-cat{display:none}}
 </style>
@@ -53,6 +66,8 @@
     <div class="tab active" data-tab="week"><span class="n">01</span>weekly planner</div>
     <div class="tab" data-tab="tasks"><span class="n">02</span>daily tasks</div>
     <div class="tab" data-tab="finance"><span class="n">03</span>finances</div>
+    <div class="tab" data-tab="edit"><span class="n">04</span>edit</div>
+    <div class="tab add-tab" id="add-tab" data-action="add-tab">＋ tab</div>
   </div>
 
   <section class="section active" id="sec-week">
@@ -138,6 +153,47 @@
     </div>
   </section>
 
+  <section class="section" id="sec-edit">
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title"><span class="prompt">$</span> edit dashboard data</div>
+      </div>
+      <div class="edit-note">Change any existing planner item, task, or finance transaction here, then press <b>save</b>. Your unfinished tasks will still carry forward automatically until they are completed.</div>
+
+      <div class="edit-group">
+        <div class="subhead">weekly planner items</div>
+        <div id="edit-events"></div>
+      </div>
+
+      <div class="edit-group">
+        <div class="subhead">daily tasks</div>
+        <div id="edit-tasks"></div>
+      </div>
+
+      <div class="edit-group">
+        <div class="subhead">finance transactions</div>
+        <div id="edit-transactions"></div>
+      </div>
+
+      <div class="edit-group">
+        <div class="subhead">custom tabs</div>
+        <div id="edit-custom-tabs"></div>
+        <div class="backup-row"><button onclick="addCustomTab()">＋ add new tab</button></div>
+      </div>
+
+      <div class="edit-group">
+        <div class="subhead">backup</div>
+        <div class="backup-row">
+          <button onclick="downloadBackup()">download backup</button>
+          <button class="btn-ghost" onclick="document.getElementById('backup-file').click()">import backup</button>
+          <input id="backup-file" type="file" accept="application/json,.json" style="display:none" onchange="importBackup(event)">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div id="custom-sections"></div>
+
   <div class="footer-note">saved locally in your browser · no account or database required</div>
 </div>
 <script>
@@ -149,7 +205,7 @@ let taskDate = stripTime(new Date());
 let financeMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
 let state = loadState();
 
-function defaultState(){ return {events:[],tasks:[],transactions:[]}; }
+function defaultState(){ return {events:[],tasks:[],transactions:[],customTabs:[]}; }
 function loadState(){
   try{
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -174,7 +230,7 @@ function normalizeState(s){
     delete x.done;
     return x;
   });
-  return {events:Array.isArray(s.events)?s.events:[],tasks,transactions:Array.isArray(s.transactions)?s.transactions:[]};
+  return {events:Array.isArray(s.events)?s.events:[],tasks,transactions:Array.isArray(s.transactions)?s.transactions:[],customTabs:Array.isArray(s.customTabs)?s.customTabs:[]};
 }
 function saveState(){ localStorage.setItem(STORAGE_KEY,JSON.stringify(state)); }
 function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,8); }
@@ -189,7 +245,15 @@ function esc(s){ return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&
 function tick(){ const d=new Date(); document.getElementById('clock').textContent=d.toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric'})+'  '+d.toLocaleTimeString(undefined,{hour:'2-digit',minute:'2-digit'}); }
 tick();setInterval(tick,30000);
 
-document.getElementById('tabs').addEventListener('click',e=>{const t=e.target.closest('.tab');if(!t)return;document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));t.classList.add('active');document.getElementById('sec-'+t.dataset.tab).classList.add('active');});
+document.getElementById('tabs').addEventListener('click',e=>{
+  const t=e.target.closest('.tab'); if(!t)return;
+  if(t.dataset.action==='add-tab'){ addCustomTab(); return; }
+  const section=document.getElementById('sec-'+t.dataset.tab); if(!section)return;
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));
+  t.classList.add('active'); section.classList.add('active');
+  if(t.dataset.tab==='edit')renderEdit();
+});
 
 function shiftWeek(n){ weekStart=addDays(weekStart,n*7); renderWeek(); }
 function goCurrentWeek(){ weekStart=startOfWeek(new Date()); renderWeek(); }
@@ -254,7 +318,102 @@ function renderFinance(){
 function addTransaction(){ const amount=parseFloat(document.getElementById('tx-amount').value),name=document.getElementById('tx-name').value.trim(),date=document.getElementById('tx-date').value;if(!date||!name||!amount||amount<=0)return;const type=document.getElementById('tx-type').value;state.transactions.push({id:uid(),date,type,category:document.getElementById('tx-category').value.trim()||(type==='income'?'Income':'Other'),name,amount});document.getElementById('tx-name').value='';document.getElementById('tx-category').value='';document.getElementById('tx-amount').value='';saveState();renderFinance(); }
 function deleteTransaction(id){ state.transactions=state.transactions.filter(x=>x.id!==id);saveState();renderFinance(); }
 
-renderWeek();renderTasks();renderFinance();
+
+function renderCustomTabs(){
+  document.querySelectorAll('.custom-tab').forEach(x=>x.remove());
+  const addBtn=document.getElementById('add-tab');
+  state.customTabs.forEach((tab,i)=>{
+    const el=document.createElement('div');
+    el.className='tab custom-tab';
+    el.dataset.tab='custom-'+tab.id;
+    el.innerHTML=`<span class="n">${String(i+5).padStart(2,'0')}</span>${esc(tab.name)}`;
+    addBtn.parentNode.insertBefore(el,addBtn);
+  });
+
+  const host=document.getElementById('custom-sections');
+  host.innerHTML=state.customTabs.map(tab=>`<section class="section custom-section" id="sec-custom-${tab.id}">
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title"><span class="prompt">$</span> ${esc(tab.name)}</div>
+        <div class="custom-toolbar">
+          <button class="btn-ghost" onclick="renameCustomTab('${tab.id}')">rename</button>
+          <button class="btn-x" onclick="deleteCustomTab('${tab.id}')">delete tab</button>
+        </div>
+      </div>
+      <textarea class="custom-note" id="custom-note-${tab.id}" placeholder="Write anything you want in this tab..." oninput="saveCustomTabContent('${tab.id}',this.value)">${esc(tab.content||'')}</textarea>
+      <div class="edit-note" style="margin-top:10px">Saved automatically in this browser.</div>
+    </div>
+  </section>`).join('');
+}
+function addCustomTab(){
+  const name=(prompt('Name your new tab:')||'').trim(); if(!name)return;
+  const tab={id:uid(),name,content:''}; state.customTabs.push(tab); saveState(); renderCustomTabs(); renderEdit();
+  const tabEl=document.querySelector(`.custom-tab[data-tab="custom-${tab.id}"]`); if(tabEl)tabEl.click();
+}
+function saveCustomTabContent(id,value){ const t=state.customTabs.find(x=>x.id===id); if(!t)return; t.content=value; saveState(); }
+function renameCustomTab(id){
+  const t=state.customTabs.find(x=>x.id===id); if(!t)return;
+  const name=(prompt('Rename tab:',t.name)||'').trim(); if(!name)return;
+  t.name=name; saveState(); renderCustomTabs(); renderEdit();
+  const tabEl=document.querySelector(`.custom-tab[data-tab="custom-${id}"]`); if(tabEl)tabEl.click();
+}
+function deleteCustomTab(id){
+  const t=state.customTabs.find(x=>x.id===id); if(!t)return;
+  if(!confirm(`Delete the tab "${t.name}"?`))return;
+  state.customTabs=state.customTabs.filter(x=>x.id!==id); saveState(); renderCustomTabs(); renderEdit();
+  const weekTab=document.querySelector('.tab[data-tab="week"]'); if(weekTab)weekTab.click();
+}
+
+function renderEdit(){
+  const events=[...state.events].sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
+  document.getElementById('edit-events').innerHTML=events.length?events.map(ev=>`<div class="edit-row">
+    <input type="date" id="ee-date-${ev.id}" value="${esc(ev.date)}">
+    <input type="time" id="ee-time-${ev.id}" value="${esc(ev.time||'')}">
+    <input class="wide" type="text" id="ee-title-${ev.id}" value="${escAttr(ev.title)}">
+    <span class="tag">planner</span>
+    <button onclick="saveEventEdit('${ev.id}')">save</button>
+    <button class="btn-x" onclick="deleteEventEdit('${ev.id}')">✕</button>
+  </div>`).join(''):'<div class="empty">no planner items yet</div>';
+
+  const tasks=[...state.tasks].sort((a,b)=>a.date.localeCompare(b.date));
+  document.getElementById('edit-tasks').innerHTML=tasks.length?tasks.map(t=>`<div class="edit-row task-edit">
+    <input type="date" id="et-date-${t.id}" value="${esc(t.date)}">
+    <input class="wide" type="text" id="et-name-${t.id}" value="${escAttr(t.name)}">
+    <select id="et-priority-${t.id}"><option value="high" ${t.priority==='high'?'selected':''}>high</option><option value="medium" ${t.priority==='medium'?'selected':''}>medium</option><option value="low" ${t.priority==='low'?'selected':''}>low</option></select>
+    <input type="date" id="et-completed-${t.id}" value="${esc(t.completedDate||'')}" title="completion date; leave blank if unfinished">
+    <button onclick="saveTaskEdit('${t.id}')">save</button>
+    <button class="btn-x" onclick="deleteTaskEdit('${t.id}')">✕</button>
+  </div>`).join(''):'<div class="empty">no tasks yet</div>';
+
+  const txs=[...state.transactions].sort((a,b)=>b.date.localeCompare(a.date));
+  document.getElementById('edit-transactions').innerHTML=txs.length?txs.map(t=>`<div class="edit-row tx-edit">
+    <input type="date" id="ex-date-${t.id}" value="${esc(t.date)}">
+    <select id="ex-type-${t.id}"><option value="expense" ${t.type==='expense'?'selected':''}>expense</option><option value="income" ${t.type==='income'?'selected':''}>income</option></select>
+    <input type="text" id="ex-cat-${t.id}" value="${escAttr(t.category||'')}" placeholder="category">
+    <input class="wide" type="text" id="ex-name-${t.id}" value="${escAttr(t.name)}" placeholder="description">
+    <input type="number" id="ex-amount-${t.id}" value="${Number(t.amount)||0}" min="0" step="0.01">
+    <button onclick="saveTransactionEdit('${t.id}')">save</button>
+    <button class="btn-x" onclick="deleteTransactionEdit('${t.id}')">✕</button>
+  </div>`).join(''):'<div class="empty">no finance transactions yet</div>';
+
+  document.getElementById('edit-custom-tabs').innerHTML=state.customTabs.length?state.customTabs.map(t=>`<div class="edit-row" style="grid-template-columns:minmax(180px,1fr) auto auto">
+    <input class="wide" type="text" id="ect-name-${t.id}" value="${escAttr(t.name)}">
+    <button onclick="saveCustomTabName('${t.id}')">save name</button>
+    <button class="btn-x" onclick="deleteCustomTab('${t.id}')">✕</button>
+  </div>`).join(''):'<div class="empty">no custom tabs yet</div>';
+}
+function escAttr(s){ return esc(s).replace(/`/g,'&#96;'); }
+function saveEventEdit(id){const x=state.events.find(v=>v.id===id);if(!x)return;const date=document.getElementById('ee-date-'+id).value,title=document.getElementById('ee-title-'+id).value.trim();if(!date||!title)return;x.date=date;x.time=document.getElementById('ee-time-'+id).value;x.title=title;saveState();renderWeek();renderEdit();}
+function saveTaskEdit(id){const x=state.tasks.find(v=>v.id===id);if(!x)return;const date=document.getElementById('et-date-'+id).value,name=document.getElementById('et-name-'+id).value.trim();if(!date||!name)return;x.date=date;x.name=name;x.priority=document.getElementById('et-priority-'+id).value;x.completedDate=document.getElementById('et-completed-'+id).value||null;saveState();renderTasks();renderEdit();}
+function saveTransactionEdit(id){const x=state.transactions.find(v=>v.id===id);if(!x)return;const date=document.getElementById('ex-date-'+id).value,name=document.getElementById('ex-name-'+id).value.trim(),amount=parseFloat(document.getElementById('ex-amount-'+id).value);if(!date||!name||!amount||amount<=0)return;x.date=date;x.type=document.getElementById('ex-type-'+id).value;x.category=document.getElementById('ex-cat-'+id).value.trim()||(x.type==='income'?'Income':'Other');x.name=name;x.amount=amount;saveState();renderFinance();renderEdit();}
+function saveCustomTabName(id){const t=state.customTabs.find(x=>x.id===id);if(!t)return;const name=document.getElementById('ect-name-'+id).value.trim();if(!name)return;t.name=name;saveState();renderCustomTabs();renderEdit();}
+function deleteEventEdit(id){deleteEvent(id);renderEdit();}
+function deleteTaskEdit(id){deleteTask(id);renderEdit();}
+function deleteTransactionEdit(id){deleteTransaction(id);renderEdit();}
+function downloadBackup(){const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='dashboard-backup-'+isoDate(new Date())+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000);}
+function importBackup(event){const file=event.target.files&&event.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const parsed=normalizeState(JSON.parse(reader.result));state=parsed;saveState();renderWeek();renderTasks();renderFinance();renderCustomTabs();renderEdit();alert('Backup imported.');}catch(e){alert('Could not import this backup file.');}event.target.value='';};reader.readAsText(file);}
+
+renderCustomTabs();renderWeek();renderTasks();renderFinance();
 </script>
 </body>
 </html>
