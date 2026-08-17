@@ -67,7 +67,7 @@
   .custom-toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.custom-toolbar input{min-width:220px;flex:1}
   .custom-title-edit{background:transparent;border:none;border-bottom:1px dashed var(--line);color:var(--text);font-family:'JetBrains Mono',monospace;font-size:12px;padding:2px 3px;min-width:120px;max-width:320px}.custom-title-edit:focus{outline:none;border-bottom-color:var(--amber)}
   .custom-type{font-family:'JetBrains Mono',monospace;font-size:9px;text-transform:uppercase;color:var(--teal);border:1px solid var(--teal-dim);border-radius:999px;padding:3px 7px;margin-left:8px;vertical-align:1px}
-  .custom-list{display:flex;flex-direction:column;gap:8px}.custom-list-row{display:grid;grid-template-columns:auto minmax(160px,1fr) auto;gap:8px;align-items:center;background:var(--panel-2);border:1px solid var(--line-soft);border-radius:6px;padding:9px}.custom-list-row.buy{grid-template-columns:auto minmax(150px,1fr) 72px 90px auto}.custom-list-row.done .custom-item-text{text-decoration:line-through;color:var(--text-faint)}.custom-item-text{width:100%}.custom-list-dot{font-family:'JetBrains Mono',monospace;color:var(--teal);padding:0 4px}.custom-summary{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}.custom-summary .tag{font-size:11px}.custom-add-row{display:grid;grid-template-columns:minmax(160px,1fr) auto;gap:8px;margin-top:12px}.custom-add-row.buy{grid-template-columns:minmax(150px,1fr) 72px 90px auto}.custom-price{font-family:'JetBrains Mono',monospace;color:var(--text-dim);font-size:11px}
+  .custom-list{display:flex;flex-direction:column;gap:8px}.custom-list-row{display:grid;grid-template-columns:auto minmax(160px,1fr) auto;gap:8px;align-items:center;background:var(--panel-2);border:1px solid var(--line-soft);border-radius:6px;padding:9px}.custom-list-row.buy{grid-template-columns:auto minmax(150px,1fr) 82px 100px auto}.custom-list-row.done .custom-item-text{text-decoration:line-through;color:var(--text-faint)}.custom-item-text{width:100%;min-width:0}.custom-list-dot{font-family:'JetBrains Mono',monospace;color:var(--teal);padding:0 4px}.custom-summary{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}.custom-summary .tag{font-size:11px}.custom-add-row{display:grid;grid-template-columns:minmax(160px,1fr) auto;gap:8px;margin-top:12px}.custom-add-row.buy{grid-template-columns:minmax(150px,1fr) 82px 100px auto}.custom-price{font-family:'JetBrains Mono',monospace;color:var(--text-dim);font-size:11px}.buy-field{display:flex;flex-direction:column;gap:3px;min-width:0}.buy-field span{font-family:'JetBrains Mono',monospace;font-size:8px;text-transform:uppercase;color:var(--text-faint)}.buy-field input{width:100%;min-width:0}.buy-view-meta{display:flex;gap:10px;flex-wrap:wrap;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-dim)}
   .template-modal-backdrop{position:fixed;inset:0;background:rgba(3,7,12,.78);display:none;align-items:center;justify-content:center;padding:18px;z-index:1000;overflow-y:auto}.template-modal-backdrop.open{display:flex}.template-modal{width:min(620px,100%);background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px;box-shadow:0 20px 70px rgba(0,0,0,.45);max-height:calc(100dvh - 36px);overflow-y:auto}.template-modal-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}.template-step{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;color:var(--text-dim);letter-spacing:.5px;margin:14px 0 8px}.template-name{width:100%;margin-bottom:12px}.template-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.template-option{text-align:left;border:1px solid var(--line);background:var(--panel-2);color:var(--text);padding:14px;border-radius:7px;font-family:'Inter',sans-serif;min-height:82px}.template-option:hover{border-color:var(--teal-dim);background:rgba(94,234,212,.05)}.template-option.selected{border-color:var(--teal);background:rgba(94,234,212,.09);box-shadow:inset 0 0 0 1px var(--teal-dim)}.template-option b{display:block;font-family:'JetBrains Mono',monospace;color:var(--teal);font-size:12px;margin-bottom:5px}.template-option span{display:block;color:var(--text-dim);font-size:11px;line-height:1.45}.template-create-row{display:flex;justify-content:flex-end;gap:8px;margin-top:8px}.template-create-row button:disabled{opacity:.35;cursor:not-allowed;background:transparent}
   .share-badge{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--amber);border:1px solid var(--amber-dim);border-radius:999px;padding:3px 7px;margin-left:6px;white-space:nowrap}
   .share-icon-btn{width:36px;height:34px;padding:0;display:inline-grid;place-items:center;border-color:var(--line);color:var(--teal);font-size:17px;line-height:1}.share-icon-btn:hover{border-color:var(--teal-dim);background:rgba(94,234,212,.06)}.share-icon-btn.shared{color:var(--amber);border-color:var(--amber-dim)}
@@ -76,7 +76,7 @@
   @media(max-width:900px){.edit-row,.edit-row.task-edit,.edit-row.tx-edit{grid-template-columns:1fr 1fr}.edit-row .wide{grid-column:1/-1}.edit-actions{grid-column:1/-1}}
   .empty{color:var(--text-faint);font-size:12px;font-style:italic;padding:8px 0}.footer-note{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-faint);margin-top:24px;text-align:center}
   @media(max-width:760px){.sync-grid{grid-template-columns:1fr}body{padding:18px 12px 40px}.tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%;overflow:visible;gap:0}.tab{width:100%;text-align:center;padding:10px 6px;white-space:normal;border-right:1px solid var(--line);border-bottom:1px solid var(--line);font-size:11px}.tab .n{display:none}.stat-row{grid-template-columns:1fr}.finance-cols{grid-template-columns:1fr}.card{padding:15px}.week-grid{grid-template-columns:repeat(7,160px)}.task{grid-template-columns:auto 1fr auto}.task .tag{display:none}.tx{grid-template-columns:72px 1fr auto}.tx .tx-cat{display:none}.habit-month-layout{grid-template-columns:1fr}.month-activity-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.template-modal-backdrop{align-items:flex-start;padding:12px}.template-modal{margin-top:max(8px,env(safe-area-inset-top));max-height:calc(100dvh - 24px);padding:15px}.template-grid{grid-template-columns:1fr}.template-option{min-height:72px}.template-create-row{position:sticky;bottom:-15px;background:var(--panel);padding:10px 0 3px}}
-  @media(max-width:420px){.tabs{grid-template-columns:repeat(2,minmax(0,1fr))}.template-grid{grid-template-columns:1fr}.custom-list-row.buy{grid-template-columns:auto minmax(120px,1fr) auto}.custom-list-row.buy .buy-qty,.custom-list-row.buy .buy-price{grid-column:2}.custom-add-row.buy{grid-template-columns:1fr 1fr}.custom-add-row.buy .buy-new-text{grid-column:1/-1}.custom-add-row.buy button{grid-column:1/-1}.share-modal-backdrop{align-items:flex-end;padding:0}.share-modal{width:100%;max-height:88dvh;border-radius:14px 14px 0 0;padding:16px 14px max(16px,env(safe-area-inset-bottom))}.share-permission-grid{grid-template-columns:1fr}.share-icon-btn{width:40px;height:38px}}
+  @media(max-width:420px){.tabs{grid-template-columns:repeat(2,minmax(0,1fr))}.template-grid{grid-template-columns:1fr}.custom-list-row{grid-template-columns:auto minmax(0,1fr) auto}.custom-list-row.buy{grid-template-columns:auto minmax(0,1fr) auto;align-items:start}.custom-list-row.buy .custom-item-text{grid-column:2}.custom-list-row.buy .buy-field{grid-column:2}.custom-list-row.buy .btn-x{grid-column:3;grid-row:1}.custom-add-row.buy{grid-template-columns:1fr 1fr}.custom-add-row.buy .buy-new-text{grid-column:1/-1}.custom-add-row.buy .buy-field{min-width:0}.custom-add-row.buy button{grid-column:1/-1}.buy-view-name{grid-column:2}.buy-view-meta{grid-column:2}.custom-title-edit{min-width:0;max-width:190px}.share-modal-backdrop{align-items:flex-end;padding:0}.share-modal{width:100%;max-height:88dvh;border-radius:14px 14px 0 0;padding:16px 14px max(16px,env(safe-area-inset-bottom))}.share-permission-grid{grid-template-columns:1fr}.share-icon-btn{width:40px;height:38px}}
 </style>
 </head>
 <body>
@@ -400,6 +400,9 @@ let sharedToken = null;
 let sharedTabData = null;
 let sharedPermission = 'view';
 let sharedSaveTimer = null;
+let sharedDirty = false;
+let sharedSaveInFlight = false;
+let sharedLastSavedAt = null;
 
 function defaultState(){ return {events:[],tasks:[],habits:[],transactions:[],customTabs:[],tabOrder:[...BUILTIN_TAB_KEYS]}; }
 function loadState(){
@@ -419,6 +422,15 @@ function loadState(){
     }
   }catch(e){ console.warn('Could not load saved data',e); }
   return defaultState();
+}
+function inferCustomTabType(t){
+  if(['notes','tobuy','checklist','list'].includes(t&&t.type))return t.type;
+  const items=Array.isArray(t&&t.items)?t.items:[];
+  if(items.length){
+    const looksBuy=items.some(it=>Number(it&&it.price)>0 || Number(it&&it.qty)>1);
+    return looksBuy?'tobuy':'checklist';
+  }
+  return 'notes';
 }
 function normalizeState(s){
   const events=(Array.isArray(s.events)?s.events:[]).map(ev=>{
@@ -446,7 +458,7 @@ function normalizeState(s){
   const customTabs=(Array.isArray(s.customTabs)?s.customTabs:[]).map(t=>({
     id:t.id||uid(),
     name:String(t.name||'Tab'),
-    type:['notes','tobuy','checklist','list'].includes(t.type)?t.type:'notes',
+    type:inferCustomTabType(t),
     content:String(t.content||''),
     items:(Array.isArray(t.items)?t.items:[]).map(it=>({id:it.id||uid(),text:String(it.text||''),done:!!it.done,qty:Math.max(1,Number(it.qty)||1),price:Math.max(0,Number(it.price)||0)})),
     shareToken:t.shareToken?String(t.shareToken):null,
@@ -732,16 +744,18 @@ function addTransaction(){ const amount=parseFloat(document.getElementById('tx-a
 function deleteTransaction(id){ state.transactions=state.transactions.filter(x=>x.id!==id);saveState();renderFinance(); }
 
 
+function effectiveCustomTabType(tab){ return inferCustomTabType(tab||{}); }
 function customTabTypeLabel(type){ return ({notes:'notes',tobuy:'to-buy',checklist:'checklist',list:'list'})[type]||'notes'; }
 function customTabBody(tab){
-  if(tab.type==='notes') return `<textarea class="custom-note" id="custom-note-${tab.id}" placeholder="Write anything you want in this tab..." oninput="saveCustomTabContent('${tab.id}',this.value)">${esc(tab.content||'')}</textarea>`;
+  const type=effectiveCustomTabType(tab);
+  if(type==='notes') return `<textarea class="custom-note" id="custom-note-${tab.id}" placeholder="Write anything you want in this tab..." oninput="saveCustomTabContent('${tab.id}',this.value)">${esc(tab.content||'')}</textarea>`;
   const items=Array.isArray(tab.items)?tab.items:[];
-  if(tab.type==='tobuy'){
+  if(type==='tobuy'){
     const bought=items.filter(x=>x.done).length,total=items.length,estimated=items.reduce((sum,x)=>sum+(Number(x.qty)||1)*(Number(x.price)||0),0);
-    const rows=items.map(it=>`<div class="custom-list-row buy ${it.done?'done':''}"><div class="check ${it.done?'done':''}" onclick="toggleCustomItem('${tab.id}','${it.id}')"></div><input class="custom-item-text" type="text" value="${escAttr(it.text)}" onchange="updateCustomItem('${tab.id}','${it.id}','text',this.value)"><input class="buy-qty" type="number" min="1" step="1" value="${Number(it.qty)||1}" title="quantity" onchange="updateCustomItem('${tab.id}','${it.id}','qty',this.value)"><input class="buy-price" type="number" min="0" step="0.01" value="${Number(it.price)||0}" title="price each" onchange="updateCustomItem('${tab.id}','${it.id}','price',this.value)"><button class="btn-x" onclick="deleteCustomItem('${tab.id}','${it.id}')">✕</button></div>`).join('');
-    return `<div class="custom-summary"><span class="tag">${bought}/${total} bought</span><span class="tag">estimated ${money(estimated)}</span></div><div class="custom-list">${rows||'<div class="empty">nothing to buy yet</div>'}</div><div class="custom-add-row buy"><input class="buy-new-text" type="text" id="new-item-${tab.id}" placeholder="item"><input type="number" id="new-qty-${tab.id}" min="1" step="1" value="1" title="quantity"><input type="number" id="new-price-${tab.id}" min="0" step="0.01" placeholder="€ each" title="price each"><button onclick="addCustomItem('${tab.id}')">add</button></div>`;
+    const rows=items.map(it=>`<div class="custom-list-row buy ${it.done?'done':''}"><div class="check ${it.done?'done':''}" onclick="toggleCustomItem('${tab.id}','${it.id}')"></div><input class="custom-item-text" type="text" value="${escAttr(it.text)}" onchange="updateCustomItem('${tab.id}','${it.id}','text',this.value)"><label class="buy-field"><span>qty</span><input class="buy-qty" type="number" min="1" step="1" value="${Number(it.qty)||1}" onchange="updateCustomItem('${tab.id}','${it.id}','qty',this.value)"></label><label class="buy-field"><span>price each</span><input class="buy-price" type="number" min="0" step="0.01" value="${Number(it.price)||0}" onchange="updateCustomItem('${tab.id}','${it.id}','price',this.value)"></label><button class="btn-x" onclick="deleteCustomItem('${tab.id}','${it.id}')">✕</button></div>`).join('');
+    return `<div class="custom-summary"><span class="tag">${bought}/${total} bought</span><span class="tag">estimated ${money(estimated)}</span></div><div class="custom-list">${rows||'<div class="empty">nothing to buy yet</div>'}</div><div class="custom-add-row buy"><input class="buy-new-text" type="text" id="new-item-${tab.id}" placeholder="item"><label class="buy-field"><span>qty</span><input type="number" id="new-qty-${tab.id}" min="1" step="1" value="1"></label><label class="buy-field"><span>price each</span><input type="number" id="new-price-${tab.id}" min="0" step="0.01" placeholder="€"></label><button onclick="addCustomItem('${tab.id}')">add item</button></div>`;
   }
-  if(tab.type==='checklist'){
+  if(type==='checklist'){
     const done=items.filter(x=>x.done).length,total=items.length,pct=total?Math.round(done/total*100):0;
     const rows=items.map(it=>`<div class="custom-list-row ${it.done?'done':''}"><div class="check ${it.done?'done':''}" onclick="toggleCustomItem('${tab.id}','${it.id}')"></div><input class="custom-item-text" type="text" value="${escAttr(it.text)}" onchange="updateCustomItem('${tab.id}','${it.id}','text',this.value)"><button class="btn-x" onclick="deleteCustomItem('${tab.id}','${it.id}')">✕</button></div>`).join('');
     return `<div class="custom-summary"><span class="tag">${done}/${total} done</span><span class="tag">${pct}% complete</span></div><div class="habit-progress-track" style="margin-bottom:12px"><div class="habit-progress-fill" style="width:${pct}%"></div></div><div class="custom-list">${rows||'<div class="empty">no checklist items yet</div>'}</div><div class="custom-add-row"><input type="text" id="new-item-${tab.id}" placeholder="new checklist item"><button onclick="addCustomItem('${tab.id}')">add</button></div>`;
@@ -809,7 +823,8 @@ function addCustomItem(tabId){
   const tab=state.customTabs.find(x=>x.id===tabId); if(!tab)return;
   const input=document.getElementById('new-item-'+tabId),text=(input&&input.value||'').trim(); if(!text)return;
   const item={id:uid(),text,done:false,qty:1,price:0};
-  if(tab.type==='tobuy'){
+  if(effectiveCustomTabType(tab)==='tobuy'){
+    tab.type='tobuy';
     const q=document.getElementById('new-qty-'+tabId),p=document.getElementById('new-price-'+tabId);
     item.qty=Math.max(1,Number(q&&q.value)||1); item.price=Math.max(0,Number(p&&p.value)||0);
   }
@@ -823,7 +838,7 @@ function toggleCustomItem(tabId,itemId){ const tab=state.customTabs.find(x=>x.id
 function deleteCustomItem(tabId,itemId){ const tab=state.customTabs.find(x=>x.id===tabId); if(!tab)return; tab.items=(tab.items||[]).filter(x=>x.id!==itemId); saveState(); renderCustomTabs(); reopenCustomTab(tabId); }
 function reopenCustomTab(id){ requestAnimationFrame(()=>{ const el=document.querySelector(`.custom-tab[data-tab="custom-${id}"]`); if(el)el.click(); }); }
 function publicCustomTabData(tab){
-  return {name:tab.name,type:tab.type,content:tab.content||'',items:(tab.items||[]).map(it=>({id:it.id,text:it.text,done:!!it.done,qty:Math.max(1,Number(it.qty)||1),price:Math.max(0,Number(it.price)||0)}))};
+  return {name:tab.name,type:effectiveCustomTabType(tab),content:tab.content||'',items:(tab.items||[]).map(it=>({id:it.id,text:it.text,done:!!it.done,qty:Math.max(1,Number(it.qty)||1),price:Math.max(0,Number(it.price)||0)}))};
 }
 function buildShareLink(token){
   const base=location.origin+location.pathname;
@@ -993,7 +1008,7 @@ async function pullOwnedSharedTabs(){
 
 function sharedTypeLabel(type){return customTabTypeLabel(type);}
 function setSharedStatus(text,kind=''){const el=document.getElementById('shared-save-status');if(!el)return;el.textContent=text;el.className='shared-save-status'+(kind?' '+kind:'');}
-function normalizeSharedData(d){return {name:String(d&&d.name||'Shared tab'),type:['notes','tobuy','checklist','list'].includes(d&&d.type)?d.type:'notes',content:String(d&&d.content||''),items:(Array.isArray(d&&d.items)?d.items:[]).map(it=>({id:it.id||uid(),text:String(it.text||''),done:!!it.done,qty:Math.max(1,Number(it.qty)||1),price:Math.max(0,Number(it.price)||0)}))};}
+function normalizeSharedData(d){return {name:String(d&&d.name||'Shared tab'),type:inferCustomTabType(d||{}),content:String(d&&d.content||''),items:(Array.isArray(d&&d.items)?d.items:[]).map(it=>({id:it.id||uid(),text:String(it.text||''),done:!!it.done,qty:Math.max(1,Number(it.qty)||1),price:Math.max(0,Number(it.price)||0)}))};}
 function renderSharedTab(){
   if(!sharedTabData)return;
   document.getElementById('shared-title').textContent=sharedTabData.name;
@@ -1005,33 +1020,74 @@ function renderSharedTab(){
     html=edit?`<textarea class="custom-note" oninput="sharedTabData.content=this.value;scheduleSharedVisitorSave()">${esc(sharedTabData.content||'')}</textarea>`:`<div class="custom-note" style="white-space:pre-wrap;min-height:180px">${esc(sharedTabData.content||'')||'<span class="empty">no notes yet</span>'}</div>`;
   }else if(sharedTabData.type==='tobuy'){
     const bought=items.filter(x=>x.done).length,total=items.reduce((s,x)=>s+(Number(x.qty)||1)*(Number(x.price)||0),0);
-    const rows=items.map(it=>`<div class="custom-list-row buy ${it.done?'done':''}">${edit?`<div class="check ${it.done?'done':''}" onclick="sharedToggleItem('${it.id}')"></div>`:`<div class="check ${it.done?'done':''}"></div>`}${edit?`<input class="custom-item-text" value="${escAttr(it.text)}" onchange="sharedUpdateItem('${it.id}','text',this.value)"><input class="buy-qty" type="number" min="1" value="${it.qty}" onchange="sharedUpdateItem('${it.id}','qty',this.value)"><input class="buy-price" type="number" min="0" step="0.01" value="${it.price}" onchange="sharedUpdateItem('${it.id}','price',this.value)"><button class="btn-x" onclick="sharedDeleteItem('${it.id}')">✕</button>`:`<div>${esc(it.text)}</div><div class="custom-price">×${it.qty}</div><div class="custom-price">${money(it.price)}</div><span></span>`}</div>`).join('');
-    html=`<div class="custom-summary"><span class="tag">${bought}/${items.length} bought</span><span class="tag">estimated ${money(total)}</span></div><div class="custom-list">${rows||'<div class="empty">no items yet</div>'}</div>${edit?`<div class="custom-add-row buy"><input class="buy-new-text" id="shared-new-item" placeholder="new item"><input id="shared-new-qty" type="number" min="1" value="1" title="quantity"><input id="shared-new-price" type="number" min="0" step="0.01" placeholder="€ price"><button onclick="sharedAddItem()">add</button></div>`:''}`;
+    const rows=items.map(it=>`<div class="custom-list-row buy ${it.done?'done':''}">${edit?`<div class="check ${it.done?'done':''}" onclick="sharedToggleItem('${it.id}')"></div>`:`<div class="check ${it.done?'done':''}"></div>`}${edit?`<input class="custom-item-text" value="${escAttr(it.text)}" onchange="sharedUpdateItem('${it.id}','text',this.value)"><label class="buy-field"><span>qty</span><input class="buy-qty" type="number" min="1" value="${it.qty}" onchange="sharedUpdateItem('${it.id}','qty',this.value)"></label><label class="buy-field"><span>price each</span><input class="buy-price" type="number" min="0" step="0.01" value="${it.price}" onchange="sharedUpdateItem('${it.id}','price',this.value)"></label><button class="btn-x" onclick="sharedDeleteItem('${it.id}')">✕</button>`:`<div class="buy-view-name">${esc(it.text)}</div><div class="buy-view-meta"><span>qty ×${it.qty}</span><span>${money(it.price)} each</span></div><span></span>`}</div>`).join('');
+    html=`<div class="custom-summary"><span class="tag">${bought}/${items.length} bought</span><span class="tag">estimated ${money(total)}</span></div><div class="custom-list">${rows||'<div class="empty">no items yet</div>'}</div>${edit?`<div class="custom-add-row buy"><input class="buy-new-text" id="shared-new-item" placeholder="new item" onkeydown="if(event.key==='Enter'){event.preventDefault();sharedAddItem()}"><label class="buy-field"><span>qty</span><input id="shared-new-qty" type="number" min="1" value="1"></label><label class="buy-field"><span>price each</span><input id="shared-new-price" type="number" min="0" step="0.01" placeholder="€"></label><button onclick="sharedAddItem()">add item</button></div>`:''}`;
   }else if(sharedTabData.type==='checklist'){
     const done=items.filter(x=>x.done).length,pct=items.length?Math.round(done/items.length*100):0;
     const rows=items.map(it=>`<div class="custom-list-row ${it.done?'done':''}">${edit?`<div class="check ${it.done?'done':''}" onclick="sharedToggleItem('${it.id}')"></div><input class="custom-item-text" value="${escAttr(it.text)}" onchange="sharedUpdateItem('${it.id}','text',this.value)"><button class="btn-x" onclick="sharedDeleteItem('${it.id}')">✕</button>`:`<div class="check ${it.done?'done':''}"></div><div>${esc(it.text)}</div><span></span>`}</div>`).join('');
-    html=`<div class="custom-summary"><span class="tag">${done}/${items.length} done</span><span class="tag">${pct}% complete</span></div><div class="habit-progress-track" style="margin-bottom:12px"><div class="habit-progress-fill" style="width:${pct}%"></div></div><div class="custom-list">${rows||'<div class="empty">no checklist items yet</div>'}</div>${edit?`<div class="custom-add-row"><input id="shared-new-item" placeholder="new checklist item"><button onclick="sharedAddItem()">add</button></div>`:''}`;
+    html=`<div class="custom-summary"><span class="tag">${done}/${items.length} done</span><span class="tag">${pct}% complete</span></div><div class="habit-progress-track" style="margin-bottom:12px"><div class="habit-progress-fill" style="width:${pct}%"></div></div><div class="custom-list">${rows||'<div class="empty">no checklist items yet</div>'}</div>${edit?`<div class="custom-add-row"><input id="shared-new-item" placeholder="new checklist item" onkeydown="if(event.key==='Enter'){event.preventDefault();sharedAddItem()}"><button onclick="sharedAddItem()">add</button></div>`:''}`;
   }else{
     const rows=items.map(it=>`<div class="custom-list-row"><span class="custom-list-dot">•</span>${edit?`<input class="custom-item-text" value="${escAttr(it.text)}" onchange="sharedUpdateItem('${it.id}','text',this.value)"><button class="btn-x" onclick="sharedDeleteItem('${it.id}')">✕</button>`:`<div>${esc(it.text)}</div><span></span>`}</div>`).join('');
-    html=`<div class="custom-list">${rows||'<div class="empty">no list items yet</div>'}</div>${edit?`<div class="custom-add-row"><input id="shared-new-item" placeholder="new list item"><button onclick="sharedAddItem()">add</button></div>`:''}`;
+    html=`<div class="custom-list">${rows||'<div class="empty">no list items yet</div>'}</div>${edit?`<div class="custom-add-row"><input id="shared-new-item" placeholder="new list item" onkeydown="if(event.key==='Enter'){event.preventDefault();sharedAddItem()}"><button onclick="sharedAddItem()">add</button></div>`:''}`;
   }
   document.getElementById('shared-content').innerHTML=html;
 }
-function sharedAddItem(){if(sharedPermission!=='edit')return;const input=document.getElementById('shared-new-item'),text=(input&&input.value||'').trim();if(!text)return;const it={id:uid(),text,done:false,qty:1,price:0};if(sharedTabData.type==='tobuy'){it.qty=Math.max(1,Number(document.getElementById('shared-new-qty')?.value)||1);it.price=Math.max(0,Number(document.getElementById('shared-new-price')?.value)||0);}sharedTabData.items.push(it);renderSharedTab();scheduleSharedVisitorSave();}
-function sharedToggleItem(id){if(sharedPermission!=='edit')return;const it=sharedTabData.items.find(x=>x.id===id);if(!it)return;it.done=!it.done;renderSharedTab();scheduleSharedVisitorSave();}
-function sharedUpdateItem(id,field,value){if(sharedPermission!=='edit')return;const it=sharedTabData.items.find(x=>x.id===id);if(!it)return;if(field==='qty')it.qty=Math.max(1,Number(value)||1);else if(field==='price')it.price=Math.max(0,Number(value)||0);else it.text=String(value||'');scheduleSharedVisitorSave();}
-function sharedDeleteItem(id){if(sharedPermission!=='edit')return;sharedTabData.items=sharedTabData.items.filter(x=>x.id!==id);renderSharedTab();scheduleSharedVisitorSave();}
-function scheduleSharedVisitorSave(){if(sharedPermission!=='edit'||!sharedClient||!sharedToken)return;setSharedStatus('saving…');clearTimeout(sharedSaveTimer);sharedSaveTimer=setTimeout(saveSharedVisitorTab,650);}
-async function saveSharedVisitorTab(){try{const {data,error}=await sharedClient.rpc('write_shared_tab',{p_token:sharedToken,p_data:sharedTabData});if(error)throw error;setSharedStatus('saved · everyone with this edit link will see the change','ok');}catch(e){console.warn(e);setSharedStatus('could not save: '+(e.message||e),'err');}}
-async function loadSharedTab(){
+async function sharedAddItem(){
+  if(sharedPermission!=='edit'||!sharedTabData)return;
+  const input=document.getElementById('shared-new-item'),text=(input&&input.value||'').trim();
+  if(!text){if(input)input.focus();return;}
+  const it={id:uid(),text,done:false,qty:1,price:0};
+  if(sharedTabData.type==='tobuy'){
+    const q=document.getElementById('shared-new-qty'),p=document.getElementById('shared-new-price');
+    it.qty=Math.max(1,Number(q&&q.value)||1);it.price=Math.max(0,Number(p&&p.value)||0);
+  }
+  sharedTabData.items=Array.isArray(sharedTabData.items)?sharedTabData.items:[];
+  sharedTabData.items.push(it);sharedDirty=true;
+  renderSharedTab();setSharedStatus('saving new item…');
+  await saveSharedVisitorTab();
+}
+function sharedToggleItem(id){if(sharedPermission!=='edit')return;const it=sharedTabData.items.find(x=>x.id===id);if(!it)return;it.done=!it.done;sharedDirty=true;renderSharedTab();scheduleSharedVisitorSave();}
+function sharedUpdateItem(id,field,value){if(sharedPermission!=='edit')return;const it=sharedTabData.items.find(x=>x.id===id);if(!it)return;if(field==='qty')it.qty=Math.max(1,Number(value)||1);else if(field==='price')it.price=Math.max(0,Number(value)||0);else it.text=String(value||'');sharedDirty=true;scheduleSharedVisitorSave();}
+function sharedDeleteItem(id){if(sharedPermission!=='edit')return;sharedTabData.items=sharedTabData.items.filter(x=>x.id!==id);sharedDirty=true;renderSharedTab();scheduleSharedVisitorSave();}
+function scheduleSharedVisitorSave(){
+  if(sharedPermission!=='edit'||!sharedClient||!sharedToken)return;
+  sharedDirty=true;setSharedStatus('saving…');clearTimeout(sharedSaveTimer);sharedSaveTimer=setTimeout(()=>saveSharedVisitorTab(),350);
+}
+async function saveSharedVisitorTab(){
+  if(sharedPermission!=='edit'||!sharedClient||!sharedToken||!sharedTabData)return false;
+  if(sharedSaveInFlight){sharedDirty=true;return false;}
+  sharedSaveInFlight=true;clearTimeout(sharedSaveTimer);
+  const payload=JSON.parse(JSON.stringify(sharedTabData));
+  try{
+    setSharedStatus('saving…');
+    const {data,error}=await sharedClient.rpc('write_shared_tab',{p_token:sharedToken,p_data:payload});
+    if(error)throw error;
+    sharedDirty=false;sharedLastSavedAt=Date.now();
+    setSharedStatus('saved · everyone with this edit link will see the change','ok');
+    return true;
+  }catch(e){
+    console.warn(e);sharedDirty=true;setSharedStatus('could not save: '+(e.message||e),'err');return false;
+  }finally{
+    sharedSaveInFlight=false;
+    if(sharedDirty && JSON.stringify(payload)!==JSON.stringify(sharedTabData))scheduleSharedVisitorSave();
+  }
+}
+async function loadSharedTab(force=false){
   if(!sharedClient||!sharedToken)return;
-  try{const {data,error}=await sharedClient.rpc('get_shared_tab',{p_token:sharedToken});if(error)throw error;const row=Array.isArray(data)?data[0]:data;if(!row||!row.data)throw new Error('This share link is invalid or has been revoked.');sharedTabData=normalizeSharedData(row.data);sharedPermission=row.permission==='edit'?'edit':'view';renderSharedTab();setSharedStatus(sharedPermission==='edit'?'You can edit this shared tab.':'You can view this shared tab.','ok');}catch(e){document.getElementById('shared-content').innerHTML=`<div class="empty">${esc(e.message||e)}</div>`;setSharedStatus('shared tab unavailable','err');}
+  if(!force&&(sharedDirty||sharedSaveInFlight))return;
+  if(!force&&sharedLastSavedAt&&Date.now()-sharedLastSavedAt<1200)return;
+  try{
+    const {data,error}=await sharedClient.rpc('get_shared_tab',{p_token:sharedToken});if(error)throw error;
+    const row=Array.isArray(data)?data[0]:data;if(!row||!row.data)throw new Error('This share link is invalid or has been revoked.');
+    sharedTabData=normalizeSharedData(row.data);sharedPermission=row.permission==='edit'?'edit':'view';renderSharedTab();
+    setSharedStatus(sharedPermission==='edit'?'You can edit this shared tab.':'You can view this shared tab.','ok');
+  }catch(e){document.getElementById('shared-content').innerHTML=`<div class="empty">${esc(e.message||e)}</div>`;setSharedStatus('shared tab unavailable','err');}
 }
 async function initSharedLinkMode(){
   const p=new URLSearchParams(location.hash.replace(/^#/,''));const token=p.get('shared');if(!token)return false;
   const url=p.get('url'),key=p.get('key');document.getElementById('dashboard-wrap').style.display='none';document.getElementById('pull-refresh').style.display='none';document.getElementById('shared-shell').classList.add('open');sharedToken=token;
   if(!url||!key||!window.supabase){document.getElementById('shared-content').innerHTML='<div class="empty">This share link is missing its connection details.</div>';return true;}
-  sharedClient=window.supabase.createClient(url,key,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}});await loadSharedTab();setInterval(()=>{if(!document.hidden)loadSharedTab();},5000);return true;
+  sharedClient=window.supabase.createClient(url,key,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}});await loadSharedTab(true);setInterval(()=>{if(!document.hidden&&!sharedDirty&&!sharedSaveInFlight)loadSharedTab();},5000);return true;
 }
 
 function renameCustomTabInline(id,value){
