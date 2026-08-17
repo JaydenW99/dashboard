@@ -194,8 +194,8 @@
   </div>
 
   <div class="tabs" id="tabs">
-    <div class="tab active" data-tab="week"><span class="tab-handle" title="Drag to reorder">⋮⋮</span><span class="n">01</span><span class="tab-label">weekly</span></div>
-    <div class="tab" data-tab="tasks"><span class="tab-handle" title="Drag to reorder">⋮⋮</span><span class="n">02</span><span class="tab-label">daily</span></div>
+    <div class="tab active" data-tab="tasks"><span class="tab-handle" title="Drag to reorder">⋮⋮</span><span class="n">01</span><span class="tab-label">daily</span></div>
+    <div class="tab" data-tab="week"><span class="tab-handle" title="Drag to reorder">⋮⋮</span><span class="n">02</span><span class="tab-label">weekly</span></div>
     <div class="tab" data-tab="habits"><span class="tab-handle" title="Drag to reorder">⋮⋮</span><span class="n">03</span><span class="tab-label">habits</span></div>
     <div class="tab" data-tab="goals"><span class="tab-handle" title="Drag to reorder">⋮⋮</span><span class="n">04</span><span class="tab-label">goals</span></div>
     <div class="tab" data-tab="finance"><span class="tab-handle" title="Drag to reorder">⋮⋮</span><span class="n">05</span><span class="tab-label">finances</span></div>
@@ -203,7 +203,7 @@
     <div class="tab add-tab" id="add-tab" data-action="add-tab">＋ tab</div>
   </div>
 
-  <section class="section active" id="sec-week">
+  <section class="section" id="sec-week">
     <div class="card">
       <div class="card-head">
         <div class="card-title"><span class="prompt">$</span> week plan</div>
@@ -232,7 +232,7 @@
     </div>
   </section>
 
-  <section class="section" id="sec-tasks">
+  <section class="section active" id="sec-tasks">
     <div class="card">
       <div class="card-head">
         <div class="card-title"><span class="prompt">$</span> daily plan</div>
@@ -560,7 +560,8 @@ const AUTH_USER_KEY = 'dashboard-last-auth-user-v1';
 const APP_SUPABASE_URL = '';
 const APP_SUPABASE_KEY = '';
 const DAY_NAMES = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
-const BUILTIN_TAB_KEYS = ['week','tasks','habits','goals','finance','settings'];
+const BUILTIN_TAB_KEYS = ['tasks','week','habits','goals','finance','settings'];
+const TAB_ORDER_VERSION = 2;
 const DEFAULT_TAB_NAMES = {week:'weekly',tasks:'daily',habits:'habits',goals:'goals',finance:'finances',settings:'settings'};
 let weekStart = startOfWeek(new Date());
 let taskDate = stripTime(new Date());
@@ -598,7 +599,7 @@ let calendarInviteRpcAvailable = true;
 let authGateMode = 'register';
 let appEntered = false;
 
-function defaultState(){ return {events:[],tasks:[],habits:[],goals:[],transactions:[],customTabs:[],tabOrder:[...BUILTIN_TAB_KEYS],tabNames:{...DEFAULT_TAB_NAMES},hiddenTabs:[]}; }
+function defaultState(){ return {events:[],tasks:[],habits:[],goals:[],transactions:[],customTabs:[],tabOrder:[...BUILTIN_TAB_KEYS],tabNames:{...DEFAULT_TAB_NAMES},hiddenTabs:[],tabOrderVersion:TAB_ORDER_VERSION}; }
 function loadState(){
   try{
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -682,12 +683,21 @@ function normalizeState(s){
   }));
   const validKeys=[...BUILTIN_TAB_KEYS,...customTabs.map(t=>'custom-'+t.id)];
   const rawOrder=Array.isArray(s.tabOrder)?s.tabOrder:[];
-  const tabOrder=[...new Set(rawOrder.filter(k=>validKeys.includes(k)))];
-  validKeys.forEach(k=>{ if(!tabOrder.includes(k))tabOrder.push(k); });
+  let tabOrder;
+  if(Number(s.tabOrderVersion)!==TAB_ORDER_VERSION){
+    // One-time migration to the new default:
+    // Daily -> Weekly -> Habits -> Goals -> Finances -> Settings -> custom tabs.
+    const customOrder=[...new Set(rawOrder.filter(k=>String(k).startsWith('custom-')&&validKeys.includes(k)))];
+    customTabs.forEach(t=>{const k='custom-'+t.id;if(!customOrder.includes(k))customOrder.push(k);});
+    tabOrder=[...BUILTIN_TAB_KEYS,...customOrder];
+  }else{
+    tabOrder=[...new Set(rawOrder.filter(k=>validKeys.includes(k)))];
+    validKeys.forEach(k=>{ if(!tabOrder.includes(k))tabOrder.push(k); });
+  }
   const tabNames={...DEFAULT_TAB_NAMES,...(s.tabNames&&typeof s.tabNames==='object'?s.tabNames:{})};
   BUILTIN_TAB_KEYS.forEach(k=>{tabNames[k]=String(tabNames[k]||DEFAULT_TAB_NAMES[k]).trim()||DEFAULT_TAB_NAMES[k];});
   const hiddenTabs=[...new Set((Array.isArray(s.hiddenTabs)?s.hiddenTabs:[]).filter(k=>BUILTIN_TAB_KEYS.includes(k)))];
-  return {events,tasks,habits,goals,transactions:Array.isArray(s.transactions)?s.transactions:[],customTabs,tabOrder,tabNames,hiddenTabs};
+  return {events,tasks,habits,goals,transactions:Array.isArray(s.transactions)?s.transactions:[],customTabs,tabOrder,tabNames,hiddenTabs,tabOrderVersion:TAB_ORDER_VERSION};
 }
 function saveState(){ localStorage.setItem(STORAGE_KEY,JSON.stringify(state)); updateFooter(); if(!cloudApplying) scheduleCloudPush(); }
 function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,8); }
@@ -1907,7 +1917,7 @@ function deleteCustomTab(id){
   const t=state.customTabs.find(x=>x.id===id); if(!t)return;
   if(!confirm(`Delete the tab "${t.name}"?`))return;
   state.customTabs=state.customTabs.filter(x=>x.id!==id); state.tabOrder=(state.tabOrder||[]).filter(k=>k!=='custom-'+id); saveState(); renderCustomTabs(); renderEdit();
-  const weekTab=document.querySelector('.tab[data-tab="week"]'); if(weekTab)weekTab.click();
+  const dailyTab=document.querySelector('.tab[data-tab="tasks"]'); if(dailyTab)dailyTab.click();
 }
 
 function renderEdit(){
